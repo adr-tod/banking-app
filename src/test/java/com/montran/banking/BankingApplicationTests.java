@@ -1,4 +1,6 @@
-package com.montran;
+package com.montran.banking;
+
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,7 +12,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class BankingApplicationTests {
 
 	@Test
-	public void contextLoads() {
+	public void someTest() {
+		assertTrue(true);
 	}
 
 }
