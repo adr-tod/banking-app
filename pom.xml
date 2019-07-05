@@ -8,7 +8,7 @@
 		<version>2.1.6.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.montran</groupId>
+	<groupId>com.montran.banking</groupId>
 	<artifactId>BankingApp</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>BankingApp</name>
