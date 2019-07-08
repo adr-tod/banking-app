@@ -9,7 +9,7 @@ import com.montran.banking.profile.business.ProfileService;
 import com.montran.banking.profile.domain.entity.Profile;
 
 @RestController
-@RequestMapping("/profiles")
+@RequestMapping("/profile")
 public class ProfileController {
 
 	@Autowired
