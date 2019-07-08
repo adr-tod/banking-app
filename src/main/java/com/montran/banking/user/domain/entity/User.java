@@ -3,18 +3,12 @@ package com.montran.banking.user.domain.entity;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-<<<<<<< HEAD
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.montran.banking.account.domain.entity.Account;
-=======
-import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonManagedReference;
->>>>>>> master
 import com.montran.banking.base.BaseEntity;
 import com.montran.banking.profile.domain.entity.Profile;
 
@@ -31,12 +25,9 @@ public class User extends BaseEntity {
 	@ManyToOne
 	@JoinColumn(name = "profile_id", nullable = false)
 	private Profile profile;
-<<<<<<< HEAD
 	@JsonBackReference
 	@OneToOne(mappedBy = "user")
 	private Account account;
-=======
->>>>>>> master
 
 	public User() {
 		super();
