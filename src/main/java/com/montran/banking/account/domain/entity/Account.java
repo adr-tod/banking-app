@@ -3,14 +3,20 @@ package com.montran.banking.account.domain.entity;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+<<<<<<< HEAD
 import javax.persistence.OneToOne;
+=======
+>>>>>>> master
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.montran.banking.accountstatus.domain.entity.AccountStatus;
 import com.montran.banking.base.BaseEntity;
+<<<<<<< HEAD
 import com.montran.banking.user.domain.entity.User;
+=======
+>>>>>>> master
 
 @Entity
 @Table(name = "accounts")
@@ -25,10 +31,13 @@ public class Account extends BaseEntity {
 	@ManyToOne
 	@JoinColumn(name = "status_id", nullable = false)
 	private AccountStatus status;
+<<<<<<< HEAD
 	@JsonManagedReference
 	@OneToOne
 	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
+=======
+>>>>>>> master
 
 	public Account() {
 		super();
@@ -69,6 +78,7 @@ public class Account extends BaseEntity {
 	public void setStatus(AccountStatus status) {
 		this.status = status;
 	}
+<<<<<<< HEAD
 
 	public User getUser() {
 		return user;
@@ -77,4 +87,6 @@ public class Account extends BaseEntity {
 	public void setUser(User user) {
 		this.user = user;
 	}
+=======
+>>>>>>> master
 }
