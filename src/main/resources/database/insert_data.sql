@@ -21,7 +21,6 @@ INSERT INTO `profiles` VALUES
 -- accounts
 
 INSERT INTO `accounts` VALUES
-<<<<<<< HEAD
 ('1', '4110 Rutherford Cove Suite 974\nWest Humbertobury, OR 23274-7560', 'GB17BARC20040164822651', 'Account1', '1', '2'),
 ('2', '575 Heller Tunnel Suite 416\nCleorafurt, KS 45588-5657', 'GB79BARC20038035182364', 'Account2', '3', '4'),
 ('3', '0265 Brian Run Apt. 394\nDeltaville, FL 55243-9429', 'GB45BARC20037867547188', 'Account3', '3', '8'),
@@ -29,15 +28,6 @@ INSERT INTO `accounts` VALUES
 ('5', '9611 Ursula Lane Apt. 296\nChristiansenborough, WA 74486', 'GB86BARC20037874187555', 'Account5', '4', '7'),
 ('6', '7477 Sipes Stream Suite 714\nRileymouth, PA 94788-9629', 'GB49BARC20039554574317', 'Account6', '2', '5'),
 ('7', '5523 Renner Springs Suite 455\nPort Juwanfurt, WI 40434-7840', 'GB50BARC20031865933319', 'Account7', '5', '3');
-=======
-('1', '4110 Rutherford Cove Suite 974\nWest Humbertobury, OR 23274-7560', 'GB17BARC20040164822651', 'Account1', '1'),
-('2', '575 Heller Tunnel Suite 416\nCleorafurt, KS 45588-5657', 'GB79BARC20038035182364', 'Account2', '3'),
-('3', '0265 Brian Run Apt. 394\nDeltaville, FL 55243-9429', 'GB45BARC20037867547188', 'Account3', '3'),
-('4', '8161 Larissa Extension Apt. 372\nLake Orlo, AZ 53552-0237', 'GB81BARC20038076182385', 'Account4', '1'),
-('5', '9611 Ursula Lane Apt. 296\nChristiansenborough, WA 74486', 'GB86BARC20037874187555', 'Account5', '4'),
-('6', '7477 Sipes Stream Suite 714\nRileymouth, PA 94788-9629', 'GB49BARC20039554574317', 'Account6', '2'),
-('7', '5523 Renner Springs Suite 455\nPort Juwanfurt, WI 40434-7840', 'GB50BARC20031865933319', 'Account7', '5');
->>>>>>> master
 
 -- account statuses
 
