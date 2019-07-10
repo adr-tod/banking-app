@@ -19,7 +19,7 @@ public class UserController {
 
 	@GetMapping
 	public Iterable<User> findAll() {
-		System.out.println("someone made a request to me!");
+		System.out.println("user controller: someone made a request to me!");
 		return userService.findAll();
 	}
 }
