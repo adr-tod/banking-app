@@ -1,5 +1,6 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {UserService} from '../../services/user.service';
+import {User} from '../../models/user.model';
 
 // export interface PeriodicElement {
 //   name: string;
@@ -26,11 +27,17 @@ import {UserService} from '../../services/user.service';
   templateUrl: './user-table.component.html',
   styleUrls: ['./user-table.component.css']
 })
-export class UserTableComponent {
+export class UserTableComponent implements OnInit {
 
-  displayedColumns: string[] = ['id', 'username'];
-  dataSource = this.userService.findAll();
+  displayedColumns: string[] = ['id', 'username', 'fullname', 'email', 'address'];
+  dataSource: User[];
 
   constructor(private userService: UserService) {
+  }
+
+  ngOnInit(): void {
+    this.userService.findAll().subscribe(data => {
+      this.dataSource = data;
+    });
   }
 }

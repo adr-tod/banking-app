@@ -19,7 +19,7 @@ public class User extends BaseEntity {
 	private String username;
 	private String password;
 	private String fullname;
-	private String addresss;
+	private String address;
 	private String email;
 	@JsonManagedReference
 	@ManyToOne
@@ -57,12 +57,12 @@ public class User extends BaseEntity {
 		this.fullname = fullname;
 	}
 
-	public String getAddresss() {
-		return addresss;
+	public String getAddress() {
+		return address;
 	}
 
-	public void setAddresss(String addresss) {
-		this.addresss = addresss;
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
 	public String getEmail() {
