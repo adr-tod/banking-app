@@ -1,0 +1,52 @@
+<h2 mat-dialog-title>Modify user</h2>
+
+<mat-dialog-content [formGroup]="form">
+
+  <div>
+    <mat-form-field>
+      <input matInput placeholder="New ID" formControlName="id">
+    </mat-form-field>
+  </div>
+
+  <div>
+    <mat-form-field>
+      <input matInput placeholder="New username" formControlName="username">
+    </mat-form-field>
+  </div>
+
+  <div>
+    <mat-form-field>
+      <input matInput placeholder="New password" formControlName="password">
+    </mat-form-field>
+  </div>
+
+  <div>
+    <mat-form-field>
+      <input matInput placeholder="New fullname" formControlName="fullname">
+    </mat-form-field>
+  </div>
+
+  <div>
+    <mat-form-field>
+      <input matInput placeholder="New email" formControlName="email">
+    </mat-form-field>
+  </div>
+
+  <div>
+    <mat-form-field>
+      <input matInput placeholder="New address" formControlName="address">
+    </mat-form-field>
+  </div>
+
+  <div>
+    <mat-form-field>
+      <input matInput placeholder="New profile" formControlName="profile">
+    </mat-form-field>
+  </div>
+
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button class="mat-raised-button" (click)="close()">Close</button>
+  <button class="mat-raised-button mat-primary" (click)="modify()">Modify</button>
+</mat-dialog-actions>

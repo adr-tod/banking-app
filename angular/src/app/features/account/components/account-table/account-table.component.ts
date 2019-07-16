@@ -16,7 +16,6 @@ export class AccountTableComponent implements OnInit {
 
   ngOnInit(): void {
     this.accountService.findAll().subscribe(data => {
-      console.log(data);
       this.dataSource = data;
     });
   }

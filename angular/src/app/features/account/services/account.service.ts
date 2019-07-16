@@ -14,6 +14,6 @@ export class AccountService {
   }
 
   findAll(): Observable<Account[]> {
-    return this.httpClient.get<Account[]>(`${environment.baseUrl}/${this.accountEndpoint}`);
+    return this.httpClient.get<Account[]>(`${environment.apiUrl}/${this.accountEndpoint}`);
   }
 }
