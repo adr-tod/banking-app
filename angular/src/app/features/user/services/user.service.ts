@@ -19,6 +19,6 @@ export class UserService {
   }
 
   update(user: UserUpdate): void {
-    this.httpClient.put(`${environment.apiUrl}/${this.userEndpoint}/update`, user);
+    this.httpClient.post(`${environment.apiUrl}/${this.userEndpoint}/update`, user);
   }
 }

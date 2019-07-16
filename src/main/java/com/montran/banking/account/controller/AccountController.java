@@ -10,7 +10,7 @@ import com.montran.banking.account.business.AccountService;
 import com.montran.banking.account.domain.entity.Account;
 
 @RestController
-@RequestMapping("/account")
+@RequestMapping("account")
 @CrossOrigin(origins = "http://localhost:4200")
 public class AccountController {
 
@@ -19,7 +19,7 @@ public class AccountController {
 
 	@GetMapping
 	public Iterable<Account> findAll() {
-		System.out.println("account controller: someone made a request to me!");
+		System.out.println("account controller: find all");
 		return accountService.findAll();
 	}
 }
