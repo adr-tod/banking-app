@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../../services/user.service';
-import { User, UserUpdate } from '../../models/user.model';
 import { MatDialog, MatDialogConfig } from '@angular/material';
+import { User, UserAdd, UserUpdate } from '../../models/user.model';
+import { UserService } from '../../services/user.service';
+import { UserAddDialogComponent } from '../user-add-dialog/user-add-dialog.component';
 import { UserModifyDialogComponent } from '../user-modify-dialog/user-modify-dialog.component';
 
 @Component({
@@ -14,12 +15,34 @@ export class UserTableComponent implements OnInit {
   displayedColumns: string[] = ['id', 'username', 'fullname', 'email', 'address', 'actions'];
   dataSource: User[];
 
-  constructor(private userService: UserService, private modifyDialog: MatDialog) {
+  constructor(private userService: UserService, private modifyDialog: MatDialog, private addDialog: MatDialog) {
   }
 
   ngOnInit(): void {
     this.userService.findAll().subscribe(data => {
       this.dataSource = data;
+    });
+  }
+
+  addButtonClicked(): void {
+    console.log("Add button clicked!");
+    this.openAddDialog();
+  }
+
+  openAddDialog(): void {
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+
+    const dialogRef = this.addDialog.open(UserAddDialogComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe(userToAdd => {
+      if (userToAdd) {
+        console.log(userToAdd);
+        this.userService.add(new UserAdd(userToAdd.fullname, userToAdd.address, userToAdd.email, userToAdd.username, userToAdd.password))
+          .subscribe(result => { this.ngOnInit(); });
+      }
     });
   }
 
@@ -38,13 +61,16 @@ export class UserTableComponent implements OnInit {
 
     const dialogRef = this.modifyDialog.open(UserModifyDialogComponent, dialogConfig);
 
-    dialogRef.afterClosed().subscribe(updatedUser => {
-      console.log(updatedUser);
-      this.userService.update(new UserUpdate(updatedUser.id, updatedUser.password, updatedUser.fullname, updatedUser.address, updatedUser.email));
+    dialogRef.afterClosed().subscribe(userToUpdate => {
+      if (userToUpdate) {
+        console.log(userToUpdate);
+        this.userService.update(new UserUpdate(userToUpdate.id, userToUpdate.fullname, userToUpdate.address, userToUpdate.email))
+          .subscribe(result => { this.ngOnInit(); });
+      }
     });
-}
+  }
 
-removeButtonClicked(): void {
-  console.log("Remove button clicked!");
-}
+  removeButtonClicked(): void {
+    console.log("Remove button clicked!");
+  }
 }

@@ -28,6 +28,7 @@ public class UserController {
 
 	@PostMapping("update")
 	public void update(@RequestBody UserUpdateDTO userUpdateDTO) {
+		System.out.println("updateeeeeeeeeeeeee");
 		userService.update(userUpdateDTO);
 	}
 }

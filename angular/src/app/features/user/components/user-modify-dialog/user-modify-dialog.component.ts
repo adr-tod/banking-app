@@ -25,10 +25,10 @@ export class UserModifyDialogComponent implements OnInit {
     this.form = this.fb.group({
       id: [{ value: this.user.id, disabled: true }],
       username: [{ value: this.user.username, disabled: true }],
-      password: [this.user.password],
+      password: [{ value: this.user.password, disabled: true }],
       fullname: [this.user.fullname],
-      email: [this.user.email],
       address: [this.user.address],
+      email: [this.user.email],
       profile: [{ value: this.user.profile, disabled: true }],
     });
   }

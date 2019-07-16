@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
-import { User, UserUpdate } from '../models/user.model';
+import { User, UserUpdate, UserAdd } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +18,11 @@ export class UserService {
     return this.httpClient.get<User[]>(`${environment.apiUrl}/${this.userEndpoint}`);
   }
 
-  update(user: UserUpdate): void {
-    this.httpClient.post(`${environment.apiUrl}/${this.userEndpoint}/update`, user);
+  add(user: UserAdd): Observable<any> {
+    return this.httpClient.post(`${environment.apiUrl}/${this.userEndpoint}/add`, user);
+  }
+
+  update(user: UserUpdate): Observable<any> {
+    return this.httpClient.post(`${environment.apiUrl}/${this.userEndpoint}/update`, user);
   }
 }

@@ -10,16 +10,30 @@ export class User {
 
 export class UserUpdate {
   id: number;
-  password: string;
   fullname: string;
   address: string;
   email: string;
 
-  constructor(id: number, password: string, fullname: string, address: string, email: string) {
+  constructor(id: number, fullname: string, address: string, email: string) {
     this.id = id;
-    this.password = password;
     this.fullname = fullname;
     this.address = address;
     this.email = email;
+  }
+}
+
+export class UserAdd {
+  fullname: string;
+  address: string;
+  email: string;
+  username: string;
+  password: string;
+
+  constructor(fullname: string, address: string, email: string, username: string, password: string) {
+    this.fullname = fullname;
+    this.address = address;
+    this.email = email;
+    this.username = username;
+    this.password = password;
   }
 }

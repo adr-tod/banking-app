@@ -6,10 +6,11 @@ import { MatTableModule, MatPaginatorModule, MatSortModule, MatButtonModule, Mat
 import { UserTableComponent } from './components/user-table/user-table.component';
 import { UserModifyDialogComponent } from './components/user-modify-dialog/user-modify-dialog.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { UserAddDialogComponent } from './components/user-add-dialog/user-add-dialog.component';
 
 
 @NgModule({
-  declarations: [UserTableComponent, UserModifyDialogComponent],
+  declarations: [UserTableComponent, UserModifyDialogComponent, UserAddDialogComponent],
   exports: [
     UserTableComponent
   ],
@@ -26,6 +27,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatInputModule
   ],
   entryComponents: [
+    UserAddDialogComponent,
     UserModifyDialogComponent
   ]
 })
