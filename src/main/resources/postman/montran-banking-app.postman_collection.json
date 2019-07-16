@@ -1,0 +1,152 @@
+{
+	"info": {
+		"_postman_id": "31429e68-4fd1-4395-9649-44e3c054e8bb",
+		"name": "montran-banking-app",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "findAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8080/user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"id\": \"3\",\n\t\"fullname\": \"Edyth Murray PhD\",\n\t\"address\": \"UPDATED ADDRESS\",\n\t\"email\": \"balistreri.zora@example.net\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/user/update",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"update"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "profile",
+			"item": [
+				{
+					"name": "findAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8080/profile",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"profile"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "accountstatus",
+			"item": [
+				{
+					"name": "findAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8080/accountstatus",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"accountstatus"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "account",
+			"item": [
+				{
+					"name": "findAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8080/account",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"account"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
