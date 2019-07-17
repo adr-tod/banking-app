@@ -25,4 +25,8 @@ export class UserService {
   update(user: UserUpdate): Observable<any> {
     return this.httpClient.post(`${environment.apiUrl}/${this.userEndpoint}/update`, user);
   }
+
+  delete(id: number): Observable<any> {
+    return this.httpClient.post(`${environment.apiUrl}/${this.userEndpoint}/delete/${id}`, null);
+  }
 }

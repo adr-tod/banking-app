@@ -17,7 +17,7 @@ export class UserAddDialogComponent implements OnInit {
 
   ngOnInit() {
     this.form = new FormGroup({
-      fullname: new FormControl({value: 'asd', disabled: true}),
+      fullname: new FormControl(),
       address: new FormControl(),
       email: new FormControl(),
       username: new FormControl(),

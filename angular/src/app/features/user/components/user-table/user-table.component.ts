@@ -25,7 +25,7 @@ export class UserTableComponent implements OnInit {
   }
 
   addButtonClicked(): void {
-    console.log("Add button clicked!");
+    console.log('Add button clicked!');
     this.openAddDialog();
   }
 
@@ -47,7 +47,7 @@ export class UserTableComponent implements OnInit {
   }
 
   modifyButtonClicked(user: User): void {
-    console.log("Modify button clicked!");
+    console.log('Modify button clicked!');
     this.openModifyDialog(user);
   }
 
@@ -65,12 +65,13 @@ export class UserTableComponent implements OnInit {
       if (userToUpdate) {
         console.log(userToUpdate);
         this.userService.update(new UserUpdate(userToUpdate.id, userToUpdate.fullname, userToUpdate.address, userToUpdate.email))
-          .subscribe(result => { this.ngOnInit(); });
+          .subscribe(() => { this.ngOnInit(); });
       }
     });
   }
 
-  removeButtonClicked(): void {
-    console.log("Remove button clicked!");
+  removeButtonClicked(id: number): void {
+    console.log('Remove button clicked!');
+    this.userService.delete(id).subscribe(() => { this.ngOnInit(); });
   }
 }

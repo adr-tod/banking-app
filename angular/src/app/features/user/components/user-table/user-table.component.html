@@ -46,7 +46,7 @@
     <th mat-header-cell *matHeaderCellDef> Actions</th>
     <td mat-cell *matCellDef="let user">
       <button (click)="modifyButtonClicked(user)" mat-button>Modify</button>
-      <button (click)="removeButtonClicked()" mat-button>Remove</button>
+      <button (click)="removeButtonClicked(user.id)" mat-button>Remove</button>
     </td>
   </ng-container>
 
