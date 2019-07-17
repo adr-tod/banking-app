@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.montran.banking.user.business.UserService;
+import com.montran.banking.user.domain.dto.UserSaveDTO;
 import com.montran.banking.user.domain.dto.UserUpdateDTO;
 import com.montran.banking.user.domain.entity.User;
 
@@ -26,9 +27,15 @@ public class UserController {
 		return userService.findAll();
 	}
 
+	@PostMapping("add")
+	public void add(@RequestBody UserSaveDTO userSaveDTO) {
+		System.out.println("user controller: saveeeee");
+		userService.save(userSaveDTO);
+	}
+
 	@PostMapping("update")
 	public void update(@RequestBody UserUpdateDTO userUpdateDTO) {
-		System.out.println("updateeeeeeeeeeeeee");
+		System.out.println("user controller: updateeee");
 		userService.update(userUpdateDTO);
 	}
 }

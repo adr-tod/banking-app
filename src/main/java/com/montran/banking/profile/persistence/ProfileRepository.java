@@ -8,4 +8,5 @@ import com.montran.banking.profile.domain.entity.Profile;
 @Repository
 public interface ProfileRepository extends CrudRepository<Profile, Long> {
 
+	public Profile findByName(String name);
 }
