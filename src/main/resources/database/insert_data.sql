@@ -21,13 +21,13 @@ INSERT INTO `profiles` VALUES
 -- accounts
 
 INSERT INTO `accounts` VALUES
-('1', '4110 Rutherford Cove Suite 974\nWest Humbertobury, OR 23274-7560', 'GB17BARC20040164822651', 'Account1', '1', '2'),
-('2', '575 Heller Tunnel Suite 416\nCleorafurt, KS 45588-5657', 'GB79BARC20038035182364', 'Account2', '3', '4'),
-('3', '0265 Brian Run Apt. 394\nDeltaville, FL 55243-9429', 'GB45BARC20037867547188', 'Account3', '3', '8'),
-('4', '8161 Larissa Extension Apt. 372\nLake Orlo, AZ 53552-0237', 'GB81BARC20038076182385', 'Account4', '1', '9'),
-('5', '9611 Ursula Lane Apt. 296\nChristiansenborough, WA 74486', 'GB86BARC20037874187555', 'Account5', '4', '7'),
-('6', '7477 Sipes Stream Suite 714\nRileymouth, PA 94788-9629', 'GB49BARC20039554574317', 'Account6', '2', '5'),
-('7', '5523 Renner Springs Suite 455\nPort Juwanfurt, WI 40434-7840', 'GB50BARC20031865933319', 'Account7', '5', '3');
+('1', '4110 Rutherford Cove Suite 974\nWest Humbertobury, OR 23274-7560', 'GB17BARC20040164822651', 'Account1', '7', '2', '1', '2'),
+('2', '575 Heller Tunnel Suite 416\nCleorafurt, KS 45588-5657', 'GB79BARC20038035182364', 'Account2', '6', '1', '3', '4'),
+('3', '0265 Brian Run Apt. 394\nDeltaville, FL 55243-9429', 'GB45BARC20037867547188', 'Account3', '5', '2', '3', '8'),
+('4', '8161 Larissa Extension Apt. 372\nLake Orlo, AZ 53552-0237', 'GB81BARC20038076182385', 'Account4', '4', '3', '4', '9'),
+('5', '9611 Ursula Lane Apt. 296\nChristiansenborough, WA 74486', 'GB86BARC20037874187555', 'Account5', '3', '4', '2', '7'),
+('6', '7477 Sipes Stream Suite 714\nRileymouth, PA 94788-9629', 'GB49BARC20039554574317', 'Account6', '2', '5', '1', '5'),
+('7', '5523 Renner Springs Suite 455\nPort Juwanfurt, WI 40434-7840', 'GB50BARC20031865933319', 'Account7', '1', '1', '5', '3');
 
 -- account statuses
 
@@ -37,3 +37,42 @@ INSERT INTO `accountstatuses` VALUES
 ('3', 'BLOCKED_DEBIT'),
 ('4', 'BLOCKED_CREDIT'),
 ('5', 'CLOSED');
+
+-- balances
+
+INSERT INTO `balances` VALUES
+('1', '2000'),
+('2', '15500'),
+('3', '5750'),
+('4', '900'),
+('5', '1355'),
+('6', '260'),
+('7', '175');
+
+-- currencies
+
+INSERT INTO `currencies` VALUES
+('1', 'USD'),
+('2', 'EUR'),
+('3', 'JPY'),
+('4', 'GBP'),
+('5', 'MXN');
+
+-- payment statuses
+
+INSERT INTO `paymentstatuses` VALUES
+('1', 'VERIFY'),
+('2', 'APPROVE'),
+('3', 'AUTHORIZE'),
+('4', 'COMPLETED'),
+('5', 'CANCELLED');
+
+-- payments
+
+INSERT INTO `payments` VALUES
+('1', '250', '2016-06-12 21:34:14', '3', '2', '5', '5'),
+('2', '100', '2016-06-13 08:31:39', '5', '1', '4', '4'),
+('3', '660', '2016-06-16 10:55:05', '4', '4', '6', '3'),
+('4', '300', '2016-06-18 09:05:11', '6', '2', '5', '2'),
+('5', '55', '2016-06-18 15:18:46', '5', '1', '7', '2'),
+('6', '50', '2016-06-19 19:58:23', '7', '4', '3', '1');

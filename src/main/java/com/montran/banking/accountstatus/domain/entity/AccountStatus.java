@@ -16,8 +16,8 @@ import com.montran.banking.base.BaseEntity;
 public class AccountStatus extends BaseEntity {
 
 	private String name;
-	@JsonBackReference
 	@OneToMany(mappedBy = "status")
+	@JsonBackReference
 	private List<Account> accounts = new ArrayList<Account>();
 
 	public AccountStatus() {

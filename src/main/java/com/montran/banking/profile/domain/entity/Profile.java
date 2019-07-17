@@ -16,8 +16,8 @@ import com.montran.banking.user.domain.entity.User;
 public class Profile extends BaseEntity {
 
 	private String name;
-	@JsonBackReference
 	@OneToMany(mappedBy = "profile")
+	@JsonBackReference
 	private List<User> users = new ArrayList<User>();
 
 	public Profile() {

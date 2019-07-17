@@ -21,12 +21,12 @@ public class User extends BaseEntity {
 	private String fullname;
 	private String address;
 	private String email;
-	@JsonManagedReference
 	@ManyToOne
 	@JoinColumn(name = "profile_id", nullable = false)
+	@JsonManagedReference
 	private Profile profile;
-	@JsonBackReference
 	@OneToOne(mappedBy = "user")
+	@JsonBackReference
 	private Account account;
 
 	public User() {
