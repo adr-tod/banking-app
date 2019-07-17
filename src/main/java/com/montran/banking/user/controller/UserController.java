@@ -3,6 +3,7 @@ package com.montran.banking.user.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,5 +38,11 @@ public class UserController {
 	public void update(@RequestBody UserUpdateDTO userUpdateDTO) {
 		System.out.println("user controller: updateeee");
 		userService.update(userUpdateDTO);
+	}
+
+	@PostMapping("delete/{id}")
+	public void remove(@PathVariable Long id) {
+		System.out.println("user controller: deleteeee");
+		userService.deleteById(id);
 	}
 }

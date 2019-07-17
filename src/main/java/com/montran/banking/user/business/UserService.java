@@ -11,4 +11,6 @@ public interface UserService {
 	public void save(UserSaveDTO userSaveDTO);
 
 	public void update(UserUpdateDTO userUpdateDTO);
+	
+	public void deleteById(Long id);
 }
