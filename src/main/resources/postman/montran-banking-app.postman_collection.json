@@ -257,6 +257,37 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"debitAccountIban\": \"GB17BARC20040164822651\",\n\t\"creditAccountIban\": \"GB45BARC20037867547188\",\n\t\"amount\": \"25\",\n\t\"currency\": \"EUR\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/payment/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"payment",
+								"create"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		}
