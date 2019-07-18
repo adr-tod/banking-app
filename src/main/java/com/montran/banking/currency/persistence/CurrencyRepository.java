@@ -8,4 +8,5 @@ import com.montran.banking.currency.domain.entity.Currency;
 @Repository
 public interface CurrencyRepository extends CrudRepository<Currency, Long> {
 
+	public Currency findByName(String name);
 }

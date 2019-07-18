@@ -8,4 +8,5 @@ import com.montran.banking.account.domain.entity.Account;
 @Repository
 public interface AccountRepository extends CrudRepository<Account, Long> {
 
+	public Account findByIban(String iban);
 }
