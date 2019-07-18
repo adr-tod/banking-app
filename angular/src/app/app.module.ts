@@ -10,6 +10,7 @@ import { HeaderComponent } from './core/header/components/header/header.componen
 import { AccountModule } from './features/account/account.module';
 import { UserComponent } from './features/user/pages/user/user.component';
 import { UserModule } from './features/user/user.module';
+import { PaymentModule } from './features/payment/payment.module';
 
 
 @NgModule({
@@ -25,6 +26,7 @@ import { UserModule } from './features/user/user.module';
     BrowserAnimationsModule,
     UserModule,
     AccountModule,
+    PaymentModule,
     LayoutModule,
     MatToolbarModule,
     MatButtonModule,

@@ -8,7 +8,7 @@ import { AccountService } from '../../services/account.service';
 })
 export class AccountTableComponent implements OnInit {
 
-  displayedColumns: string[] = ['id', 'iban', 'name', 'address', 'currency', 'status', 'user'];
+  displayedColumns: string[] = ['id', 'name', 'iban', 'user', 'currency', 'balance', 'status'];
   dataSource: Account[];
 
   constructor(private accountService: AccountService) {
@@ -16,6 +16,7 @@ export class AccountTableComponent implements OnInit {
 
   ngOnInit(): void {
     this.accountService.findAll().subscribe(data => {
+      console.log(data);
       this.dataSource = data;
     });
   }

@@ -6,4 +6,5 @@ export class Account {
   currency: string;
   status: string;
   user: string;
+  balance: number;
 }
