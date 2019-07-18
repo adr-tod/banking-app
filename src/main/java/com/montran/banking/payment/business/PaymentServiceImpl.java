@@ -43,4 +43,11 @@ public class PaymentServiceImpl implements PaymentService {
 		payment.setDateTime(LocalDateTime.now());
 		paymentRepository.save(payment);
 	}
+
+	@Override
+	public void verify(Long id) {
+		Payment payment = paymentRepository.findById(id).get();
+		payment.setStatus(paymentStatusRepository.findByName("APPROVE"));
+		paymentRepository.save(payment);
+	}
 }

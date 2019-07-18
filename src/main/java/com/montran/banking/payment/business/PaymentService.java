@@ -8,4 +8,6 @@ public interface PaymentService {
 	public Iterable<Payment> findAll();
 	
 	public void create(PaymentCreateDTO paymentCreateDTO);
+	
+	public void verify(Long id);
 }
