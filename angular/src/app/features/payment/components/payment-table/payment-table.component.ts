@@ -46,6 +46,11 @@ export class PaymentTableComponent implements OnInit {
     });
   }
 
+  paymentVerifyButtonClicked(id: number) {
+    this.paymentService.verify(id)
+      .subscribe(() => { this.ngOnInit(); })
+  }
+
   // modifyButtonClicked(user: User): void {
   //   console.log('Modify button clicked!');
   //   this.openModifyDialog(user);

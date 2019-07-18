@@ -21,4 +21,8 @@ export class PaymentService {
   create(payment: PaymentCreate): Observable<any> {
     return this.httpClient.post(`${environment.apiUrl}/${this.paymentEndpoint}/create`, payment);
   }
+
+  verify(id: number): Observable<any> {
+    return this.httpClient.post(`${environment.apiUrl}/${this.paymentEndpoint}/verify/${id}`, null);
+  }
 }
