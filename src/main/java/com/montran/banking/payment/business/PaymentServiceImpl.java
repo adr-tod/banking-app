@@ -35,8 +35,8 @@ public class PaymentServiceImpl implements PaymentService {
 	@Override
 	public void create(PaymentCreateDTO paymentCreateDTO) {
 		Payment payment = new Payment();
-		payment.setDebitAccount(accountRepository.findByIban(paymentCreateDTO.getDebitAccountIban()));
-		payment.setCreditAccount(accountRepository.findByIban(paymentCreateDTO.getCreditAccountIban()));
+		payment.setDebitAccount(accountRepository.findByIban(paymentCreateDTO.getDebitIban()));
+		payment.setCreditAccount(accountRepository.findByIban(paymentCreateDTO.getCreditIban()));
 		payment.setAmount(paymentCreateDTO.getAmount());
 		payment.setCurrency(currencyRepostory.findByName(paymentCreateDTO.getCurrency()));
 		payment.setStatus(paymentStatusRepository.findByName("VERIFY"));

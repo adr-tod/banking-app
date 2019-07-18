@@ -40,7 +40,7 @@ export class PaymentTableComponent implements OnInit {
     dialogRef.afterClosed().subscribe(paymentToCreate => {
       if (paymentToCreate) {
         console.log(paymentToCreate);
-        this.paymentService.create(new PaymentCreate(paymentToCreate.debitAccount, paymentToCreate.creditAccount, paymentToCreate.amount, paymentToCreate.currency))
+        this.paymentService.create(new PaymentCreate(paymentToCreate.debitIban, paymentToCreate.creditIban, paymentToCreate.amount, paymentToCreate.currency))
           .subscribe(() => { this.ngOnInit(); });
       }
     });

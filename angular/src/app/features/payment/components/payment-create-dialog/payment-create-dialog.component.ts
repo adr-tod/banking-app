@@ -16,8 +16,8 @@ export class PaymentCreateDialogComponent implements OnInit {
 
   ngOnInit() {
     this.form = new FormGroup({
-      debitAccount: new FormControl(),
-      creditAccount: new FormControl(),
+      debitIban: new FormControl(),
+      creditIban: new FormControl(),
       amount: new FormControl(),
       currency: new FormControl()
     });

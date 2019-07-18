@@ -2,25 +2,25 @@ package com.montran.banking.payment.domain.dto;
 
 public class PaymentCreateDTO {
 
-	private String debitAccountIban;
-	private String creditAccountIban;
+	private String debitIban;
+	private String creditIban;
 	private Double amount;
 	private String currency;
 
-	public String getDebitAccountIban() {
-		return debitAccountIban;
+	public String getDebitIban() {
+		return debitIban;
 	}
 
-	public void setDebitAccountIban(String debitAccountIban) {
-		this.debitAccountIban = debitAccountIban;
+	public void setDebitIban(String debitIban) {
+		this.debitIban = debitIban;
 	}
 
-	public String getCreditAccountIban() {
-		return creditAccountIban;
+	public String getCreditIban() {
+		return creditIban;
 	}
 
-	public void setCreditAccountIban(String creditAccountIban) {
-		this.creditAccountIban = creditAccountIban;
+	public void setCreditIban(String creditIban) {
+		this.creditIban = creditIban;
 	}
 
 	public Double getAmount() {

@@ -1,9 +1,8 @@
-import { Account } from '../../account/models/account.model';
 
 export class Payment {
   id: number;
-  debitAccount: Account;
-  creditAccount: Account;
+  debitAccount: string;
+  creditAccount: string;
   dateTime: string;
   amount: number;
   currency: string;
@@ -11,14 +10,14 @@ export class Payment {
 }
 
 export class PaymentCreate {
-  debitAccount: string;
-  creditAccount: string;
+  debitIban: string;
+  creditIban: string;
   amount: number;
   currency: string;
 
-  constructor(debitAccount: string, creditAccount: string, amount: number, currency: string) {
-    this.debitAccount = debitAccount;
-    this.creditAccount = creditAccount;
+  constructor(debitIban: string, creditIban: string, amount: number, currency: string) {
+    this.debitIban = debitIban;
+    this.creditIban = creditIban;
     this.amount = amount;
     this.currency = currency;
   }
