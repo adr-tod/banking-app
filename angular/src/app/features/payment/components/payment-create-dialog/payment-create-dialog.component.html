@@ -1,0 +1,34 @@
+<h2 mat-dialog-title>Create a payment</h2>
+
+<mat-dialog-content [formGroup]="form">
+
+  <div>
+    <mat-form-field>
+      <input matInput placeholder="Debit account" formControlName="debitAccount">
+    </mat-form-field>
+  </div>
+
+  <div>
+    <mat-form-field>
+      <input matInput placeholder="Credit account" formControlName="creditAccount">
+    </mat-form-field>
+  </div>
+
+  <div>
+    <mat-form-field>
+      <input matInput placeholder="Amount" formControlName="amount">
+    </mat-form-field>
+  </div>
+
+  <div>
+    <mat-form-field>
+      <input matInput placeholder="Currency" formControlName="currency">
+    </mat-form-field>
+  </div>
+
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button class="mat-raised-button" (click)="close()">Close</button>
+  <button class="mat-raised-button mat-primary" (click)="create()">Create</button>
+</mat-dialog-actions>

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Payment } from '../../models/payment.model';
+import { Payment, PaymentCreate } from '../../models/payment.model';
 import { PaymentService } from '../../services/payment.service';
+import { MatDialog, MatDialogConfig } from '@angular/material';
+import { PaymentCreateDialogComponent } from '../payment-create-dialog/payment-create-dialog.component';
 
 @Component({
   selector: 'app-payment-table',
@@ -12,7 +14,7 @@ export class PaymentTableComponent implements OnInit {
   displayedColumns: string[] = ['id', 'debitAccount', 'creditAccount', 'dateTime', 'amount', 'currency', 'status', 'actions'];
   dataSource: Payment[];
 
-  constructor(private paymentService: PaymentService) {
+  constructor(private paymentService: PaymentService, private paymentCreateDialog: MatDialog) {
   }
 
   ngOnInit(): void {
@@ -22,27 +24,27 @@ export class PaymentTableComponent implements OnInit {
     });
   }
 
-  // addButtonClicked(): void {
-  //   console.log('Add button clicked!');
-  //   this.openAddDialog();
-  // }
+  paymentCreateButtonClicked(): void {
+    console.log('Create payment button clicked!');
+    this.openPaymentCreateDialog();
+  }
 
-  // openAddDialog(): void {
-  //   const dialogConfig = new MatDialogConfig();
+  openPaymentCreateDialog(): void {
+    const dialogConfig = new MatDialogConfig();
 
-  //   dialogConfig.disableClose = true;
-  //   dialogConfig.autoFocus = true;
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
 
-  //   const dialogRef = this.addDialog.open(UserAddDialogComponent, dialogConfig);
+    const dialogRef = this.paymentCreateDialog.open(PaymentCreateDialogComponent, dialogConfig);
 
-  //   dialogRef.afterClosed().subscribe(userToAdd => {
-  //     if (userToAdd) {
-  //       console.log(userToAdd);
-  //       this.userService.add(new UserAdd(userToAdd.fullname, userToAdd.address, userToAdd.email, userToAdd.username, userToAdd.password))
-  //         .subscribe(result => { this.ngOnInit(); });
-  //     }
-  //   });
-  // }
+    dialogRef.afterClosed().subscribe(paymentToCreate => {
+      if (paymentToCreate) {
+        console.log(paymentToCreate);
+        this.paymentService.create(new PaymentCreate(paymentToCreate.debitAccount, paymentToCreate.creditAccount, paymentToCreate.amount, paymentToCreate.currency))
+          .subscribe(() => { this.ngOnInit(); });
+      }
+    });
+  }
 
   // modifyButtonClicked(user: User): void {
   //   console.log('Modify button clicked!');

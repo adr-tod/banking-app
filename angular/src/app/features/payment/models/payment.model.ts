@@ -9,3 +9,17 @@ export class Payment {
   currency: string;
   status: string;
 }
+
+export class PaymentCreate {
+  debitAccount: string;
+  creditAccount: string;
+  amount: number;
+  currency: string;
+
+  constructor(debitAccount: string, creditAccount: string, amount: number, currency: string) {
+    this.debitAccount = debitAccount;
+    this.creditAccount = creditAccount;
+    this.amount = amount;
+    this.currency = currency;
+  }
+}

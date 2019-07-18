@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Payment } from '../models/payment.model';
+import { Payment, PaymentCreate } from '../models/payment.model';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 
@@ -16,5 +16,9 @@ export class PaymentService {
 
   findAll(): Observable<Payment[]> {
     return this.httpClient.get<Payment[]>(`${environment.apiUrl}/${this.paymentEndpoint}`);
+  }
+
+  create(payment: PaymentCreate): Observable<any> {
+    return this.httpClient.post(`${environment.apiUrl}/${this.paymentEndpoint}/create`, payment);
   }
 }
