@@ -56,6 +56,11 @@ export class PaymentTableComponent implements OnInit {
       .subscribe(() => { this.ngOnInit(); })
   }
 
+  paymentAuthorizeButtonClicked(id: number) {
+    this.paymentService.authorize(id)
+      .subscribe(() => { this.ngOnInit(); })
+  }
+
   // modifyButtonClicked(user: User): void {
   //   console.log('Modify button clicked!');
   //   this.openModifyDialog(user);
