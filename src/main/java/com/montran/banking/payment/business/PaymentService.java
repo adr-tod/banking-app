@@ -10,4 +10,6 @@ public interface PaymentService {
 	public void create(PaymentCreateDTO paymentCreateDTO);
 	
 	public void verify(Long id);
+
+	public void approve(Long id);
 }

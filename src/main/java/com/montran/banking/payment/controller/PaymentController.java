@@ -30,9 +30,14 @@ public class PaymentController {
 	public void create(@RequestBody PaymentCreateDTO paymentCreateDTO) {
 		paymentService.create(paymentCreateDTO);
 	}
-	
+
 	@PostMapping("verify/{id}")
 	public void verify(@PathVariable Long id) {
 		paymentService.verify(id);
+	}
+
+	@PostMapping("approve/{id}")
+	public void approve(@PathVariable Long id) {
+		paymentService.approve(id);
 	}
 }
