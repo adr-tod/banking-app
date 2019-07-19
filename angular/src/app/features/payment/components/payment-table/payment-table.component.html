@@ -52,7 +52,7 @@
     <th mat-header-cell *matHeaderCellDef> Actions</th>
     <td mat-cell *matCellDef="let payment">
       <button (click)="paymentVerifyButtonClicked(payment.id)" mat-button>Verify</button>
-      <button mat-button>Approve</button>
+      <button (click)="paymentApproveButtonClicked(payment.id)" mat-button>Approve</button>
       <button mat-button>Authorize</button>
       <button mat-button>Cancel</button>
     </td>

@@ -51,6 +51,11 @@ export class PaymentTableComponent implements OnInit {
       .subscribe(() => { this.ngOnInit(); })
   }
 
+  paymentApproveButtonClicked(id: number) {
+    this.paymentService.approve(id)
+      .subscribe(() => { this.ngOnInit(); })
+  }
+
   // modifyButtonClicked(user: User): void {
   //   console.log('Modify button clicked!');
   //   this.openModifyDialog(user);

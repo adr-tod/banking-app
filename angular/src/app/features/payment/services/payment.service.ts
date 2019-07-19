@@ -25,4 +25,8 @@ export class PaymentService {
   verify(id: number): Observable<any> {
     return this.httpClient.post(`${environment.apiUrl}/${this.paymentEndpoint}/verify/${id}`, null);
   }
+
+  approve(id: number): Observable<any> {
+    return this.httpClient.post(`${environment.apiUrl}/${this.paymentEndpoint}/approve/${id}`, null);
+  }
 }
