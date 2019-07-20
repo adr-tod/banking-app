@@ -61,8 +61,8 @@ export class PaymentTableComponent implements OnInit {
       .subscribe(() => { this.ngOnInit(); })
   }
 
-  paymentCloseButtonClicked(id: number) {
-    this.paymentService.close(id)
+  paymentCancelButtonClicked(id: number) {
+    this.paymentService.cancel(id)
       .subscribe(() => { this.ngOnInit(); })
   }
 

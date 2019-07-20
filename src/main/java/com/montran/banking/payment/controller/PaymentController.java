@@ -45,4 +45,9 @@ public class PaymentController {
 	public void authorize(@PathVariable Long id) {
 		paymentService.authorize(id);
 	}
+	
+	@PostMapping("cancel/{id}")
+	public void cancel(@PathVariable Long id) {
+		paymentService.cancel(id);
+	}
 }
