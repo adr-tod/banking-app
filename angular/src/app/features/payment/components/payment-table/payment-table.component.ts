@@ -61,33 +61,9 @@ export class PaymentTableComponent implements OnInit {
       .subscribe(() => { this.ngOnInit(); })
   }
 
-  // modifyButtonClicked(user: User): void {
-  //   console.log('Modify button clicked!');
-  //   this.openModifyDialog(user);
-  // }
-
-  // openModifyDialog(user: User): void {
-  //   const dialogConfig = new MatDialogConfig();
-
-  //   dialogConfig.disableClose = true;
-  //   dialogConfig.autoFocus = true;
-
-  //   dialogConfig.data = user;
-
-  //   const dialogRef = this.modifyDialog.open(UserModifyDialogComponent, dialogConfig);
-
-  //   dialogRef.afterClosed().subscribe(userToUpdate => {
-  //     if (userToUpdate) {
-  //       console.log(userToUpdate);
-  //       this.userService.update(new UserUpdate(userToUpdate.id, userToUpdate.fullname, userToUpdate.address, userToUpdate.email))
-  //         .subscribe(() => { this.ngOnInit(); });
-  //     }
-  //   });
-  // }
-
-  // removeButtonClicked(id: number): void {
-  //   console.log('Remove button clicked!');
-  //   this.userService.delete(id).subscribe(() => { this.ngOnInit(); });
-  // }
+  paymentCloseButtonClicked(id: number) {
+    this.paymentService.close(id)
+      .subscribe(() => { this.ngOnInit(); })
+  }
 
 }
