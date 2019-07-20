@@ -40,4 +40,9 @@ public class PaymentController {
 	public void approve(@PathVariable Long id) {
 		paymentService.approve(id);
 	}
+
+	@PostMapping("authorize/{id}")
+	public void authorize(@PathVariable Long id) {
+		paymentService.authorize(id);
+	}
 }

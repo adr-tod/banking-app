@@ -12,4 +12,6 @@ public interface PaymentService {
 	public void verify(Long id);
 
 	public void approve(Long id);
+	
+	public void authorize(Long id);
 }

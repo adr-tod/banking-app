@@ -57,4 +57,11 @@ public class PaymentServiceImpl implements PaymentService {
 		payment.setStatus(paymentStatusRepository.findByName("AUTHORIZE"));
 		paymentRepository.save(payment);
 	}
+
+	@Override
+	public void authorize(Long id) {
+		Payment payment = paymentRepository.findById(id).get();
+		payment.setStatus(paymentStatusRepository.findByName("COMPLETED"));
+		paymentRepository.save(payment);
+	}
 }
