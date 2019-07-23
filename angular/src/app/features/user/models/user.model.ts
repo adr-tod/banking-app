@@ -6,6 +6,7 @@ export class User {
   address: string;
   email: string;
   profile: string;
+  token?: string;
 }
 
 export class UserUpdate {

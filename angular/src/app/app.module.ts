@@ -1,5 +1,5 @@
 import { LayoutModule } from '@angular/cdk/layout';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { MatButtonModule, MatIconModule, MatListModule, MatSidenavModule, MatToolbarModule } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
@@ -11,6 +11,11 @@ import { AccountModule } from './features/account/account.module';
 import { UserComponent } from './features/user/pages/user/user.component';
 import { UserModule } from './features/user/user.module';
 import { PaymentModule } from './features/payment/payment.module';
+import { JwtInterceptor } from './core/interceptors/jwt.interceptor';
+import { ErrorInterceptor } from './core/interceptors/error.interceptor';
+import { HomeModule } from './features/home/home.module';
+import { AdminModule } from './features/admin/admin.module';
+import { LoginModule } from './features/login/login.module';
 
 
 @NgModule({
@@ -32,9 +37,15 @@ import { PaymentModule } from './features/payment/payment.module';
     MatButtonModule,
     MatSidenavModule,
     MatIconModule,
-    MatListModule
+    MatListModule,
+    HomeModule,
+    AdminModule,
+    LoginModule
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
