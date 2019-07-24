@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "31429e68-4fd1-4395-9649-44e3c054e8bb",
+		"_postman_id": "d2d9f301-90af-4005-a8f0-7c47762b1f45",
 		"name": "montran-banking-app",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -11,6 +11,16 @@
 				{
 					"name": "findAll",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"body": {
@@ -113,6 +123,41 @@
 								"user",
 								"delete",
 								"14"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "findById",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJpZ2lic29uIiwiZXhwIjoxNTYzOTg3NTc2LCJpYXQiOjE1NjM5Njk1NzZ9.fUBjCWE3HAu2-lzlqfLJfUW3iqrvRv8PQY8Psqj7BRY_vnzFDlw5SEP9s_cpMkCxpws6npD5ZvAKoxtKYxaRNA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8080/user/find/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"find",
+								"1"
 							]
 						}
 					},
@@ -284,6 +329,41 @@
 							"path": [
 								"payment",
 								"create"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "authenticate",
+			"item": [
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\": \"igibson\",\n\t\"password\": \"user1password\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/authenticate",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"authenticate"
 							]
 						}
 					},
