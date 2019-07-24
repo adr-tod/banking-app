@@ -36,7 +36,9 @@ const routes: Routes = [
   {
     path: 'payment',
     component: PaymentComponent
-  }
+  },
+  // otherwise redirect to home
+  { path: '**', redirectTo: '' }
 ];
 
 @NgModule({

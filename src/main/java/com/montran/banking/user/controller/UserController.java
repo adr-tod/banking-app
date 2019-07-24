@@ -20,12 +20,17 @@ import com.montran.banking.user.domain.entity.User;
 public class UserController {
 
 	@Autowired
-	UserService userService;
+	private UserService userService;
 
 	@GetMapping
 	public Iterable<User> findAll() {
 		System.out.println("user controller: find all");
 		return userService.findAll();
+	}
+	
+	@GetMapping("find/{id}")
+	public User findById(@PathVariable Long id) {
+		return userService.findById(id);
 	}
 
 	@PostMapping("add")

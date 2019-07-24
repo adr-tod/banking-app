@@ -8,6 +8,10 @@ public interface UserService {
 
 	public Iterable<User> findAll();
 	
+	public User findById(Long id);
+	
+	public User findByUsername(String username);
+	
 	public void save(UserSaveDTO userSaveDTO);
 
 	public void update(UserUpdateDTO userUpdateDTO);

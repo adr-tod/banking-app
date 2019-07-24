@@ -18,6 +18,10 @@ export class UserService {
     return this.httpClient.get<User[]>(`${environment.apiUrl}/${this.userEndpoint}`);
   }
 
+  findById(id: number): Observable<any> {
+    return this.httpClient.get<User>(`${environment.apiUrl}/${this.userEndpoint}/find/${id}`);
+  }
+
   add(user: UserAdd): Observable<any> {
     return this.httpClient.post(`${environment.apiUrl}/${this.userEndpoint}/add`, user);
   }
