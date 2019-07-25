@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { MatDialogRef } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({
   selector: 'app-payment-create-dialog',
@@ -11,7 +11,7 @@ export class PaymentCreateDialogComponent implements OnInit {
 
   form: FormGroup;
 
-  constructor(private dialogRef: MatDialogRef<PaymentCreateDialogComponent>) {
+  constructor(private dialogRef: MatDialogRef<PaymentCreateDialogComponent>, @Inject(MAT_DIALOG_DATA) public debitIban: any) {
   }
 
   ngOnInit() {
@@ -21,15 +21,11 @@ export class PaymentCreateDialogComponent implements OnInit {
       amount: new FormControl(),
       currency: new FormControl()
     });
-    // this.form = this.fb.group({
-    //   id: [{ value: this.user.id, disabled: true }],
-    //   username: [{ value: this.user.username, disabled: true }],
-    //   password: [{ value: this.user.password, disabled: true }],
-    //   fullname: [this.user.fullname],
-    //   address: [this.user.address],
-    //   email: [this.user.email],
-    //   profile: [{ value: this.user.profile, disabled: true }],
-    // });
+
+    console.log(this.debitIban);
+    if (this.debitIban) {
+      this.form.setControl('debitIban', new FormControl({value: this.debitIban, disabled: true}));
+    }
   }
 
   create() {

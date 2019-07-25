@@ -14,7 +14,6 @@ import { PaymentModule } from './features/payment/payment.module';
 import { JwtInterceptor } from './core/interceptors/jwt.interceptor';
 import { ErrorInterceptor } from './core/interceptors/error.interceptor';
 import { HomeModule } from './features/home/home.module';
-import { AdminModule } from './features/admin/admin.module';
 import { LoginModule } from './features/login/login.module';
 
 
@@ -39,7 +38,6 @@ import { LoginModule } from './features/login/login.module';
     MatIconModule,
     MatListModule,
     HomeModule,
-    AdminModule,
     LoginModule
   ],
   providers: [

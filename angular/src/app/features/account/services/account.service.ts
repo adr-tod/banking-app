@@ -16,4 +16,8 @@ export class AccountService {
   findAll(): Observable<Account[]> {
     return this.httpClient.get<Account[]>(`${environment.apiUrl}/${this.accountEndpoint}`);
   }
+
+  findAllByUserId(id: number): Observable<Account[]> {
+    return this.httpClient.get<Account[]>(`${environment.apiUrl}/${this.accountEndpoint}/findall/${id}`);
+  }
 }

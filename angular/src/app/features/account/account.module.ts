@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { AccountRoutingModule } from './account-routing.module';
 import { AccountComponent } from './pages/account/account.component';
 import { AccountTableComponent } from './components/account-table/account-table.component';
-import { MatTableModule } from '@angular/material';
+import { MatTableModule, MatButtonModule } from '@angular/material';
 
 
 @NgModule({
@@ -12,7 +12,8 @@ import { MatTableModule } from '@angular/material';
   imports: [
     CommonModule,
     AccountRoutingModule,
-    MatTableModule
+    MatTableModule,
+    MatButtonModule
   ]
 })
 export class AccountModule { }
