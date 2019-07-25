@@ -9,4 +9,6 @@ import com.montran.banking.account.domain.entity.Account;
 public interface AccountRepository extends CrudRepository<Account, Long> {
 
 	public Account findByIban(String iban);
+	
+	public Iterable<Account> findAllByUserId(Long id);
 }

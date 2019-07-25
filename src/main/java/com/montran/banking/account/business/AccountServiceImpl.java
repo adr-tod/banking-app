@@ -16,4 +16,9 @@ public class AccountServiceImpl implements AccountService {
 	public Iterable<Account> findAll() {
 		return accountRepository.findAll();
 	}
+
+	@Override
+	public Iterable<Account> findAllByUserId(Long id) {
+		return accountRepository.findAllByUserId(id);
+	}
 }
