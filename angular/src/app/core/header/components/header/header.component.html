@@ -1,9 +1,10 @@
 <div>
   <mat-toolbar color="primary">
     <a mat-button routerLink="/">Home</a>
+    <a mat-button routerLink="/admin" *ngIf="isAdmin">Admin</a>
     <a mat-button (click)="logout()" >Log out</a>
     <span class="example-spacer"></span>
-    <a mat-button routerLink="/user">User</a>
+    <a mat-button routerLink="/user" *ngIf="isAdmin">User</a>
     <a mat-button routerLink="/account">Account</a>
     <a mat-button routerLink="/payment">Payment</a>
   </mat-toolbar>
