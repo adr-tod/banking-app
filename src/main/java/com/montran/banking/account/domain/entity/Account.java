@@ -28,7 +28,7 @@ public class Account extends BaseEntity {
 	@JoinColumn(name = "status_id")
 	@JsonManagedReference
 	private AccountStatus status;
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "user_id")
 	@JsonManagedReference
 	private User user;

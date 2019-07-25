@@ -20,6 +20,11 @@ public class Balance extends BaseEntity {
 	public Balance() {
 		super();
 	}
+	
+	public Balance(Double available) {
+		super();
+		this.available = available;
+	}
 
 	public Account getAccount() {
 		return account;

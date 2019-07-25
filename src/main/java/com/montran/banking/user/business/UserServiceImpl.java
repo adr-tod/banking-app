@@ -1,9 +1,12 @@
 package com.montran.banking.user.business;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.montran.banking.account.domain.entity.Account;
 import com.montran.banking.profile.persistence.ProfileRepository;
 import com.montran.banking.user.domain.dto.UserSaveDTO;
 import com.montran.banking.user.domain.dto.UserUpdateDTO;
@@ -42,7 +45,7 @@ public class UserServiceImpl implements UserService {
 		user.setUsername(userSaveDTO.getUsername());
 		user.setPassword(passwordEncoder.encode(userSaveDTO.getPassword()));
 		user.setProfile(profileRepository.findByName("customer"));
-		user.setAccount(null);
+		user.setAccounts(new ArrayList<>());
 		userRepository.save(user);
 	}
 

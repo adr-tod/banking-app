@@ -22,14 +22,13 @@ export class PaymentCreateDialogComponent implements OnInit {
       currency: new FormControl()
     });
 
-    console.log(this.debitIban);
     if (this.debitIban) {
-      this.form.setControl('debitIban', new FormControl({value: this.debitIban, disabled: true}));
+      this.form.setControl('debitIban', new FormControl({ value: this.debitIban, disabled: true }));
     }
   }
 
   create() {
-    this.dialogRef.close(this.form.value);
+    this.dialogRef.close(this.form.getRawValue());
   }
 
   close() {

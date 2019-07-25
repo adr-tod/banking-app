@@ -16,7 +16,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJpZ2lic29uIiwiZXhwIjoxNTYzOTg3NTc2LCJpYXQiOjE1NjM5Njk1NzZ9.fUBjCWE3HAu2-lzlqfLJfUW3iqrvRv8PQY8Psqj7BRY_vnzFDlw5SEP9s_cpMkCxpws6npD5ZvAKoxtKYxaRNA",
 									"type": "string"
 								}
 							]
@@ -227,6 +227,16 @@
 				{
 					"name": "findAll",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtYXJjb3MuYm9nYW4iLCJleHAiOjE1NjQwNzk3OTQsImlhdCI6MTU2NDA2MTc5NH0.ZmdArOEH3ZRfIAbL4OKo7a3ZDAU0XHBZmbRZu4bIKIE-QX7CgHEtCrSRfl4BG3hIbAYy2Z92OQ0UhIZpRk-0nA",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"body": {
@@ -246,6 +256,82 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "findAllByUserId",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtYXJjb3MuYm9nYW4iLCJleHAiOjE1NjQwNzk3OTQsImlhdCI6MTU2NDA2MTc5NH0.ZmdArOEH3ZRfIAbL4OKo7a3ZDAU0XHBZmbRZu4bIKIE-QX7CgHEtCrSRfl4BG3hIbAYy2Z92OQ0UhIZpRk-0nA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8080/account/findall/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"account",
+								"findall",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtYXJjb3MuYm9nYW4iLCJleHAiOjE1NjQwNzk3OTQsImlhdCI6MTU2NDA2MTc5NH0.ZmdArOEH3ZRfIAbL4OKo7a3ZDAU0XHBZmbRZu4bIKIE-QX7CgHEtCrSRfl4BG3hIbAYy2Z92OQ0UhIZpRk-0nA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Account xyz\",\n\t\"iban\": \"RO66666666666\",\n\t\"currency\": \"EUR\",\n\t\"address\": \"Ecaterina Teodoroiu 4ever\",\n\t\"userId\": 3\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/account/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"account",
+								"create"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -255,6 +341,16 @@
 				{
 					"name": "findAll",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtYXJjb3MuYm9nYW4iLCJleHAiOjE1NjQwNzk3OTQsImlhdCI6MTU2NDA2MTc5NH0.ZmdArOEH3ZRfIAbL4OKo7a3ZDAU0XHBZmbRZu4bIKIE-QX7CgHEtCrSRfl4BG3hIbAYy2Z92OQ0UhIZpRk-0nA",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"body": {
@@ -353,7 +449,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"username\": \"igibson\",\n\t\"password\": \"user1password\"\n}"
+							"raw": "{\n\t\"username\": \"marcos.bogan\",\n\t\"password\": \"user3password\"\n}"
 						},
 						"url": {
 							"raw": "http://localhost:8080/authenticate",

@@ -1,9 +1,12 @@
 package com.montran.banking.user.domain.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -25,9 +28,9 @@ public class User extends BaseEntity {
 	@JoinColumn(name = "profile_id", nullable = false)
 	@JsonManagedReference
 	private Profile profile;
-	@OneToOne(mappedBy = "user")
+	@OneToMany(mappedBy = "user")
 	@JsonBackReference
-	private Account account;
+	private List<Account> accounts = new ArrayList<Account>();
 
 	public User() {
 		super();
@@ -81,11 +84,12 @@ public class User extends BaseEntity {
 		this.profile = profile;
 	}
 
-	public Account getAccount() {
-		return account;
+	public List<Account> getAccounts() {
+		return accounts;
 	}
 
-	public void setAccount(Account account) {
-		this.account = account;
+	public void setAccounts(List<Account> accounts) {
+		this.accounts = accounts;
 	}
+
 }

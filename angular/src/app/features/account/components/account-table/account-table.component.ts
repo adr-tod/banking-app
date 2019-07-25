@@ -55,6 +55,7 @@ export class AccountTableComponent implements OnInit {
     const dialogRef = this.paymentCreateDialog.open(PaymentCreateDialogComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(paymentToCreate => {
+      console.log(paymentToCreate);
       if (paymentToCreate) {
         console.log(paymentToCreate);
         this.paymentService.create(new PaymentCreate(paymentToCreate.debitIban, paymentToCreate.creditIban, paymentToCreate.amount, paymentToCreate.currency))
