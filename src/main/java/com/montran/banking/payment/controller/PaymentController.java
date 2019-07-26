@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.montran.banking.payment.business.PaymentService;
 import com.montran.banking.payment.domain.dto.PaymentCreateDTO;
+import com.montran.banking.payment.domain.dto.PaymentVerifyDTO;
 import com.montran.banking.payment.domain.entity.Payment;
 
 @RestController
@@ -32,8 +33,8 @@ public class PaymentController {
 	}
 
 	@PostMapping("verify/{id}")
-	public void verify(@PathVariable Long id) {
-		paymentService.verify(id);
+	public void verify(@PathVariable Long id, @RequestBody PaymentVerifyDTO paymentVerifyDTO) {
+		paymentService.verify(id, paymentVerifyDTO);
 	}
 
 	@PostMapping("approve/{id}")
@@ -45,7 +46,7 @@ public class PaymentController {
 	public void authorize(@PathVariable Long id) {
 		paymentService.authorize(id);
 	}
-	
+
 	@PostMapping("cancel/{id}")
 	public void cancel(@PathVariable Long id) {
 		paymentService.cancel(id);

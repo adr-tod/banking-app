@@ -1,6 +1,7 @@
 package com.montran.banking.payment.business;
 
 import com.montran.banking.payment.domain.dto.PaymentCreateDTO;
+import com.montran.banking.payment.domain.dto.PaymentVerifyDTO;
 import com.montran.banking.payment.domain.entity.Payment;
 
 public interface PaymentService {
@@ -9,7 +10,7 @@ public interface PaymentService {
 	
 	public void create(PaymentCreateDTO paymentCreateDTO);
 	
-	public void verify(Long id);
+	public void verify(Long id, PaymentVerifyDTO paymentVerifyDTO);
 
 	public void approve(Long id);
 	

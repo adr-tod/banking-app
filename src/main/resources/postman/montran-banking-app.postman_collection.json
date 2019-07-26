@@ -232,7 +232,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtYXJjb3MuYm9nYW4iLCJleHAiOjE1NjQwNzk3OTQsImlhdCI6MTU2NDA2MTc5NH0.ZmdArOEH3ZRfIAbL4OKo7a3ZDAU0XHBZmbRZu4bIKIE-QX7CgHEtCrSRfl4BG3hIbAYy2Z92OQ0UhIZpRk-0nA",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtYXJjb3MuYm9nYW4iLCJleHAiOjE1NjQxNDA2MjQsImlhdCI6MTU2NDEyMjYyNH0.Iu65LCTeMH6a9VvIXQhed_nMzadwfmQSzQCgR-YgZ7uNWxjIPuK3Zskv46tSfcI5Qr2beerXLpkSBlgjvtYsvQ",
 									"type": "string"
 								}
 							]
@@ -300,7 +300,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtYXJjb3MuYm9nYW4iLCJleHAiOjE1NjQwNzk3OTQsImlhdCI6MTU2NDA2MTc5NH0.ZmdArOEH3ZRfIAbL4OKo7a3ZDAU0XHBZmbRZu4bIKIE-QX7CgHEtCrSRfl4BG3hIbAYy2Z92OQ0UhIZpRk-0nA",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtYXJjb3MuYm9nYW4iLCJleHAiOjE1NjQxNDA2MjQsImlhdCI6MTU2NDEyMjYyNH0.Iu65LCTeMH6a9VvIXQhed_nMzadwfmQSzQCgR-YgZ7uNWxjIPuK3Zskv46tSfcI5Qr2beerXLpkSBlgjvtYsvQ",
 									"type": "string"
 								}
 							]
@@ -332,6 +332,82 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtYXJjb3MuYm9nYW4iLCJleHAiOjE1NjQxNDA2MjQsImlhdCI6MTU2NDEyMjYyNH0.Iu65LCTeMH6a9VvIXQhed_nMzadwfmQSzQCgR-YgZ7uNWxjIPuK3Zskv46tSfcI5Qr2beerXLpkSBlgjvtYsvQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"id\": 9,\n\t\"name\": \"Account xyz updated\",\n\t\"address\": \"Ecaterina Teodoroiu 4ever updated\",\n\t\"balance\": 200.5,\n\t\"status\": \"BLOCKED\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/account/update",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"account",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtYXJjb3MuYm9nYW4iLCJleHAiOjE1NjQxNDA2MjQsImlhdCI6MTU2NDEyMjYyNH0.Iu65LCTeMH6a9VvIXQhed_nMzadwfmQSzQCgR-YgZ7uNWxjIPuK3Zskv46tSfcI5Qr2beerXLpkSBlgjvtYsvQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8080/account/delete/9",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"account",
+								"delete",
+								"9"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -346,7 +422,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtYXJjb3MuYm9nYW4iLCJleHAiOjE1NjQwNzk3OTQsImlhdCI6MTU2NDA2MTc5NH0.ZmdArOEH3ZRfIAbL4OKo7a3ZDAU0XHBZmbRZu4bIKIE-QX7CgHEtCrSRfl4BG3hIbAYy2Z92OQ0UhIZpRk-0nA",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtYXJjb3MuYm9nYW4iLCJleHAiOjE1NjQxNDA2MjQsImlhdCI6MTU2NDEyMjYyNH0.Iu65LCTeMH6a9VvIXQhed_nMzadwfmQSzQCgR-YgZ7uNWxjIPuK3Zskv46tSfcI5Qr2beerXLpkSBlgjvtYsvQ",
 									"type": "string"
 								}
 							]
