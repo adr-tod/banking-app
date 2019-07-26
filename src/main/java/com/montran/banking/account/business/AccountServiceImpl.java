@@ -1,5 +1,7 @@
 package com.montran.banking.account.business;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,10 +26,10 @@ public class AccountServiceImpl implements AccountService {
 
 	@Autowired
 	private BalanceRepository balanceRepository;
-	
+
 	@Autowired
 	private UserRepository userRepository;
-	
+
 	@Autowired
 	private CurrencyRepository currencyRepository;
 
@@ -62,5 +64,12 @@ public class AccountServiceImpl implements AccountService {
 		account.getBalance().setAvailable(accountUpdateDTO.getBalance());
 		account.setStatus(accountStatusRepository.findByName(accountUpdateDTO.getStatus()));
 		return accountRepository.save(account);
+	}
+
+	@Override
+	public void delete(Long id) {
+		Account account = accountRepository.findById(id).get();
+		balanceRepository.delete(account.getBalance());
+		accountRepository.delete(account);
 	}
 }

@@ -13,4 +13,6 @@ public interface AccountService {
 	public Account create(AccountCreateDTO accountCreateDTO);
 	
 	public Account update(AccountUpdateDTO accountUpdateDTO);
+	
+	public void delete(Long id);
 }

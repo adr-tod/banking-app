@@ -41,4 +41,9 @@ public class AccountController {
 	public Account update(@RequestBody AccountUpdateDTO accountUpdateDTO) {
 		return accountService.update(accountUpdateDTO);
 	}
+	
+	@PostMapping("delete/{id}")
+	public void delete(@PathVariable Long id) {
+		accountService.delete(id);
+	}
 }
