@@ -55,7 +55,9 @@
   <ng-container matColumnDef="actions">
     <th mat-header-cell *matHeaderCellDef> Actions</th>
     <td mat-cell *matCellDef="let account">
-      <button (click)="makePaymentButtonClicked(account.iban)" mat-button>Make a payment</button>
+      <button (click)="makePaymentButtonClicked(account.iban)" mat-button *ngIf="isCustomer">Make a payment</button>
+      <button (click)="updateAccountButtonClicked(account)" mat-button *ngIf="isAdmin">Update</button>
+      <button (click)="deleteAccountButtonClicked(account.id)" mat-button *ngIf="isAdmin">Delete</button>
     </td>
   </ng-container>
 

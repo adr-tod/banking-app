@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material';
 import { AuthenticationService } from 'src/app/features/login/services/authentication.service';
+import { PaymentCreateDialogComponent } from 'src/app/features/payment/components/payment-create-dialog/payment-create-dialog.component';
+import { PaymentCreate } from 'src/app/features/payment/models/payment.model';
 import { PaymentService } from 'src/app/features/payment/services/payment.service';
 import { Role } from 'src/app/features/user/models/role.enum';
 import { User } from 'src/app/features/user/models/user.model';
 import { AccountService } from '../../services/account.service';
-import { MatDialogConfig, MatDialog } from '@angular/material';
-import { PaymentCreateDialogComponent } from 'src/app/features/payment/components/payment-create-dialog/payment-create-dialog.component';
-import { PaymentCreate } from 'src/app/features/payment/models/payment.model';
+import { Account } from '../../models/account.model';
 
 @Component({
   selector: 'app-account-table',
@@ -20,7 +21,7 @@ export class AccountTableComponent implements OnInit {
   dataSource: Account[];
 
   constructor(private authenticationService: AuthenticationService, private accountService: AccountService,
-    private paymentService: PaymentService, private paymentCreateDialog: MatDialog) {
+              private paymentService: PaymentService, private paymentCreateDialog: MatDialog) {
     this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
   }
 
@@ -30,7 +31,7 @@ export class AccountTableComponent implements OnInit {
         console.log(data);
         this.dataSource = data;
       });
-      this.displayedColumns = ['name', 'iban', 'user', 'currency', 'balance', 'status'];
+      this.displayedColumns = ['name', 'iban', 'user', 'currency', 'balance', 'status', 'actions'];
     } else {
       this.accountService.findAllByUserId(this.currentUser.id).subscribe(data => {
         console.log(data);
@@ -38,6 +39,14 @@ export class AccountTableComponent implements OnInit {
       });
       this.displayedColumns = ['name', 'iban', 'currency', 'balance', 'status', 'actions'];
     }
+  }
+
+  get isAdmin() {
+    return this.currentUser && this.currentUser.profile === Role.ADMIN;
+  }
+
+  get isCustomer() {
+    return this.currentUser && this.currentUser.profile === Role.CUSTOMER;
   }
 
   makePaymentButtonClicked(debitIban: number) {
@@ -62,5 +71,13 @@ export class AccountTableComponent implements OnInit {
           .subscribe(() => { this.ngOnInit(); });
       }
     });
+  }
+
+  updateAccountButtonClicked(account: Account) {
+    console.log('Update account');
+  }
+
+  deleteAccountButtonClicked(id: number) {
+    this.accountService.delete(id).subscribe(() => { this.ngOnInit(); });
   }
 }
