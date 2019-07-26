@@ -1,3 +1,5 @@
+<button (click)="createAccountButtonClicked()" mat-button *ngIf="isAdmin">Create an account</button>
+
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
   <!--- Note that these columns can be defined in any order.

@@ -7,7 +7,8 @@ import { PaymentService } from 'src/app/features/payment/services/payment.servic
 import { Role } from 'src/app/features/user/models/role.enum';
 import { User } from 'src/app/features/user/models/user.model';
 import { AccountService } from '../../services/account.service';
-import { Account } from '../../models/account.model';
+import { Account, AccountCreate } from '../../models/account.model';
+import { AccountCreateDialogComponent } from '../account-create-dialog/account-create-dialog.component';
 
 @Component({
   selector: 'app-account-table',
@@ -68,6 +69,29 @@ export class AccountTableComponent implements OnInit {
       if (paymentToCreate) {
         console.log(paymentToCreate);
         this.paymentService.create(new PaymentCreate(paymentToCreate.debitIban, paymentToCreate.creditIban, paymentToCreate.amount, paymentToCreate.currency))
+          .subscribe(() => { this.ngOnInit(); });
+      }
+    });
+  }
+
+  createAccountButtonClicked() {
+    this.openAccountCreateDialog();
+  }
+
+  openAccountCreateDialog() {
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+
+    const dialogRef = this.paymentCreateDialog.open(AccountCreateDialogComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe(accountToCreate => {
+      console.log(accountToCreate);
+      if (accountToCreate) {
+        console.log(accountToCreate);
+        this.accountService.create(new AccountCreate(accountToCreate.name, accountToCreate.iban,
+          accountToCreate.currency, accountToCreate.address, accountToCreate.userId))
           .subscribe(() => { this.ngOnInit(); });
       }
     });
