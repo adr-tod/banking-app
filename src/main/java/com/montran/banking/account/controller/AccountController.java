@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.montran.banking.account.business.AccountService;
 import com.montran.banking.account.domain.dto.AccountCreateDTO;
+import com.montran.banking.account.domain.dto.AccountUpdateDTO;
 import com.montran.banking.account.domain.entity.Account;
 
 @RestController
@@ -34,5 +35,10 @@ public class AccountController {
 	@PostMapping("create")
 	public Account create(@RequestBody AccountCreateDTO accountCreateDTO) {
 		return accountService.create(accountCreateDTO);
+	}
+	
+	@PostMapping("update")
+	public Account update(@RequestBody AccountUpdateDTO accountUpdateDTO) {
+		return accountService.update(accountUpdateDTO);
 	}
 }

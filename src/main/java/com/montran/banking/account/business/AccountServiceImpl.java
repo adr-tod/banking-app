@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.montran.banking.account.domain.dto.AccountCreateDTO;
+import com.montran.banking.account.domain.dto.AccountUpdateDTO;
 import com.montran.banking.account.domain.entity.Account;
 import com.montran.banking.account.persistence.AccountRepository;
 import com.montran.banking.accountstatus.persistence.AccountStatusRepository;
@@ -50,6 +51,16 @@ public class AccountServiceImpl implements AccountService {
 		account.setUser(userRepository.findById(accountCreateDTO.getUserId()).get());
 		account.setBalance(balanceRepository.save(new Balance(0.0)));
 		account.setStatus(accountStatusRepository.findByName("ACTIVE"));
+		return accountRepository.save(account);
+	}
+
+	@Override
+	public Account update(AccountUpdateDTO accountUpdateDTO) {
+		Account account = accountRepository.findById(accountUpdateDTO.getId()).get();
+		account.setName(accountUpdateDTO.getName());
+		account.setAddress(accountUpdateDTO.getAddress());
+		account.getBalance().setAvailable(accountUpdateDTO.getBalance());
+		account.setStatus(accountStatusRepository.findByName(accountUpdateDTO.getStatus()));
 		return accountRepository.save(account);
 	}
 }
