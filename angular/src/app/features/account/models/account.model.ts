@@ -25,3 +25,20 @@ export class AccountCreate {
     this.userId = userId;
   }
 }
+
+
+export class AccountUpdate {
+  id: number;
+  name: string;
+  address: string;
+  balance: number;
+  status: string;
+
+  constructor(id: number, name: string, address: string, balance: number, status: string) {
+    this.id = id;
+    this.name = name;
+    this.address = address;
+    this.balance = balance;
+    this.status = status;
+  }
+}

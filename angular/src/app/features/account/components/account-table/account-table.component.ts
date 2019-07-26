@@ -7,8 +7,9 @@ import { PaymentService } from 'src/app/features/payment/services/payment.servic
 import { Role } from 'src/app/features/user/models/role.enum';
 import { User } from 'src/app/features/user/models/user.model';
 import { AccountService } from '../../services/account.service';
-import { Account, AccountCreate } from '../../models/account.model';
+import { Account, AccountCreate, AccountUpdate } from '../../models/account.model';
 import { AccountCreateDialogComponent } from '../account-create-dialog/account-create-dialog.component';
+import { AccountUpdateDialogComponent } from '../account-update-dialog/account-update-dialog.component';
 
 @Component({
   selector: 'app-account-table',
@@ -22,7 +23,7 @@ export class AccountTableComponent implements OnInit {
   dataSource: Account[];
 
   constructor(private authenticationService: AuthenticationService, private accountService: AccountService,
-              private paymentService: PaymentService, private paymentCreateDialog: MatDialog) {
+    private paymentService: PaymentService, private dialog: MatDialog) {
     this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
   }
 
@@ -62,7 +63,7 @@ export class AccountTableComponent implements OnInit {
     dialogConfig.autoFocus = true;
     dialogConfig.data = debitIban;
 
-    const dialogRef = this.paymentCreateDialog.open(PaymentCreateDialogComponent, dialogConfig);
+    const dialogRef = this.dialog.open(PaymentCreateDialogComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(paymentToCreate => {
       console.log(paymentToCreate);
@@ -84,7 +85,7 @@ export class AccountTableComponent implements OnInit {
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
 
-    const dialogRef = this.paymentCreateDialog.open(AccountCreateDialogComponent, dialogConfig);
+    const dialogRef = this.dialog.open(AccountCreateDialogComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(accountToCreate => {
       console.log(accountToCreate);
@@ -98,7 +99,25 @@ export class AccountTableComponent implements OnInit {
   }
 
   updateAccountButtonClicked(account: Account) {
-    console.log('Update account');
+    this.openAccountUpdateDialog(account);
+  }
+
+  openAccountUpdateDialog(account: Account) {
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = account;
+
+    const dialogRef = this.dialog.open(AccountUpdateDialogComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe(accountToUpdate => {
+      if (accountToUpdate) {
+        this.accountService.update(new AccountUpdate(accountToUpdate.id, accountToUpdate.name,
+          accountToUpdate.address, accountToUpdate.balance, accountToUpdate.status))
+          .subscribe(() => { this.ngOnInit(); });
+      }
+    });
   }
 
   deleteAccountButtonClicked(id: number) {

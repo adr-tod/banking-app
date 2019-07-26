@@ -7,10 +7,11 @@ import { AccountTableComponent } from './components/account-table/account-table.
 import { MatTableModule, MatButtonModule, MatDialogModule, MatInputModule } from '@angular/material';
 import { AccountCreateDialogComponent } from './components/account-create-dialog/account-create-dialog.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { AccountUpdateDialogComponent } from './components/account-update-dialog/account-update-dialog.component';
 
 
 @NgModule({
-  declarations: [AccountComponent, AccountTableComponent, AccountCreateDialogComponent],
+  declarations: [AccountComponent, AccountTableComponent, AccountCreateDialogComponent, AccountUpdateDialogComponent],
   imports: [
     CommonModule,
     AccountRoutingModule,
@@ -21,7 +22,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatInputModule
   ],
   entryComponents: [
-    AccountCreateDialogComponent
+    AccountCreateDialogComponent,
+    AccountUpdateDialogComponent
   ]
 })
 export class AccountModule { }
