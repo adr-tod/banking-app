@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "d2d9f301-90af-4005-a8f0-7c47762b1f45",
+		"_postman_id": "aec0e080-a884-4a2a-af5a-43f533b90c18",
 		"name": "montran-banking-app",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -455,6 +455,16 @@
 				{
 					"name": "findAll",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtYXJjb3MuYm9nYW4iLCJleHAiOjE1NjQzNjAxNDMsImlhdCI6MTU2NDM0MjE0M30.OoF95iAi0wjH8MyeLR2jhV_lS6NJJVG_3wuwLeBv0bkJKHg6z76UHFiXotMW0fwZS4s-Rj7EA-Nd5KnQb8jVAA",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"body": {
@@ -478,6 +488,16 @@
 				{
 					"name": "create",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtYXJjb3MuYm9nYW4iLCJleHAiOjE1NjQzNjAxNDMsImlhdCI6MTU2NDM0MjE0M30.OoF95iAi0wjH8MyeLR2jhV_lS6NJJVG_3wuwLeBv0bkJKHg6z76UHFiXotMW0fwZS4s-Rj7EA-Nd5KnQb8jVAA",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [
 							{
@@ -489,7 +509,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"debitAccountIban\": \"GB17BARC20040164822651\",\n\t\"creditAccountIban\": \"GB45BARC20037867547188\",\n\t\"amount\": \"25\",\n\t\"currency\": \"EUR\"\n}"
+							"raw": "{\n\t\"debitIban\": \"GB17BARC20040164822651\",\n\t\"creditIban\": \"GB45BARC20037867547188\",\n\t\"amount\": \"25\",\n\t\"currency\": \"EUR\"\n}"
 						},
 						"url": {
 							"raw": "http://localhost:8080/payment/create",
@@ -501,6 +521,90 @@
 							"path": [
 								"payment",
 								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "verify",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtYXJjb3MuYm9nYW4iLCJleHAiOjE1NjQzNjAxNDMsImlhdCI6MTU2NDM0MjE0M30.OoF95iAi0wjH8MyeLR2jhV_lS6NJJVG_3wuwLeBv0bkJKHg6z76UHFiXotMW0fwZS4s-Rj7EA-Nd5KnQb8jVAA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"amount\": 25\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/payment/verify/9",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"payment",
+								"verify",
+								"9"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "approve",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtYXJjb3MuYm9nYW4iLCJleHAiOjE1NjQzNjAxNDMsImlhdCI6MTU2NDM0MjE0M30.OoF95iAi0wjH8MyeLR2jhV_lS6NJJVG_3wuwLeBv0bkJKHg6z76UHFiXotMW0fwZS4s-Rj7EA-Nd5KnQb8jVAA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8080/payment/approve/9",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"payment",
+								"approve",
+								"9"
 							]
 						}
 					},
