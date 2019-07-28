@@ -7,14 +7,14 @@ import com.montran.banking.payment.domain.entity.Payment;
 public interface PaymentService {
 
 	public Iterable<Payment> findAll();
-	
-	public void create(PaymentCreateDTO paymentCreateDTO);
-	
-	public void verify(Long id, PaymentVerifyDTO paymentVerifyDTO);
 
-	public void approve(Long id);
-	
-	public void authorize(Long id);
-	
-	public void cancel(Long id);
+	public void create(PaymentCreateDTO paymentCreateDTO);
+
+	public Boolean verify(Long id, PaymentVerifyDTO paymentVerifyDTO);
+
+	public Boolean approve(Long id);
+
+	public Boolean authorize(Long id);
+
+	public Boolean cancel(Long id);
 }

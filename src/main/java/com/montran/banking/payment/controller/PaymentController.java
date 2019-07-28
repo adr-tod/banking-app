@@ -33,22 +33,22 @@ public class PaymentController {
 	}
 
 	@PostMapping("verify/{id}")
-	public void verify(@PathVariable Long id, @RequestBody PaymentVerifyDTO paymentVerifyDTO) {
-		paymentService.verify(id, paymentVerifyDTO);
+	public Boolean verify(@PathVariable Long id, @RequestBody PaymentVerifyDTO paymentVerifyDTO) {
+		return paymentService.verify(id, paymentVerifyDTO);
 	}
 
 	@PostMapping("approve/{id}")
-	public void approve(@PathVariable Long id) {
-		paymentService.approve(id);
+	public Boolean approve(@PathVariable Long id) {
+		return paymentService.approve(id);
 	}
 
 	@PostMapping("authorize/{id}")
-	public void authorize(@PathVariable Long id) {
-		paymentService.authorize(id);
+	public Boolean authorize(@PathVariable Long id) {
+		return paymentService.authorize(id);
 	}
 
 	@PostMapping("cancel/{id}")
-	public void cancel(@PathVariable Long id) {
-		paymentService.cancel(id);
+	public Boolean cancel(@PathVariable Long id) {
+		return paymentService.cancel(id);
 	}
 }

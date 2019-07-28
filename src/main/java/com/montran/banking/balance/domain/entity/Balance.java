@@ -20,7 +20,7 @@ public class Balance extends BaseEntity {
 	public Balance() {
 		super();
 	}
-	
+
 	public Balance(Double available) {
 		super();
 		this.available = available;
@@ -40,5 +40,13 @@ public class Balance extends BaseEntity {
 
 	public void setAvailable(Double available) {
 		this.available = available;
+	}
+
+	public void addToAvailable(Double amount) {
+		available += amount;
+	}
+
+	public void substractFromAvailable(Double amount) {
+		available -= amount;
 	}
 }
