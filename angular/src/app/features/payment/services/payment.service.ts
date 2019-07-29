@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Payment, PaymentCreate } from '../models/payment.model';
+import { Payment, PaymentCreate, PaymentVerify } from '../models/payment.model';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 
@@ -22,8 +22,9 @@ export class PaymentService {
     return this.httpClient.post(`${environment.apiUrl}/${this.paymentEndpoint}/create`, payment);
   }
 
-  verify(id: number): Observable<any> {
-    return this.httpClient.post(`${environment.apiUrl}/${this.paymentEndpoint}/verify/${id}`, null);
+  verify(id: number, confirmAmount: PaymentVerify): Observable<any> {
+    console.log(confirmAmount);
+    return this.httpClient.post(`${environment.apiUrl}/${this.paymentEndpoint}/verify/${id}`, confirmAmount);
   }
 
   approve(id: number): Observable<any> {

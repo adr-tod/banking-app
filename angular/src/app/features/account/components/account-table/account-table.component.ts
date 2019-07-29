@@ -23,20 +23,18 @@ export class AccountTableComponent implements OnInit {
   dataSource: Account[];
 
   constructor(private authenticationService: AuthenticationService, private accountService: AccountService,
-    private paymentService: PaymentService, private dialog: MatDialog) {
+              private paymentService: PaymentService, private dialog: MatDialog) {
     this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
   }
 
   ngOnInit(): void {
     if (this.currentUser.profile === Role.ADMIN) {
       this.accountService.findAll().subscribe(data => {
-        console.log(data);
         this.dataSource = data;
       });
       this.displayedColumns = ['name', 'iban', 'user', 'currency', 'balance', 'status', 'actions'];
     } else {
       this.accountService.findAllByUserId(this.currentUser.id).subscribe(data => {
-        console.log(data);
         this.dataSource = data;
       });
       this.displayedColumns = ['name', 'iban', 'currency', 'balance', 'status', 'actions'];
@@ -69,7 +67,8 @@ export class AccountTableComponent implements OnInit {
       console.log(paymentToCreate);
       if (paymentToCreate) {
         console.log(paymentToCreate);
-        this.paymentService.create(new PaymentCreate(paymentToCreate.debitIban, paymentToCreate.creditIban, paymentToCreate.amount, paymentToCreate.currency))
+        this.paymentService.create(new PaymentCreate(paymentToCreate.debitIban, paymentToCreate.creditIban,
+          paymentToCreate.amount, paymentToCreate.currency))
           .subscribe(() => { this.ngOnInit(); });
       }
     });

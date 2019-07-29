@@ -6,8 +6,14 @@ export class Payment {
   dateTime: string;
   amount: number;
   currency: string;
-  status: string;
+  status: PaymentStatus;
 }
+
+
+export class PaymentStatus {
+  name: string;
+}
+
 
 export class PaymentCreate {
   debitIban: string;
@@ -20,5 +26,14 @@ export class PaymentCreate {
     this.creditIban = creditIban;
     this.amount = amount;
     this.currency = currency;
+  }
+}
+
+
+export class PaymentVerify {
+  amount: number;
+
+  constructor(amount: number) {
+    this.amount = amount;
   }
 }

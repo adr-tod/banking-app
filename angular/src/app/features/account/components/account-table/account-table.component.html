@@ -1,5 +1,3 @@
-<button (click)="createAccountButtonClicked()" mat-button *ngIf="isAdmin">Create an account</button>
-
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
   <!--- Note that these columns can be defined in any order.
@@ -55,7 +53,10 @@
 
   <!-- Actions Column -->
   <ng-container matColumnDef="actions">
-    <th mat-header-cell *matHeaderCellDef> Actions</th>
+    <th mat-header-cell *matHeaderCellDef> Actions <button (click)="createAccountButtonClicked()" mat-button
+        *ngIf="isAdmin">
+        <mat-icon>add</mat-icon>
+      </button></th>
     <td mat-cell *matCellDef="let account">
       <button (click)="makePaymentButtonClicked(account.iban)" mat-button *ngIf="isCustomer">Make a payment</button>
       <button (click)="updateAccountButtonClicked(account)" mat-button *ngIf="isAdmin">Update</button>

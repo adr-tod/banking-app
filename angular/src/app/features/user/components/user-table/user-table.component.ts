@@ -12,7 +12,7 @@ import { UserModifyDialogComponent } from '../user-modify-dialog/user-modify-dia
 })
 export class UserTableComponent implements OnInit {
 
-  displayedColumns: string[] = ['id', 'username', 'fullname', 'email', 'address', 'actions'];
+  displayedColumns: string[] = ['username', 'fullname', 'email', 'address', 'actions'];
   dataSource: User[];
 
   constructor(private userService: UserService, private modifyDialog: MatDialog, private addDialog: MatDialog) {

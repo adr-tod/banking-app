@@ -1,12 +1,19 @@
+import { User } from '../../user/models/user.model';
+
 export class Account {
   id: number;
   iban: string;
   name: string;
   address: string;
-  currency: string;
+  currency: Currency;
   status: string;
-  user: string;
+  user: User;
   balance: number;
+}
+
+
+export class Currency {
+  name: string;
 }
 
 
