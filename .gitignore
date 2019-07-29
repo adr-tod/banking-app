@@ -167,3 +167,5 @@ yarn-error.log
 # User specific bazel settings
 .bazelrc.user
 
+
+\.attach_pid20890
