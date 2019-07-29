@@ -3,10 +3,12 @@ package com.montran.banking.user.business;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.montran.banking.account.domain.entity.Account;
+import com.montran.banking.audit.user.UserAudit;
+import com.montran.banking.audit.user.UserAuditRepository;
 import com.montran.banking.profile.persistence.ProfileRepository;
 import com.montran.banking.user.domain.dto.UserSaveDTO;
 import com.montran.banking.user.domain.dto.UserUpdateDTO;
@@ -20,6 +22,9 @@ public class UserServiceImpl implements UserService {
 	private UserRepository userRepository;
 
 	@Autowired
+	private UserAuditRepository userAuditRepository;
+
+	@Autowired
 	private ProfileRepository profileRepository;
 
 	@Autowired
@@ -27,13 +32,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public Iterable<User> findAll() {
-//		System.out.println("TOT SCHIMB");
-		Iterable<User> all = userRepository.findAll();
-//		for (User user : all) {
-//			user.setPassword(passwordEncoder.encode(user.getPassword()));
-//			userRepository.save(user);
-//		}
-		return all;
+		return userRepository.findAll();
 	}
 
 	@Override
@@ -46,21 +45,29 @@ public class UserServiceImpl implements UserService {
 		user.setPassword(passwordEncoder.encode(userSaveDTO.getPassword()));
 		user.setProfile(profileRepository.findByName("customer"));
 		user.setAccounts(new ArrayList<>());
-		userRepository.save(user);
+		user = userRepository.save(user);
+		userAuditRepository
+				.save(new UserAudit("create", SecurityContextHolder.getContext().getAuthentication().getName(),
+						"created the user with id = " + user.getId()));
 	}
 
 	@Override
 	public void update(UserUpdateDTO userUpdateDTO) {
-		User userToUpdate = userRepository.findById(userUpdateDTO.getId()).get();
-		userToUpdate.setFullname(userUpdateDTO.getFullname());
-		userToUpdate.setAddress(userUpdateDTO.getAddress());
-		userToUpdate.setEmail(userUpdateDTO.getEmail());
-		userRepository.save(userToUpdate);
+		User user = userRepository.findById(userUpdateDTO.getId()).get();
+		user.setFullname(userUpdateDTO.getFullname());
+		user.setAddress(userUpdateDTO.getAddress());
+		user.setEmail(userUpdateDTO.getEmail());
+		user = userRepository.save(user);
+		userAuditRepository
+				.save(new UserAudit("update", SecurityContextHolder.getContext().getAuthentication().getName(),
+						"updated the user with id = " + user.getId()));
 	}
 
 	@Override
 	public void deleteById(Long id) {
 		userRepository.deleteById(id);
+		userAuditRepository.save(new UserAudit("delete",
+				SecurityContextHolder.getContext().getAuthentication().getName(), "deleted the user with id = " + id));
 	}
 
 	@Override

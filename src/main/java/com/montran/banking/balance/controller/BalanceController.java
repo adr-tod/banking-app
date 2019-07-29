@@ -19,7 +19,6 @@ public class BalanceController {
 
 	@GetMapping
 	public Iterable<Balance> findAll() {
-		System.out.println("balance controller: find all");
 		return balanceService.findAll();
 	}
 }

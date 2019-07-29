@@ -24,10 +24,9 @@ public class UserController {
 
 	@GetMapping
 	public Iterable<User> findAll() {
-		System.out.println("user controller: find all");
 		return userService.findAll();
 	}
-	
+
 	@GetMapping("find/{id}")
 	public User findById(@PathVariable Long id) {
 		return userService.findById(id);
@@ -35,19 +34,16 @@ public class UserController {
 
 	@PostMapping("add")
 	public void add(@RequestBody UserSaveDTO userSaveDTO) {
-		System.out.println("user controller: saveeeee");
 		userService.save(userSaveDTO);
 	}
 
 	@PostMapping("update")
 	public void update(@RequestBody UserUpdateDTO userUpdateDTO) {
-		System.out.println("user controller: updateeee");
 		userService.update(userUpdateDTO);
 	}
 
 	@PostMapping("delete/{id}")
 	public void remove(@PathVariable Long id) {
-		System.out.println("user controller: deleteeee");
 		userService.deleteById(id);
 	}
 }

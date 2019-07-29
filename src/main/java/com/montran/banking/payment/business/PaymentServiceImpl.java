@@ -5,10 +5,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.montran.banking.account.domain.entity.Account;
 import com.montran.banking.account.persistence.AccountRepository;
+import com.montran.banking.audit.payment.PaymentAudit;
+import com.montran.banking.audit.payment.PaymentAuditRepository;
 import com.montran.banking.currency.persistence.CurrencyRepository;
 import com.montran.banking.payment.domain.dto.PaymentCreateDTO;
 import com.montran.banking.payment.domain.dto.PaymentVerifyDTO;
@@ -30,6 +33,9 @@ public class PaymentServiceImpl implements PaymentService {
 
 	@Autowired
 	private CurrencyRepository currencyRepostory;
+
+	@Autowired
+	private PaymentAuditRepository paymentAuditRepository;
 
 	private final Map<String, Double> exchangeRate = new HashMap<String, Double>() {
 		{
@@ -80,7 +86,11 @@ public class PaymentServiceImpl implements PaymentService {
 		payment.setCurrency(currencyRepostory.findByName(paymentCreateDTO.getCurrency()));
 		payment.setStatus(paymentStatusRepository.findByName("VERIFY"));
 		payment.setDateTime(LocalDateTime.now());
-		paymentRepository.save(payment);
+		payment = paymentRepository.save(payment);
+		// audit
+		paymentAuditRepository
+				.save(new PaymentAudit("create", SecurityContextHolder.getContext().getAuthentication().getName(),
+						"created the payment with id = " + payment.getId()));
 	}
 
 	@Override
@@ -88,15 +98,26 @@ public class PaymentServiceImpl implements PaymentService {
 		Payment payment = paymentRepository.findById(id).get();
 		// make sure payment status is VERIFY
 		if (!payment.getStatus().getName().equalsIgnoreCase("VERIFY")) {
+			// audit
+			paymentAuditRepository
+					.save(new PaymentAudit("verify", SecurityContextHolder.getContext().getAuthentication().getName(),
+							String.format("verify failed because the payment (id = %d) status was not 'VERIFY'", id)));
 			return false;
 		}
 		if (!payment.getAmount().equals(paymentVerifyDTO.getAmount())) {
 			// audit
+			paymentAuditRepository.save(new PaymentAudit("verify",
+					SecurityContextHolder.getContext().getAuthentication().getName(), String.format(
+							"verify failed because the payment (id = %d) amount and confirm amount didn't match", id)));
 			return false;
 		}
 		// payment amount and verify amount do match
 		payment.setStatus(paymentStatusRepository.findByName("APPROVE"));
 		paymentRepository.save(payment);
+		// audit
+		paymentAuditRepository
+				.save(new PaymentAudit("verify", SecurityContextHolder.getContext().getAuthentication().getName(),
+						String.format("verified the payment with id = %d", id)));
 		return true;
 	}
 
@@ -123,23 +144,41 @@ public class PaymentServiceImpl implements PaymentService {
 		Payment payment = paymentRepository.findById(id).get();
 		// make sure payment status is APPROVE
 		if (!payment.getStatus().getName().equalsIgnoreCase("APPROVE")) {
+			// audit
+			paymentAuditRepository.save(new PaymentAudit("approve",
+					SecurityContextHolder.getContext().getAuthentication().getName(),
+					String.format("approve failed because the payment (id = %d) status was not 'APPROVE'", id)));
 			return false;
 		}
 		// check account status
 		if (!checkAccountCanDebit(payment.getDebitAccount())) {
 			payment.setStatus(paymentStatusRepository.findByName("AUTHORIZE"));
 			paymentRepository.save(payment);
+			// audit
+			paymentAuditRepository
+					.save(new PaymentAudit("approve", SecurityContextHolder.getContext().getAuthentication().getName(),
+							String.format("approve failed because the payment (id = %d) debit account status was '%s'",
+									id, payment.getDebitAccount().getStatus().getName())));
 			return false;
 		}
 		if (!checkAccountCanCredit(payment.getCreditAccount())) {
 			payment.setStatus(paymentStatusRepository.findByName("AUTHORIZE"));
 			paymentRepository.save(payment);
+			// audit
+			paymentAuditRepository
+					.save(new PaymentAudit("approve", SecurityContextHolder.getContext().getAuthentication().getName(),
+							String.format("approve failed because the payment (id = %d) debit account status was '%s'",
+									id, payment.getCreditAccount().getStatus().getName())));
 			return false;
 		}
 		// check account balance
 		if (!checkAccountSufficientFunds(payment.getDebitAccount(), payment)) {
 			payment.setStatus(paymentStatusRepository.findByName("AUTHORIZE"));
 			paymentRepository.save(payment);
+			// audit
+			paymentAuditRepository
+					.save(new PaymentAudit("approve", SecurityContextHolder.getContext().getAuthentication().getName(),
+							String.format("approve failed because the payment (id = %d) funds were insufficient", id)));
 			return false;
 		}
 		// update balances
@@ -154,6 +193,10 @@ public class PaymentServiceImpl implements PaymentService {
 
 		payment.setStatus(paymentStatusRepository.findByName("COMPLETED"));
 		paymentRepository.save(payment);
+		// audit
+		paymentAuditRepository
+				.save(new PaymentAudit("approve", SecurityContextHolder.getContext().getAuthentication().getName(),
+						String.format("approved the payment with id = %d", id)));
 		return true;
 	}
 
@@ -162,22 +205,41 @@ public class PaymentServiceImpl implements PaymentService {
 		Payment payment = paymentRepository.findById(id).get();
 		// make sure payment status is AUTHORIZE
 		if (!payment.getStatus().getName().equalsIgnoreCase("AUTHORIZE")) {
+			// audit
+			paymentAuditRepository.save(new PaymentAudit("authorize",
+					SecurityContextHolder.getContext().getAuthentication().getName(),
+					String.format("authorize failed because the payment (id = %d) status was not 'AUTHORIZE'", id)));
 			return false;
 		}
 		payment.setStatus(paymentStatusRepository.findByName("COMPLETED"));
 		paymentRepository.save(payment);
+		// audit
+		paymentAuditRepository
+				.save(new PaymentAudit("authorize", SecurityContextHolder.getContext().getAuthentication().getName(),
+						String.format("authorized the payment with id = %d", id)));
 		return true;
 	}
 
 	@Override
 	public Boolean cancel(Long id) {
 		Payment payment = paymentRepository.findById(id).get();
-		// make sure payment status is not COMPLETED
-		if (payment.getStatus().getName().equalsIgnoreCase("COMPLETED")) {
+		// make sure payment status is not COMPLETED / CANCELLED
+		if (payment.getStatus().getName().equalsIgnoreCase("COMPLETED")
+				|| payment.getStatus().getName().equalsIgnoreCase("CANCELLED")) {
+			// audit
+			paymentAuditRepository.save(new PaymentAudit("cancel",
+					SecurityContextHolder.getContext().getAuthentication().getName(),
+					String.format(
+							"cancel failed because the payment (id = %d) status was either 'COMPLETED' or 'CANCELLED'",
+							id)));
 			return false;
 		}
 		payment.setStatus(paymentStatusRepository.findByName("CANCELLED"));
 		paymentRepository.save(payment);
+		// audit
+		paymentAuditRepository
+				.save(new PaymentAudit("cancel", SecurityContextHolder.getContext().getAuthentication().getName(),
+						String.format("cancelled the payment with id = %d", id)));
 		return true;
 	}
 }

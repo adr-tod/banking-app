@@ -4,10 +4,6 @@ public class PaymentVerifyDTO {
 
 	private Double amount;
 
-	public PaymentVerifyDTO() {
-		super();
-	}
-
 	public Double getAmount() {
 		return amount;
 	}
