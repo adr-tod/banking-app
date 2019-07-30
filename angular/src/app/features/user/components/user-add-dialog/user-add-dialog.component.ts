@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
+import { FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
-import { UserModifyDialogComponent } from '../user-modify-dialog/user-modify-dialog.component';
 
 @Component({
   selector: 'app-user-add-dialog',
@@ -12,26 +11,17 @@ export class UserAddDialogComponent implements OnInit {
 
   form: FormGroup;
 
-  constructor(private dialogRef: MatDialogRef<UserAddDialogComponent>) {
+  constructor(private fb: FormBuilder, private dialogRef: MatDialogRef<UserAddDialogComponent>) {
   }
 
   ngOnInit() {
-    this.form = new FormGroup({
-      fullname: new FormControl(),
-      address: new FormControl(),
-      email: new FormControl(),
-      username: new FormControl(),
-      password: new FormControl()
+    this.form = this.fb.group({
+      fullname: ['', Validators.required],
+      address: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      username: ['', Validators.required],
+      password: ['', Validators.required]
     });
-    // this.form = this.fb.group({
-    //   id: [{ value: this.user.id, disabled: true }],
-    //   username: [{ value: this.user.username, disabled: true }],
-    //   password: [{ value: this.user.password, disabled: true }],
-    //   fullname: [this.user.fullname],
-    //   address: [this.user.address],
-    //   email: [this.user.email],
-    //   profile: [{ value: this.user.profile, disabled: true }],
-    // });
   }
 
   add() {

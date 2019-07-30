@@ -11,6 +11,10 @@ import com.montran.banking.base.BaseAudit;
 @Table(name = "accounts_audit")
 public class AccountAudit extends BaseAudit {
 
+	public AccountAudit() {
+		super();
+	}
+
 	public AccountAudit(String operation, String userBy, String message) {
 		this.timestamp = LocalDateTime.now();
 		this.operation = operation;

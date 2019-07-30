@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { User } from '../../models/user.model';
+import { User, UserProfile } from '../../models/user.model';
 
 @Component({
   selector: 'app-user-modify-dialog',
@@ -23,13 +23,12 @@ export class UserModifyDialogComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.fb.group({
-      id: [{ value: this.user.id, disabled: true }],
+      id: [this.user.id],
       username: [{ value: this.user.username, disabled: true }],
-      password: [{ value: this.user.password, disabled: true }],
-      fullname: [this.user.fullname],
-      address: [this.user.address],
-      email: [this.user.email],
-      profile: [{ value: this.user.profile, disabled: true }],
+      fullname: [this.user.fullname, Validators.required],
+      address: [this.user.address, Validators.required],
+      email: [this.user.email, [Validators.required, Validators.email]],
+      profile: [{ value: (this.user.profile as unknown as UserProfile).name, disabled: true }],
     });
   }
 

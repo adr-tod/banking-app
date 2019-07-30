@@ -2,21 +2,15 @@
 
 <mat-dialog-content [formGroup]="form">
 
-  <div>
+  <!-- <div>
     <mat-form-field>
       <input matInput placeholder="New ID" formControlName="id">
     </mat-form-field>
-  </div>
+  </div> -->
 
   <div>
     <mat-form-field>
-      <input matInput placeholder="New username" formControlName="username">
-    </mat-form-field>
-  </div>
-
-  <div>
-    <mat-form-field>
-      <input matInput placeholder="New password" formControlName="password">
+      <input matInput placeholder="Username" formControlName="username">
     </mat-form-field>
   </div>
 
@@ -40,7 +34,7 @@
 
   <div>
     <mat-form-field>
-      <input matInput placeholder="New profile" formControlName="profile">
+      <input matInput placeholder="Profile" formControlName="profile">
     </mat-form-field>
   </div>
 
@@ -48,5 +42,6 @@
 
 <mat-dialog-actions>
   <button class="mat-raised-button" (click)="close()">Close</button>
-  <button class="mat-raised-button mat-primary" (click)="modify()">Modify</button>
+  <button class="mat-raised-button mat-primary" (click)="modify()"
+    [disabled]="this.form.status === 'INVALID'">Modify</button>
 </mat-dialog-actions>

@@ -9,6 +9,12 @@ export class User {
   token?: string;
 }
 
+
+export class UserProfile {
+  name: string;
+}
+
+
 export class UserUpdate {
   id: number;
   fullname: string;
@@ -22,6 +28,7 @@ export class UserUpdate {
     this.email = email;
   }
 }
+
 
 export class UserAdd {
   fullname: string;
