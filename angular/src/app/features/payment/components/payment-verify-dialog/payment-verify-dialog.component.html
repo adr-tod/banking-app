@@ -18,5 +18,6 @@
 
 <mat-dialog-actions>
   <button class="mat-raised-button" (click)="close()">Close</button>
-  <button class="mat-raised-button mat-primary" (click)="verify()">Verify</button>
+  <button class="mat-raised-button mat-primary" (click)="verify()"
+    [disabled]="this.form.status === 'INVALID'">Verify</button>
 </mat-dialog-actions>

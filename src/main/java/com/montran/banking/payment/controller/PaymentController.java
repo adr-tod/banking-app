@@ -28,27 +28,27 @@ public class PaymentController {
 	}
 
 	@PostMapping("create")
-	public void create(@RequestBody PaymentCreateDTO paymentCreateDTO) {
-		paymentService.create(paymentCreateDTO);
+	public Payment create(@RequestBody PaymentCreateDTO paymentCreateDTO) {
+		return paymentService.create(paymentCreateDTO);
 	}
 
 	@PostMapping("verify/{id}")
-	public Boolean verify(@PathVariable Long id, @RequestBody PaymentVerifyDTO paymentVerifyDTO) {
-		return paymentService.verify(id, paymentVerifyDTO);
+	public void verify(@PathVariable Long id, @RequestBody PaymentVerifyDTO paymentVerifyDTO) {
+		paymentService.verify(id, paymentVerifyDTO);
 	}
 
 	@PostMapping("approve/{id}")
-	public Boolean approve(@PathVariable Long id) {
-		return paymentService.approve(id);
+	public void approve(@PathVariable Long id) {
+		paymentService.approve(id);
 	}
 
 	@PostMapping("authorize/{id}")
-	public Boolean authorize(@PathVariable Long id) {
-		return paymentService.authorize(id);
+	public void authorize(@PathVariable Long id) {
+		paymentService.authorize(id);
 	}
 
 	@PostMapping("cancel/{id}")
-	public Boolean cancel(@PathVariable Long id) {
-		return paymentService.cancel(id);
+	public void cancel(@PathVariable Long id) {
+		paymentService.cancel(id);
 	}
 }

@@ -1,5 +1,5 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { Component, Inject, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({
@@ -11,13 +11,14 @@ export class PaymentVerifyDialogComponent implements OnInit {
 
   form: FormGroup;
 
-  constructor(private dialogRef: MatDialogRef<PaymentVerifyDialogComponent>, @Inject(MAT_DIALOG_DATA) private paymentAmount: any) {
+  constructor(private fb: FormBuilder, private dialogRef: MatDialogRef<PaymentVerifyDialogComponent>,
+              @Inject(MAT_DIALOG_DATA) private paymentAmount: any) {
   }
 
   ngOnInit() {
-    this.form = new FormGroup({
-      amount: new FormControl({ value: this.paymentAmount, disabled: true }),
-      confirmAmount: new FormControl()
+    this.form = this.fb.group({
+      amount: [{ value: this.paymentAmount, disabled: true }],
+      confirmAmount: ['', [Validators.required, Validators.pattern('^[-+]?[0-9]*\.?[0-9]+$')]]
     });
   }
 

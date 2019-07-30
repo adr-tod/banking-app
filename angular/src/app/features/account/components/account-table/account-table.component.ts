@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material';
+import { MatDialog, MatDialogConfig, MatSnackBar } from '@angular/material';
 import { AuthenticationService } from 'src/app/features/login/services/authentication.service';
 import { PaymentCreateDialogComponent } from 'src/app/features/payment/components/payment-create-dialog/payment-create-dialog.component';
 import { PaymentCreate } from 'src/app/features/payment/models/payment.model';
@@ -23,7 +23,7 @@ export class AccountTableComponent implements OnInit {
   dataSource: Account[];
 
   constructor(private authenticationService: AuthenticationService, private accountService: AccountService,
-              private paymentService: PaymentService, private dialog: MatDialog) {
+    private paymentService: PaymentService, private dialog: MatDialog, private snackbar: MatSnackBar) {
     this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
   }
 
@@ -50,7 +50,6 @@ export class AccountTableComponent implements OnInit {
   }
 
   makePaymentButtonClicked(debitIban: number) {
-    console.log('Make payment button clicked!');
     this.openPaymentCreateDialog(debitIban);
   }
 
@@ -64,12 +63,12 @@ export class AccountTableComponent implements OnInit {
     const dialogRef = this.dialog.open(PaymentCreateDialogComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(paymentToCreate => {
-      console.log(paymentToCreate);
       if (paymentToCreate) {
-        console.log(paymentToCreate);
         this.paymentService.create(new PaymentCreate(paymentToCreate.debitIban, paymentToCreate.creditIban,
           paymentToCreate.amount, paymentToCreate.currency))
-          .subscribe(() => { this.ngOnInit(); });
+          .subscribe(
+            () => { this.ngOnInit(); },
+            error => { this.snackbar.open('Error: ' + error, null, { duration: 5000 }); });
       }
     });
   }
@@ -87,12 +86,12 @@ export class AccountTableComponent implements OnInit {
     const dialogRef = this.dialog.open(AccountCreateDialogComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(accountToCreate => {
-      console.log(accountToCreate);
       if (accountToCreate) {
-        console.log(accountToCreate);
         this.accountService.create(new AccountCreate(accountToCreate.name, accountToCreate.iban,
           accountToCreate.currency, accountToCreate.address, accountToCreate.userId))
-          .subscribe(() => { this.ngOnInit(); });
+          .subscribe(
+            () => { this.ngOnInit(); },
+            error => { this.snackbar.open('Error: ' + error, null, { duration: 5000 }); });
       }
     });
   }
@@ -114,7 +113,9 @@ export class AccountTableComponent implements OnInit {
       if (accountToUpdate) {
         this.accountService.update(new AccountUpdate(accountToUpdate.id, accountToUpdate.name,
           accountToUpdate.address, accountToUpdate.balance, accountToUpdate.status))
-          .subscribe(() => { this.ngOnInit(); });
+          .subscribe(
+            () => { this.ngOnInit(); },
+            error => { this.snackbar.open('Error: ' + error, null, { duration: 5000 }); });
       }
     });
   }

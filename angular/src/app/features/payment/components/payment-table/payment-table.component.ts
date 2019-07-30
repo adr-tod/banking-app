@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Payment, PaymentCreate, PaymentVerify } from '../../models/payment.model';
 import { PaymentService } from '../../services/payment.service';
-import { MatDialog, MatDialogConfig } from '@angular/material';
+import { MatDialog, MatDialogConfig, MatSnackBar } from '@angular/material';
 import { PaymentCreateDialogComponent } from '../payment-create-dialog/payment-create-dialog.component';
 import { PaymentVerifyDialogComponent } from '../payment-verify-dialog/payment-verify-dialog.component';
 
@@ -15,7 +15,7 @@ export class PaymentTableComponent implements OnInit {
   displayedColumns: string[] = ['debitAccount', 'creditAccount', 'dateTime', 'amount', 'currency', 'status', 'actions'];
   dataSource: Payment[];
 
-  constructor(private paymentService: PaymentService, private dialog: MatDialog) {
+  constructor(private paymentService: PaymentService, private dialog: MatDialog, private snackbar: MatSnackBar) {
   }
 
   ngOnInit(): void {
@@ -44,7 +44,9 @@ export class PaymentTableComponent implements OnInit {
       if (paymentToCreate) {
         this.paymentService.create(new PaymentCreate(paymentToCreate.debitIban, paymentToCreate.creditIban,
           paymentToCreate.amount, paymentToCreate.currency))
-          .subscribe(() => { this.ngOnInit(); });
+          .subscribe(
+            () => { this.ngOnInit(); },
+            error => { this.snackbar.open('Error: ' + error, null, { duration: 5000 }); });
       }
     });
   }
@@ -61,24 +63,32 @@ export class PaymentTableComponent implements OnInit {
     dialogRef.afterClosed().subscribe(paymentToVerify => {
       if (paymentToVerify) {
         this.paymentService.verify(payment.id, new PaymentVerify(paymentToVerify.confirmAmount))
-          .subscribe(result => { console.log(result); this.ngOnInit(); });
+          .subscribe(
+            () => { this.ngOnInit(); },
+            error => { this.snackbar.open('Error: ' + error, null, { duration: 5000 }); });
       }
     });
   }
 
   paymentApproveButtonClicked(id: number) {
     this.paymentService.approve(id)
-      .subscribe(() => { this.ngOnInit(); });
+      .subscribe(
+        () => { this.ngOnInit(); },
+        error => { this.snackbar.open('Error: ' + error, null, { duration: 7500 }); this.ngOnInit(); });
   }
 
   paymentAuthorizeButtonClicked(id: number) {
     this.paymentService.authorize(id)
-      .subscribe(() => { this.ngOnInit(); });
+      .subscribe(
+        () => { this.ngOnInit(); },
+        error => { this.snackbar.open('Error: ' + error, null, { duration: 5000 }); });
   }
 
   paymentCancelButtonClicked(id: number) {
     this.paymentService.cancel(id)
-      .subscribe(() => { this.ngOnInit(); });
+      .subscribe(
+        () => { this.ngOnInit(); },
+        error => { this.snackbar.open('Error: ' + error, null, { duration: 5000 }); });
   }
 
 }

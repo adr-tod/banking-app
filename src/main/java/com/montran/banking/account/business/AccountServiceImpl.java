@@ -52,11 +52,14 @@ public class AccountServiceImpl implements AccountService {
 		Account account = new Account();
 		account.setName(accountCreateDTO.getName());
 		account.setIban(accountCreateDTO.getIban());
-		account.setCurrency(currencyRepository.findByName(accountCreateDTO.getCurrency()));
+		account.setCurrency(
+				currencyRepository.findByName(accountCreateDTO.getCurrency()).orElseThrow(() -> new RuntimeException(
+						String.format("No currency with name = '%s'", accountCreateDTO.getCurrency()))));
 		account.setAddress(accountCreateDTO.getAddress());
-		account.setUser(userRepository.findById(accountCreateDTO.getUserId()).get());
+		account.setUser(userRepository.findById(accountCreateDTO.getUserId()).orElseThrow(
+				() -> new RuntimeException(String.format("No user with id = '%d'", accountCreateDTO.getUserId()))));
 		account.setBalance(balanceRepository.save(new Balance(0.0)));
-		account.setStatus(accountStatusRepository.findByName("ACTIVE"));
+		account.setStatus(accountStatusRepository.findByName("ACTIVE").get());
 		account = accountRepository.save(account);
 		accountAuditRepository
 				.save(new AccountAudit("create", SecurityContextHolder.getContext().getAuthentication().getName(),
@@ -70,7 +73,9 @@ public class AccountServiceImpl implements AccountService {
 		account.setName(accountUpdateDTO.getName());
 		account.setAddress(accountUpdateDTO.getAddress());
 		account.getBalance().setAvailable(accountUpdateDTO.getBalance());
-		account.setStatus(accountStatusRepository.findByName(accountUpdateDTO.getStatus()));
+		account.setStatus(
+				accountStatusRepository.findByName(accountUpdateDTO.getStatus()).orElseThrow(() -> new RuntimeException(
+						String.format("No account status with name = '%s'", accountUpdateDTO.getStatus()))));
 		account = accountRepository.save(account);
 		accountAuditRepository
 				.save(new AccountAudit("update", SecurityContextHolder.getContext().getAuthentication().getName(),
