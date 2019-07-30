@@ -1,5 +1,5 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { Component, Inject, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({
@@ -11,15 +11,16 @@ export class PaymentCreateDialogComponent implements OnInit {
 
   form: FormGroup;
 
-  constructor(private dialogRef: MatDialogRef<PaymentCreateDialogComponent>, @Inject(MAT_DIALOG_DATA) public debitIban: any) {
+  constructor(private fb: FormBuilder, private dialogRef: MatDialogRef<PaymentCreateDialogComponent>,
+              @Inject(MAT_DIALOG_DATA) public debitIban: any) {
   }
 
   ngOnInit() {
-    this.form = new FormGroup({
-      debitIban: new FormControl(),
-      creditIban: new FormControl(),
-      amount: new FormControl(),
-      currency: new FormControl()
+    this.form = this.fb.group({
+      debitIban: ['', Validators.required],
+      creditIban: ['', Validators.required],
+      amount: ['', [Validators.required, Validators.pattern('^[-+]?[0-9]*\.?[0-9]+$')]],
+      currency: ['', Validators.required]
     });
 
     if (this.debitIban) {
