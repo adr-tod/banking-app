@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Account } from '../../models/account.model';
 
@@ -13,21 +13,20 @@ export class AccountUpdateDialogComponent implements OnInit {
   form: FormGroup;
   account: Account;
 
-  constructor(private dialogRef: MatDialogRef<AccountUpdateDialogComponent>, @Inject(MAT_DIALOG_DATA) account) {
-    console.log(account);
+  constructor(private fb: FormBuilder, private dialogRef: MatDialogRef<AccountUpdateDialogComponent>, @Inject(MAT_DIALOG_DATA) account) {
     this.account = account;
   }
 
   ngOnInit() {
-    this.form = new FormGroup({
-      id: new FormControl({ value: this.account.id, disabled: true }),
-      name: new FormControl(),
-      iban: new FormControl({ value: this.account.iban, disabled: true }),
-      user: new FormControl({ value: this.account.user.username, disabled: true }),
-      currency: new FormControl({ value: this.account.currency.name, disabled: true }),
-      address: new FormControl(),
-      balance: new FormControl(),
-      status: new FormControl()
+    this.form = this.fb.group({
+      id: [this.account.id],
+      name: [this.account.name, Validators.required],
+      iban: [{ value: this.account.iban, disabled: true }],
+      user: [{ value: this.account.user.username, disabled: true }],
+      currency: [{ value: this.account.currency.name, disabled: true }],
+      address: [this.account.address, Validators.required],
+      balance: [this.account.balance.available, [Validators.required, Validators.pattern('^[-+]?[0-9]*\.?[0-9]+$')]],
+      status: [this.account.status.name, Validators.required]
     });
   }
 

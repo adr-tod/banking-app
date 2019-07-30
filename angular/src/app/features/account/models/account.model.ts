@@ -6,9 +6,18 @@ export class Account {
   name: string;
   address: string;
   currency: Currency;
-  status: string;
+  status: AccountStatus;
   user: User;
-  balance: number;
+  balance: Balance;
+}
+
+export class AccountStatus {
+  name: string;
+}
+
+
+export class Balance {
+  available: number;
 }
 
 
