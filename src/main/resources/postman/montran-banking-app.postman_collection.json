@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "aec0e080-a884-4a2a-af5a-43f533b90c18",
+		"_postman_id": "d9d4d949-6bd5-4f54-8a9f-622cb5329a4c",
 		"name": "montran-banking-app",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -16,7 +16,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJpZ2lic29uIiwiZXhwIjoxNTYzOTg3NTc2LCJpYXQiOjE1NjM5Njk1NzZ9.fUBjCWE3HAu2-lzlqfLJfUW3iqrvRv8PQY8Psqj7BRY_vnzFDlw5SEP9s_cpMkCxpws6npD5ZvAKoxtKYxaRNA",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJpZ2lic29uIiwiZXhwIjoxNTY0NDA0MjAzLCJpYXQiOjE1NjQzODYyMDN9.HXQ2Jby2l3xVUQcEyMVYfD_KKQNVEWtdM5BBtDLob0Q8h7PkfXoHDwu7q8vN61rtWHguTAZNzybjGUfDGt3GlQ",
 									"type": "string"
 								}
 							]
@@ -44,6 +44,16 @@
 				{
 					"name": "update",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJpZ2lic29uIiwiZXhwIjoxNTY0NDA0MjAzLCJpYXQiOjE1NjQzODYyMDN9.HXQ2Jby2l3xVUQcEyMVYfD_KKQNVEWtdM5BBtDLob0Q8h7PkfXoHDwu7q8vN61rtWHguTAZNzybjGUfDGt3GlQ",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [
 							{
@@ -55,7 +65,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"id\": \"3\",\n\t\"fullname\": \"Edyth Murray PhD\",\n\t\"address\": \"UPDATED ADDRESS\",\n\t\"email\": \"balistreri.zora@example.net\"\n}"
+							"raw": "{\n\t\"id\": \"11\",\n\t\"fullname\": \"Donald Trump UPDATED\",\n\t\"address\": \"White House UPDATED\",\n\t\"email\": \"balistreri.zora@example.net\"\n}"
 						},
 						"url": {
 							"raw": "http://localhost:8080/user/update",
@@ -75,6 +85,16 @@
 				{
 					"name": "save",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJpZ2lic29uIiwiZXhwIjoxNTY0NDA0MjAzLCJpYXQiOjE1NjQzODYyMDN9.HXQ2Jby2l3xVUQcEyMVYfD_KKQNVEWtdM5BBtDLob0Q8h7PkfXoHDwu7q8vN61rtWHguTAZNzybjGUfDGt3GlQ",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [
 							{
@@ -106,6 +126,16 @@
 				{
 					"name": "delete",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJpZ2lic29uIiwiZXhwIjoxNTY0NDA0MjAzLCJpYXQiOjE1NjQzODYyMDN9.HXQ2Jby2l3xVUQcEyMVYfD_KKQNVEWtdM5BBtDLob0Q8h7PkfXoHDwu7q8vN61rtWHguTAZNzybjGUfDGt3GlQ",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -113,7 +143,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:8080/user/delete/14",
+							"raw": "http://localhost:8080/user/delete/11",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -122,7 +152,7 @@
 							"path": [
 								"user",
 								"delete",
-								"14"
+								"11"
 							]
 						}
 					},
@@ -460,7 +490,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtYXJjb3MuYm9nYW4iLCJleHAiOjE1NjQzNjAxNDMsImlhdCI6MTU2NDM0MjE0M30.OoF95iAi0wjH8MyeLR2jhV_lS6NJJVG_3wuwLeBv0bkJKHg6z76UHFiXotMW0fwZS4s-Rj7EA-Nd5KnQb8jVAA",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJpZ2lic29uIiwiZXhwIjoxNTY0NDA0MjAzLCJpYXQiOjE1NjQzODYyMDN9.HXQ2Jby2l3xVUQcEyMVYfD_KKQNVEWtdM5BBtDLob0Q8h7PkfXoHDwu7q8vN61rtWHguTAZNzybjGUfDGt3GlQ",
 									"type": "string"
 								}
 							]
@@ -493,7 +523,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtYXJjb3MuYm9nYW4iLCJleHAiOjE1NjQzNjAxNDMsImlhdCI6MTU2NDM0MjE0M30.OoF95iAi0wjH8MyeLR2jhV_lS6NJJVG_3wuwLeBv0bkJKHg6z76UHFiXotMW0fwZS4s-Rj7EA-Nd5KnQb8jVAA",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJpZ2lic29uIiwiZXhwIjoxNTY0NDk3NzI2LCJpYXQiOjE1NjQ0Nzk3MjZ9.HyL0m2Kb3pqQdsAzOxRSueTDQcCy0Gc7eetDrQeiCkCYDjTX6o-0zZA80R5NhYf1OOnceGloyqFKib_McNMXIg",
 									"type": "string"
 								}
 							]
@@ -509,7 +539,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"debitIban\": \"GB17BARC20040164822651\",\n\t\"creditIban\": \"GB45BARC20037867547188\",\n\t\"amount\": \"25\",\n\t\"currency\": \"EUR\"\n}"
+							"raw": "{\n\t\"debitIban\": \"GB79BARC20038035182364\",\n\t\"creditIban\": \"GB79BARC20038035182364\",\n\t\"amount\": \"25\",\n\t\"currency\": \"EUR\"\n}"
 						},
 						"url": {
 							"raw": "http://localhost:8080/payment/create",
@@ -534,7 +564,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtYXJjb3MuYm9nYW4iLCJleHAiOjE1NjQzNjAxNDMsImlhdCI6MTU2NDM0MjE0M30.OoF95iAi0wjH8MyeLR2jhV_lS6NJJVG_3wuwLeBv0bkJKHg6z76UHFiXotMW0fwZS4s-Rj7EA-Nd5KnQb8jVAA",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJpZ2lic29uIiwiZXhwIjoxNTY0NDA0MjAzLCJpYXQiOjE1NjQzODYyMDN9.HXQ2Jby2l3xVUQcEyMVYfD_KKQNVEWtdM5BBtDLob0Q8h7PkfXoHDwu7q8vN61rtWHguTAZNzybjGUfDGt3GlQ",
 									"type": "string"
 								}
 							]
@@ -553,7 +583,7 @@
 							"raw": "{\n\t\"amount\": 25\n}"
 						},
 						"url": {
-							"raw": "http://localhost:8080/payment/verify/9",
+							"raw": "http://localhost:8080/payment/verify/7",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -562,7 +592,7 @@
 							"path": [
 								"payment",
 								"verify",
-								"9"
+								"7"
 							]
 						}
 					},
@@ -609,6 +639,41 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "findAllByAccountId",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJpZ2lic29uIiwiZXhwIjoxNTY0NTkzNzcxLCJpYXQiOjE1NjQ1NzU3NzF9.s9CqiRRYB3-Cpk4VmP-LcIKPTQ9gR4TKtW1TDjBN7huyrv4FV5xzwjCIWrdLQePIAdgxwdvhXRIOBYqnHFVu2Q",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8080/payment/findall/5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"payment",
+								"findall",
+								"5"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -629,7 +694,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"username\": \"marcos.bogan\",\n\t\"password\": \"user3password\"\n}"
+							"raw": "{\n\t\"username\": \"igibson\",\n\t\"password\": \"user1password\"\n}"
 						},
 						"url": {
 							"raw": "http://localhost:8080/authenticate",
