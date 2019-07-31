@@ -20,7 +20,7 @@ export class AccountCreateDialogComponent implements OnInit {
       iban: ['', Validators.required],
       currency: ['', Validators.required],
       address: ['', Validators.required],
-      userId: ['', Validators.required]
+      userId: ['', [Validators.required, Validators.pattern('^[0-9]*$')]]
     });
   }
 

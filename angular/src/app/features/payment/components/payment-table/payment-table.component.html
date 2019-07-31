@@ -52,9 +52,9 @@
       </button></th>
     <td mat-cell *matCellDef="let payment">
       <button (click)="paymentVerifyButtonClicked(payment)" mat-button
-        [disabled]="!isPaymentStatusEqualTo(payment, 'VERIFY')">Verify</button>
+        [disabled]="!isPaymentStatusEqualTo(payment, 'VERIFY') || isPaymentCreatedBy(payment, this.currentUser)">Verify</button>
       <button (click)="paymentApproveButtonClicked(payment.id)" mat-button
-        [disabled]="!isPaymentStatusEqualTo(payment, 'APPROVE')">Approve</button>
+        [disabled]="!isPaymentStatusEqualTo(payment, 'APPROVE') || isPaymentCreatedBy(payment, this.currentUser) || isPaymentVerifiedBy(payment, this.currentUser)">Approve</button>
       <button (click)=" paymentAuthorizeButtonClicked(payment.id)" mat-button
         [disabled]="!isPaymentStatusEqualTo(payment, 'AUTHORIZE')">Authorize</button>
       <button (click)=" paymentCancelButtonClicked(payment.id)" mat-button

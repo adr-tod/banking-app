@@ -1,13 +1,13 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-import { AccountRoutingModule } from './account-routing.module';
-import { AccountComponent } from './pages/account/account.component';
-import { AccountTableComponent } from './components/account-table/account-table.component';
-import { MatTableModule, MatButtonModule, MatDialogModule, MatInputModule, MatIconModule } from '@angular/material';
-import { AccountCreateDialogComponent } from './components/account-create-dialog/account-create-dialog.component';
+import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule, MatDialogModule, MatIconModule, MatInputModule, MatTableModule } from '@angular/material';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AccountRoutingModule } from './account-routing.module';
+import { AccountCreateDialogComponent } from './components/account-create-dialog/account-create-dialog.component';
+import { AccountTableComponent } from './components/account-table/account-table.component';
 import { AccountUpdateDialogComponent } from './components/account-update-dialog/account-update-dialog.component';
+import { AccountComponent } from './pages/account/account.component';
 
 
 @NgModule({
@@ -20,7 +20,8 @@ import { AccountUpdateDialogComponent } from './components/account-update-dialog
     ReactiveFormsModule,
     MatDialogModule,
     MatInputModule,
-    MatIconModule
+    MatIconModule,
+    BrowserAnimationsModule
   ],
   entryComponents: [
     AccountCreateDialogComponent,

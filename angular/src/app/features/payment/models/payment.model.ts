@@ -1,3 +1,4 @@
+import { User } from '../../user/models/user.model';
 
 export class Payment {
   id: number;
@@ -7,6 +8,8 @@ export class Payment {
   amount: number;
   currency: string;
   status: PaymentStatus;
+  createdBy: User;
+  verifiedBy: User;
 }
 
 

@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog, MatDialogConfig, MatSnackBar } from '@angular/material';
+import { AuthenticationService } from 'src/app/features/login/services/authentication.service';
+import { User } from 'src/app/features/user/models/user.model';
 import { Payment, PaymentCreate, PaymentVerify } from '../../models/payment.model';
 import { PaymentService } from '../../services/payment.service';
-import { MatDialog, MatDialogConfig, MatSnackBar } from '@angular/material';
 import { PaymentCreateDialogComponent } from '../payment-create-dialog/payment-create-dialog.component';
 import { PaymentVerifyDialogComponent } from '../payment-verify-dialog/payment-verify-dialog.component';
 
@@ -12,20 +14,33 @@ import { PaymentVerifyDialogComponent } from '../payment-verify-dialog/payment-v
 })
 export class PaymentTableComponent implements OnInit {
 
+  currentUser: User;
   displayedColumns: string[] = ['debitAccount', 'creditAccount', 'dateTime', 'amount', 'currency', 'status', 'actions'];
   dataSource: Payment[];
 
-  constructor(private paymentService: PaymentService, private dialog: MatDialog, private snackbar: MatSnackBar) {
+  constructor(private authenticationService: AuthenticationService, private paymentService: PaymentService,
+    private dialog: MatDialog, private snackbar: MatSnackBar) {
+    this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
+    console.log(this.currentUser);
   }
 
   ngOnInit(): void {
     this.paymentService.findAll().subscribe(data => {
+      console.log(data);
       this.dataSource = data;
     });
   }
 
   isPaymentStatusEqualTo(payment: Payment, status: string) {
     return payment.status.name === status;
+  }
+
+  isPaymentCreatedBy(payment: Payment, user: User) {
+    return payment.createdBy.id === user.id;
+  }
+
+  isPaymentVerifiedBy(payment: Payment, user: User) {
+    return payment.verifiedBy.id === user.id;
   }
 
   paymentCreateButtonClicked(): void {

@@ -13,6 +13,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.montran.banking.account.domain.entity.Account;
 import com.montran.banking.base.BaseEntity;
+import com.montran.banking.payment.domain.entity.Payment;
 import com.montran.banking.profile.domain.entity.Profile;
 
 @Entity
@@ -31,6 +32,21 @@ public class User extends BaseEntity {
 	@OneToMany(mappedBy = "user")
 	@JsonBackReference
 	private List<Account> accounts = new ArrayList<Account>();
+	@OneToMany(mappedBy = "createdBy")
+	@JsonBackReference
+	private List<Payment> paymentsCreated = new ArrayList<Payment>();
+	@OneToMany(mappedBy = "verifiedBy")
+	@JsonBackReference
+	private List<Payment> paymentsVerified = new ArrayList<Payment>();
+	@OneToMany(mappedBy = "approvedBy")
+	@JsonBackReference
+	private List<Payment> paymentsApproved = new ArrayList<Payment>();
+	@OneToMany(mappedBy = "authorizedBy")
+	@JsonBackReference
+	private List<Payment> paymentsAuthorized = new ArrayList<Payment>();
+	@OneToMany(mappedBy = "cancelledBy")
+	@JsonBackReference
+	private List<Payment> paymentsCancelled = new ArrayList<Payment>();
 
 	public User() {
 		super();
@@ -92,4 +108,43 @@ public class User extends BaseEntity {
 		this.accounts = accounts;
 	}
 
+	public List<Payment> getPaymentsCreated() {
+		return paymentsCreated;
+	}
+
+	public void setPaymentsCreated(List<Payment> paymentsCreated) {
+		this.paymentsCreated = paymentsCreated;
+	}
+
+	public List<Payment> getPaymentsVerified() {
+		return paymentsVerified;
+	}
+
+	public void setPaymentsVerified(List<Payment> paymentsVerified) {
+		this.paymentsVerified = paymentsVerified;
+	}
+
+	public List<Payment> getPaymentsApproved() {
+		return paymentsApproved;
+	}
+
+	public void setPaymentsApproved(List<Payment> paymentsApproved) {
+		this.paymentsApproved = paymentsApproved;
+	}
+
+	public List<Payment> getPaymentsAuthorized() {
+		return paymentsAuthorized;
+	}
+
+	public void setPaymentsAuthorized(List<Payment> paymentsAuthorized) {
+		this.paymentsAuthorized = paymentsAuthorized;
+	}
+
+	public List<Payment> getPaymentsCancelled() {
+		return paymentsCancelled;
+	}
+
+	public void setPaymentsCancelled(List<Payment> paymentsCancelled) {
+		this.paymentsCancelled = paymentsCancelled;
+	}
 }

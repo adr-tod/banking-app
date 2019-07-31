@@ -12,6 +12,7 @@ import com.montran.banking.account.domain.entity.Account;
 import com.montran.banking.base.BaseEntity;
 import com.montran.banking.currency.domain.entity.Currency;
 import com.montran.banking.paymentstatus.domain.entity.PaymentStatus;
+import com.montran.banking.user.domain.entity.User;
 
 @Entity
 @Table(name = "payments")
@@ -35,6 +36,26 @@ public class Payment extends BaseEntity {
 	@JoinColumn(name = "payment_status_id")
 	@JsonManagedReference
 	private PaymentStatus status;
+	@ManyToOne
+	@JoinColumn(name = "created_by")
+	@JsonManagedReference
+	private User createdBy;
+	@ManyToOne
+	@JoinColumn(name = "verified_by")
+	@JsonManagedReference
+	private User verifiedBy;
+	@ManyToOne
+	@JoinColumn(name = "approved_by")
+	@JsonManagedReference
+	private User approvedBy;
+	@ManyToOne
+	@JoinColumn(name = "authorized_by")
+	@JsonManagedReference
+	private User authorizedBy;
+	@ManyToOne
+	@JoinColumn(name = "cancelled_by")
+	@JsonManagedReference
+	private User cancelledBy;
 
 	public Payment() {
 		super();
@@ -86,5 +107,45 @@ public class Payment extends BaseEntity {
 
 	public void setStatus(PaymentStatus status) {
 		this.status = status;
+	}
+
+	public User getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(User createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public User getVerifiedBy() {
+		return verifiedBy;
+	}
+
+	public void setVerifiedBy(User verifiedBy) {
+		this.verifiedBy = verifiedBy;
+	}
+
+	public User getApprovedBy() {
+		return approvedBy;
+	}
+
+	public void setApprovedBy(User approvedBy) {
+		this.approvedBy = approvedBy;
+	}
+
+	public User getAuthorizedBy() {
+		return authorizedBy;
+	}
+
+	public void setAuthorizedBy(User authorizedBy) {
+		this.authorizedBy = authorizedBy;
+	}
+
+	public User getCancelledBy() {
+		return cancelledBy;
+	}
+
+	public void setCancelledBy(User cancelledBy) {
+		this.cancelledBy = cancelledBy;
 	}
 }
