@@ -44,6 +44,7 @@ public class AccountServiceImpl implements AccountService {
 
 	@Override
 	public Iterable<Account> findAllByUserId(Long id) {
+		
 		return accountRepository.findAllByUserId(id);
 	}
 

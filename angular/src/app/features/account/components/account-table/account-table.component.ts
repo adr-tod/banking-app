@@ -10,17 +10,27 @@ import { AccountService } from '../../services/account.service';
 import { Account, AccountCreate, AccountUpdate } from '../../models/account.model';
 import { AccountCreateDialogComponent } from '../account-create-dialog/account-create-dialog.component';
 import { AccountUpdateDialogComponent } from '../account-update-dialog/account-update-dialog.component';
+import { trigger, state, style, transition, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-account-table',
   templateUrl: './account-table.component.html',
-  styleUrls: ['./account-table.component.css']
+  styleUrls: ['./account-table.component.css'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({ height: '0px', minHeight: '0', display: 'none' })),
+      state('expanded', style({ height: '*' })),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ]
 })
 export class AccountTableComponent implements OnInit {
 
   currentUser: User;
   displayedColumns: string[];
   dataSource: Account[];
+
+  expandedElement: any;
 
   constructor(private authenticationService: AuthenticationService, private accountService: AccountService,
     private paymentService: PaymentService, private dialog: MatDialog, private snackbar: MatSnackBar) {

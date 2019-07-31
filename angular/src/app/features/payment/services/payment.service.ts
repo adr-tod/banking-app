@@ -18,6 +18,10 @@ export class PaymentService {
     return this.httpClient.get<Payment[]>(`${environment.apiUrl}/${this.paymentEndpoint}`);
   }
 
+  findAllByAccountId(id: number): Observable<Payment[]> {
+    return this.httpClient.get<Payment[]>(`${environment.apiUrl}/${this.paymentEndpoint}/findall/${id}`);
+  }
+
   create(payment: PaymentCreate): Observable<any> {
     return this.httpClient.post(`${environment.apiUrl}/${this.paymentEndpoint}/create`, payment);
   }

@@ -8,6 +8,7 @@ import { AccountCreateDialogComponent } from './components/account-create-dialog
 import { AccountTableComponent } from './components/account-table/account-table.component';
 import { AccountUpdateDialogComponent } from './components/account-update-dialog/account-update-dialog.component';
 import { AccountComponent } from './pages/account/account.component';
+import { PaymentModule } from '../payment/payment.module';
 
 
 @NgModule({
@@ -21,6 +22,7 @@ import { AccountComponent } from './pages/account/account.component';
     MatDialogModule,
     MatInputModule,
     MatIconModule,
+    PaymentModule,
     BrowserAnimationsModule
   ],
   entryComponents: [

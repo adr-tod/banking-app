@@ -27,6 +27,11 @@ public class PaymentController {
 		return paymentService.findAll();
 	}
 
+	@GetMapping("findall/{id}")
+	public Iterable<Payment> findAllByAccountId(@PathVariable Long id) {
+		return paymentService.findAllByAccountId(id);
+	}
+
 	@PostMapping("create")
 	public Payment create(@RequestBody PaymentCreateDTO paymentCreateDTO) {
 		return paymentService.create(paymentCreateDTO);

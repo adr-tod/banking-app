@@ -8,4 +8,7 @@ import com.montran.banking.payment.domain.entity.Payment;
 @Repository
 public interface PaymentRepository extends CrudRepository<Payment, Long> {
 
+	public Iterable<Payment> findAllByDebitAccountId(Long id);
+
+	public Iterable<Payment> findAllByCreditAccountId(Long id);
 }

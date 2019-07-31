@@ -7,10 +7,11 @@ import { PaymentTableComponent } from './components/payment-table/payment-table.
 import { PaymentVerifyDialogComponent } from './components/payment-verify-dialog/payment-verify-dialog.component';
 import { PaymentComponent } from './pages/payment/payment.component';
 import { PaymentRoutingModule } from './payment-routing.module';
+import { PaymentPersonalTableComponent } from './components/payment-personal-table/payment-personal-table.component';
 
 
 @NgModule({
-  declarations: [PaymentComponent, PaymentTableComponent, PaymentCreateDialogComponent, PaymentVerifyDialogComponent],
+  declarations: [PaymentComponent, PaymentTableComponent, PaymentCreateDialogComponent, PaymentVerifyDialogComponent, PaymentPersonalTableComponent],
   imports: [
     CommonModule,
     PaymentRoutingModule,
@@ -21,6 +22,9 @@ import { PaymentRoutingModule } from './payment-routing.module';
     MatIconModule,
     MatSnackBarModule,
     ReactiveFormsModule
+  ],
+  exports: [
+    PaymentPersonalTableComponent
   ],
   entryComponents: [
     PaymentCreateDialogComponent,

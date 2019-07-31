@@ -8,6 +8,8 @@ public interface PaymentService {
 
 	public Iterable<Payment> findAll();
 
+	public Iterable<Payment> findAllByAccountId(Long id);
+
 	public Payment create(PaymentCreateDTO paymentCreateDTO);
 
 	public void verify(Long id, PaymentVerifyDTO paymentVerifyDTO);
