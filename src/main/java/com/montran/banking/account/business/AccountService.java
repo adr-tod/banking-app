@@ -14,5 +14,5 @@ public interface AccountService {
 	
 	public Account update(AccountUpdateDTO accountUpdateDTO);
 	
-	public void delete(Long id);
+	public void deleteById(Long id);
 }

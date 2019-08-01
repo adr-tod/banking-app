@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.montran.banking.user.business.UserService;
-import com.montran.banking.user.domain.dto.UserSaveDTO;
+import com.montran.banking.user.domain.dto.UserCreateDTO;
 import com.montran.banking.user.domain.dto.UserUpdateDTO;
 import com.montran.banking.user.domain.entity.User;
 
@@ -32,9 +32,9 @@ public class UserController {
 		return userService.findById(id);
 	}
 
-	@PostMapping("add")
-	public void add(@RequestBody UserSaveDTO userSaveDTO) {
-		userService.save(userSaveDTO);
+	@PostMapping("create")
+	public void create(@RequestBody UserCreateDTO userCreateDTO) {
+		userService.create(userCreateDTO);
 	}
 
 	@PostMapping("update")

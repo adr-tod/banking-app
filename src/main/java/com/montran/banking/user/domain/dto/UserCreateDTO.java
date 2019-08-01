@@ -1,14 +1,14 @@
 package com.montran.banking.user.domain.dto;
 
-public class UserSaveDTO {
+public class UserCreateDTO {
 
 	private String fullname;
 	private String address;
 	private String email;
 	private String username;
 	private String password;
-	
-	public UserSaveDTO(String fullname, String address, String email, String username, String password) {
+
+	public UserCreateDTO(String fullname, String address, String email, String username, String password) {
 		super();
 		this.fullname = fullname;
 		this.address = address;

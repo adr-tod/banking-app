@@ -85,7 +85,7 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
-	public void delete(Long id) {
+	public void deleteById(Long id) {
 		Account account = accountRepository.findById(id).get();
 		balanceRepository.delete(account.getBalance());
 		accountRepository.delete(account);

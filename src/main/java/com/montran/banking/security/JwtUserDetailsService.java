@@ -19,7 +19,7 @@ public class JwtUserDetailsService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		com.montran.banking.user.domain.entity.User user = userRepository.findByUsername(username);
+		com.montran.banking.user.domain.entity.User user = userRepository.findByUsername(username).get();
 		return new User(user.getUsername(), user.getPassword(), new ArrayList<>());
 //		return new User("javainuse", "$2b$10$a5xhiWff/y5ial28LYVvZeT5n1J0e7nxcyDaWb/wyq9vtBQ71NMZm", new ArrayList<>());
 	}

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import com.montran.banking.audit.user.UserAudit;
 import com.montran.banking.audit.user.UserAuditRepository;
 import com.montran.banking.profile.persistence.ProfileRepository;
-import com.montran.banking.user.domain.dto.UserSaveDTO;
+import com.montran.banking.user.domain.dto.UserCreateDTO;
 import com.montran.banking.user.domain.dto.UserUpdateDTO;
 import com.montran.banking.user.domain.entity.User;
 import com.montran.banking.user.persistence.UserRepository;
@@ -36,23 +36,36 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void save(UserSaveDTO userSaveDTO) {
+	public User findById(Long id) {
+		return userRepository.findById(id)
+				.orElseThrow(() -> new RuntimeException(String.format("No user with id = '%d'", id)));
+	}
+
+	@Override
+	public User findByUsername(String username) {
+		return userRepository.findByUsername(username)
+				.orElseThrow(() -> new RuntimeException(String.format("No user with username = '%s'", username)));
+	}
+
+	@Override
+	public User create(UserCreateDTO userCreateDTO) {
 		User user = new User();
-		user.setFullname(userSaveDTO.getFullname());
-		user.setAddress(userSaveDTO.getAddress());
-		user.setEmail(userSaveDTO.getEmail());
-		user.setUsername(userSaveDTO.getUsername());
-		user.setPassword(passwordEncoder.encode(userSaveDTO.getPassword()));
+		user.setFullname(userCreateDTO.getFullname());
+		user.setAddress(userCreateDTO.getAddress());
+		user.setEmail(userCreateDTO.getEmail());
+		user.setUsername(userCreateDTO.getUsername());
+		user.setPassword(passwordEncoder.encode(userCreateDTO.getPassword()));
 		user.setProfile(profileRepository.findByName("customer"));
 		user.setAccounts(new ArrayList<>());
 		user = userRepository.save(user);
 		userAuditRepository
 				.save(new UserAudit("create", SecurityContextHolder.getContext().getAuthentication().getName(),
 						"created the user with id = " + user.getId()));
+		return user;
 	}
 
 	@Override
-	public void update(UserUpdateDTO userUpdateDTO) {
+	public User update(UserUpdateDTO userUpdateDTO) {
 		User user = userRepository.findById(userUpdateDTO.getId()).get();
 		user.setFullname(userUpdateDTO.getFullname());
 		user.setAddress(userUpdateDTO.getAddress());
@@ -61,6 +74,7 @@ public class UserServiceImpl implements UserService {
 		userAuditRepository
 				.save(new UserAudit("update", SecurityContextHolder.getContext().getAuthentication().getName(),
 						"updated the user with id = " + user.getId()));
+		return user;
 	}
 
 	@Override
@@ -71,12 +85,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User findById(Long id) {
-		return userRepository.findById(id).get();
-	}
-
-	@Override
-	public User findByUsername(String username) {
-		return userRepository.findByUsername(username);
+	public void deleteByUsername(String username) {
+		userRepository.deleteByUsername(username);
 	}
 }

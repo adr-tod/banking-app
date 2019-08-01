@@ -8,8 +8,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
-import com.montran.banking.user.domain.entity.User;
-
 @MappedSuperclass
 public abstract class BaseAudit implements Serializable {
 

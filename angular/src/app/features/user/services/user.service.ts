@@ -23,7 +23,7 @@ export class UserService {
   }
 
   add(user: UserAdd): Observable<any> {
-    return this.httpClient.post(`${environment.apiUrl}/${this.userEndpoint}/add`, user);
+    return this.httpClient.post(`${environment.apiUrl}/${this.userEndpoint}/create`, user);
   }
 
   update(user: UserUpdate): Observable<any> {

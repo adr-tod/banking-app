@@ -43,7 +43,7 @@ public class AccountController {
 	}
 	
 	@PostMapping("delete/{id}")
-	public void delete(@PathVariable Long id) {
-		accountService.delete(id);
+	public void deleteById(@PathVariable Long id) {
+		accountService.deleteById(id);
 	}
 }

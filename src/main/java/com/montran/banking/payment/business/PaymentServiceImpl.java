@@ -111,7 +111,7 @@ public class PaymentServiceImpl implements PaymentService {
 		payment.setStatus(paymentStatusRepository.findByName("VERIFY"));
 		payment.setDateTime(LocalDateTime.now());
 		payment.setCreatedBy(
-				userRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
+				userRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).get());
 		payment = paymentRepository.save(payment);
 		// audit
 		paymentAuditRepository
@@ -151,7 +151,7 @@ public class PaymentServiceImpl implements PaymentService {
 		// payment amount and verify amount do match
 		payment.setStatus(paymentStatusRepository.findByName("APPROVE"));
 		payment.setVerifiedBy(
-				userRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
+				userRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).get());
 		paymentRepository.save(payment);
 		// audit
 		paymentAuditRepository
@@ -208,8 +208,8 @@ public class PaymentServiceImpl implements PaymentService {
 		if (!checkAccountCanDebit(payment.getDebitAccount())) {
 			// route to authorize
 			payment.setStatus(paymentStatusRepository.findByName("AUTHORIZE"));
-			payment.setApprovedBy(
-					userRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
+			payment.setApprovedBy(userRepository
+					.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).get());
 			paymentRepository.save(payment);
 			// audit
 			paymentAuditRepository
@@ -222,8 +222,8 @@ public class PaymentServiceImpl implements PaymentService {
 		// check credit account status
 		if (!checkAccountCanCredit(payment.getCreditAccount())) {
 			payment.setStatus(paymentStatusRepository.findByName("AUTHORIZE"));
-			payment.setApprovedBy(
-					userRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
+			payment.setApprovedBy(userRepository
+					.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).get());
 			paymentRepository.save(payment);
 			// audit
 			paymentAuditRepository
@@ -237,8 +237,8 @@ public class PaymentServiceImpl implements PaymentService {
 		// check account balance
 		if (!checkAccountSufficientFunds(payment.getDebitAccount(), payment)) {
 			payment.setStatus(paymentStatusRepository.findByName("AUTHORIZE"));
-			payment.setApprovedBy(
-					userRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
+			payment.setApprovedBy(userRepository
+					.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).get());
 			paymentRepository.save(payment);
 			// audit
 			paymentAuditRepository
@@ -258,7 +258,7 @@ public class PaymentServiceImpl implements PaymentService {
 
 		payment.setStatus(paymentStatusRepository.findByName("COMPLETED"));
 		payment.setApprovedBy(
-				userRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
+				userRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).get());
 		paymentRepository.save(payment);
 		// audit
 		paymentAuditRepository
@@ -279,7 +279,7 @@ public class PaymentServiceImpl implements PaymentService {
 		}
 		payment.setStatus(paymentStatusRepository.findByName("COMPLETED"));
 		payment.setAuthorizedBy(
-				userRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
+				userRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).get());
 		paymentRepository.save(payment);
 		// audit
 		paymentAuditRepository
@@ -303,7 +303,7 @@ public class PaymentServiceImpl implements PaymentService {
 		}
 		payment.setStatus(paymentStatusRepository.findByName("CANCELLED"));
 		payment.setCancelledBy(
-				userRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
+				userRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).get());
 		paymentRepository.save(payment);
 		// audit
 		paymentAuditRepository
