@@ -1,8 +1,10 @@
 <div>
   <mat-toolbar color="irelevantfortasteauahuehue">
     <a mat-button routerLink="/">Home</a>
-    <a mat-button (click)="logout()">Log out</a>
-    <span class="example-spacer"></span>
+    <button mat-button [matMenuTriggerFor]="menu">{{currentUser.username}}</button>
+    <mat-menu #menu>
+      <button mat-menu-item (click)="logout()">Log out</button>
+    </mat-menu><span class="example-spacer"></span>
     <a mat-button routerLink="/user" *ngIf="isAdmin">Users</a>
     <a mat-button routerLink="/account">Accounts</a>
     <a mat-button routerLink="/payment" *ngIf="isAdmin">Payments</a>

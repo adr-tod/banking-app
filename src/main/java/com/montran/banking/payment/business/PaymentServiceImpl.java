@@ -2,17 +2,14 @@ package com.montran.banking.payment.business;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.collections4.IterableUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import com.google.common.collect.Iterables;
 import com.montran.banking.account.domain.entity.Account;
 import com.montran.banking.account.persistence.AccountRepository;
 import com.montran.banking.audit.payment.PaymentAudit;
