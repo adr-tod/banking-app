@@ -1,6 +1,8 @@
 package com.montran.banking.user.business;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,6 +16,7 @@ import com.montran.banking.user.domain.dto.UserUpdateDTO;
 import com.montran.banking.user.domain.entity.User;
 
 @SpringBootTest
+@WithMockUser(username = "mockUsername")
 class UserServiceImplTest {
 
 	@Autowired
@@ -58,7 +61,6 @@ class UserServiceImplTest {
 	}
 
 	@Test
-	@WithMockUser(username = "someUsername")
 	public void testCreate() {
 		// no 'russianTank' before test
 		assertThrows(RuntimeException.class, () -> userService.findByUsername("russianTank"));
@@ -73,24 +75,21 @@ class UserServiceImplTest {
 	}
 
 	@Test
-	@WithMockUser(username = "someUsername")
 	public void testUpdate() {
 		User user = userService.findByUsername("buildTheWall");
 		// check fullname is 'Donald Trump'
 		assertEquals("Donald Trump", user.getFullname());
 		// update fullname to 'Donald Trump BOSS'
-		assertNotNull(userService.update(new UserUpdateDTO((long) 1, "Dr. Kamryn Koch",
-				"7477 Sipes Stream Suite 714\nRileymouth, PA 94788-9629", "ondricka.madisyn@example.com")));
-		// check fullname is 'Dr. Kamryn Koch UPDATED'
-		assertEquals("Dr. Kamryn Koch", userService.findById((long) 1).getFullname());
+		assertNotNull(userService
+				.update(new UserUpdateDTO(user.getId(), "Donald Trump BOSS", "White House", "dtrump@gov.com")));
+		// check fullname is 'Donald Trump BOSS'
+		assertEquals("Donald Trump BOSS", userService.findById(user.getId()).getFullname());
 		// cleanup
-		userService.update(new UserUpdateDTO((long) 1, "Dr. Kamryn Koch",
-				"7477 Sipes Stream Suite 714\nRileymouth, PA 94788-9629", "ondricka.madisyn@example.com"));
+		userService.update(new UserUpdateDTO(user.getId(), "Donald Trump", "White House", "dtrump@gov.com"));
 	}
 
-	@Test
-	@WithMockUser(username = "someUsername")
-	public void testDeleteById() {
+//	@Test
+//	public void testDeleteById() {
 //		// check user with id = 1 exists
 //		User user = userService.findById((long) 1);
 //		assertNotNull(user);
@@ -99,6 +98,6 @@ class UserServiceImplTest {
 //		// check user with id = 1 does not exist anymore
 //		assertThrows(RuntimeException.class, () -> userService.findById((long) 1));
 //		// cleanup
-//		userService.create(userCreateDTO)
-	}
+//		userService.create(userCreateDTO);
+//	}
 }

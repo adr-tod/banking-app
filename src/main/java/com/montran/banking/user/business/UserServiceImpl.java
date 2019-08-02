@@ -2,6 +2,8 @@ package com.montran.banking.user.business;
 
 import java.util.ArrayList;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -16,6 +18,7 @@ import com.montran.banking.user.domain.entity.User;
 import com.montran.banking.user.persistence.UserRepository;
 
 @Service
+@Transactional
 public class UserServiceImpl implements UserService {
 
 	@Autowired
