@@ -62,13 +62,13 @@ class UserServiceImplTest {
 
 	@Test
 	public void testCreate() {
-		// no 'russianTank' before test
+		// no 'russianTank' before create
 		assertThrows(RuntimeException.class, () -> userService.findByUsername("russianTank"));
 		// create 'russianTank'
 		User user = userService.create(
 				new UserCreateDTO("Vladimir Putin", "Moscow", "vputin@kgb.ru", "russianTank", "mmjkk2jb3b66#!@#441"));
 		assertNotNull(user);
-		// a 'russianTank' after test
+		// a 'russianTank' after create
 		assertNotNull(userService.findByUsername("russianTank"));
 		// cleanup
 		userService.deleteById(user.getId());

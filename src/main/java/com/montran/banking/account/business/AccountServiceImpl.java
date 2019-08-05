@@ -1,5 +1,7 @@
 package com.montran.banking.account.business;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,7 @@ import com.montran.banking.currency.persistence.CurrencyRepository;
 import com.montran.banking.user.persistence.UserRepository;
 
 @Service
+@Transactional
 public class AccountServiceImpl implements AccountService {
 
 	@Autowired
@@ -38,13 +41,24 @@ public class AccountServiceImpl implements AccountService {
 	private AccountAuditRepository accountAuditRepository;
 
 	@Override
+	public Account findById(Long id) {
+		return accountRepository.findById(id)
+				.orElseThrow(() -> new RuntimeException(String.format("No account with id = '%d'", id)));
+	}
+
+	@Override
+	public Account findByIban(String iban) {
+		return accountRepository.findByIban(iban)
+				.orElseThrow(() -> new RuntimeException(String.format("No account with iban = '%s'", iban)));
+	}
+
+	@Override
 	public Iterable<Account> findAll() {
 		return accountRepository.findAll();
 	}
 
 	@Override
 	public Iterable<Account> findAllByUserId(Long id) {
-		
 		return accountRepository.findAllByUserId(id);
 	}
 
@@ -92,5 +106,15 @@ public class AccountServiceImpl implements AccountService {
 		accountAuditRepository
 				.save(new AccountAudit("delete", SecurityContextHolder.getContext().getAuthentication().getName(),
 						"deleted the account with id = " + id));
+	}
+
+	@Override
+	public void deleteByIban(String iban) {
+		Account account = accountRepository.findByIban(iban).get();
+		balanceRepository.delete(account.getBalance());
+		accountRepository.delete(account);
+		accountAuditRepository
+				.save(new AccountAudit("delete", SecurityContextHolder.getContext().getAuthentication().getName(),
+						"deleted the account with id = " + account.getId()));
 	}
 }
