@@ -19,4 +19,6 @@ public interface PaymentService {
 	public void authorize(Long id);
 
 	public void cancel(Long id);
+
+	public void deleteById(Long id);
 }

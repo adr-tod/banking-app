@@ -310,4 +310,9 @@ public class PaymentServiceImpl implements PaymentService {
 				.save(new PaymentAudit("cancel", SecurityContextHolder.getContext().getAuthentication().getName(),
 						String.format("cancelled the payment with id = %d", id)));
 	}
+
+	@Override
+	public void deleteById(Long id) {
+		paymentRepository.deleteById(id);
+	}
 }
