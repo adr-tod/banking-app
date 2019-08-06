@@ -6,6 +6,10 @@ public class UserUpdateDTO {
 	private String address;
 	private String email;
 
+	public UserUpdateDTO() {
+		super();
+	}
+
 	public UserUpdateDTO(Long id, String fullname, String address, String email) {
 		super();
 		this.id = id;

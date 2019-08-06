@@ -8,6 +8,10 @@ public class AccountCreateDTO {
 	private String address;
 	private Long userId;
 
+	public AccountCreateDTO() {
+		super();
+	}
+
 	public AccountCreateDTO(String name, String iban, String currency, String address, Long userId) {
 		super();
 		this.name = name;
@@ -32,7 +36,7 @@ public class AccountCreateDTO {
 	public String getAddress() {
 		return address;
 	}
-	
+
 	public Long getUserId() {
 		return userId;
 	}

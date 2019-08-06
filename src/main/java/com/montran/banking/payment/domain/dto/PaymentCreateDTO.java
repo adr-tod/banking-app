@@ -7,6 +7,10 @@ public class PaymentCreateDTO {
 	private Double amount;
 	private String currency;
 
+	public PaymentCreateDTO() {
+		super();
+	}
+
 	public PaymentCreateDTO(String debitIban, String creditIban, Double amount, String currency) {
 		super();
 		this.debitIban = debitIban;

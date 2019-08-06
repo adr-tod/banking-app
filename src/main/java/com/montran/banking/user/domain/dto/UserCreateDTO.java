@@ -8,6 +8,10 @@ public class UserCreateDTO {
 	private String username;
 	private String password;
 
+	public UserCreateDTO() {
+		super();
+	}
+
 	public UserCreateDTO(String fullname, String address, String email, String username, String password) {
 		super();
 		this.fullname = fullname;

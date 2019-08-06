@@ -4,6 +4,10 @@ public class PaymentVerifyDTO {
 
 	private Double amount;
 
+	public PaymentVerifyDTO() {
+		super();
+	}
+
 	public PaymentVerifyDTO(Double amount) {
 		super();
 		this.amount = amount;

@@ -7,6 +7,10 @@ public class AccountUpdateDTO {
 	private Double balance;
 	private String status;
 
+	public AccountUpdateDTO() {
+		super();
+	}
+
 	public AccountUpdateDTO(Long id, String name, String address, Double balance, String status) {
 		super();
 		this.id = id;

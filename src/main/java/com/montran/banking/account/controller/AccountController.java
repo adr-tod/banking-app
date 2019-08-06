@@ -36,12 +36,12 @@ public class AccountController {
 	public Account create(@RequestBody AccountCreateDTO accountCreateDTO) {
 		return accountService.create(accountCreateDTO);
 	}
-	
+
 	@PostMapping("update")
 	public Account update(@RequestBody AccountUpdateDTO accountUpdateDTO) {
 		return accountService.update(accountUpdateDTO);
 	}
-	
+
 	@PostMapping("delete/{id}")
 	public void deleteById(@PathVariable Long id) {
 		accountService.deleteById(id);

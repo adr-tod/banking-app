@@ -7,7 +7,7 @@ import com.montran.banking.account.domain.entity.Account;
 public interface AccountService {
 
 	public Account findById(Long id);
-	
+
 	public Account findByIban(String iban);
 
 	public Iterable<Account> findAll();
