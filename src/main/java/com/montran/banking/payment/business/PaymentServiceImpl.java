@@ -14,6 +14,8 @@ import com.montran.banking.account.domain.entity.Account;
 import com.montran.banking.account.persistence.AccountRepository;
 import com.montran.banking.audit.payment.PaymentAudit;
 import com.montran.banking.audit.payment.PaymentAuditRepository;
+import com.montran.banking.balance.domain.entity.Balance;
+import com.montran.banking.balance.persistence.BalanceRepository;
 import com.montran.banking.currency.persistence.CurrencyRepository;
 import com.montran.banking.payment.domain.dto.PaymentCreateDTO;
 import com.montran.banking.payment.domain.dto.PaymentVerifyDTO;
@@ -42,6 +44,9 @@ public class PaymentServiceImpl implements PaymentService {
 
 	@Autowired
 	private PaymentAuditRepository paymentAuditRepository;
+
+	@Autowired
+	private BalanceRepository balanceRepository;
 
 	private final Map<String, Double> exchangeRate = new HashMap<String, Double>() {
 		{
@@ -247,14 +252,14 @@ public class PaymentServiceImpl implements PaymentService {
 			throw new RuntimeException("Insufficient funds on the debit account!\nPayment routed to 'AUTHORIZE'");
 		}
 		// update balances
-		Account debitAccount = payment.getDebitAccount();
-		Account creditAccount = payment.getCreditAccount();
-		debitAccount.getBalance().substractFromAvailable(payment.getAmount()
-				* getExchangeRate(payment.getCurrency().getName(), debitAccount.getCurrency().getName()));
-		creditAccount.getBalance().addToAvailable(payment.getAmount()
-				* getExchangeRate(payment.getCurrency().getName(), creditAccount.getCurrency().getName()));
-		accountRepository.save(debitAccount);
-		accountRepository.save(creditAccount);
+		Balance debitAccountBalance = payment.getDebitAccount().getBalance();
+		Balance creditAccountBalance = payment.getCreditAccount().getBalance();
+		debitAccountBalance.substractFromAvailable(payment.getAmount()
+				* getExchangeRate(payment.getCurrency().getName(), payment.getDebitAccount().getCurrency().getName()));
+		creditAccountBalance.addToAvailable(payment.getAmount()
+				* getExchangeRate(payment.getCurrency().getName(), payment.getCreditAccount().getCurrency().getName()));
+		balanceRepository.save(debitAccountBalance);
+		balanceRepository.save(creditAccountBalance);
 
 		payment.setStatus(paymentStatusRepository.findByName("COMPLETED"));
 		payment.setApprovedBy(
@@ -277,6 +282,16 @@ public class PaymentServiceImpl implements PaymentService {
 					String.format("authorize failed because the payment (id = %d) status was not 'AUTHORIZE'", id)));
 			throw new RuntimeException("Payment status is not 'AUTHORIZE'!");
 		}
+		// update balances
+		Balance debitAccountBalance = payment.getDebitAccount().getBalance();
+		Balance creditAccountBalance = payment.getCreditAccount().getBalance();
+		debitAccountBalance.substractFromAvailable(payment.getAmount()
+				* getExchangeRate(payment.getCurrency().getName(), payment.getDebitAccount().getCurrency().getName()));
+		creditAccountBalance.addToAvailable(payment.getAmount()
+				* getExchangeRate(payment.getCurrency().getName(), payment.getCreditAccount().getCurrency().getName()));
+		balanceRepository.save(debitAccountBalance);
+		balanceRepository.save(creditAccountBalance);
+
 		payment.setStatus(paymentStatusRepository.findByName("COMPLETED"));
 		payment.setAuthorizedBy(
 				userRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).get());
@@ -299,7 +314,7 @@ public class PaymentServiceImpl implements PaymentService {
 					String.format(
 							"cancel failed because the payment (id = %d) status was either 'COMPLETED' or 'CANCELLED'",
 							id)));
-			throw new RuntimeException("Payment status is not 'AUTHORIZE'!");
+			throw new RuntimeException("Payment is already in a final state!");
 		}
 		payment.setStatus(paymentStatusRepository.findByName("CANCELLED"));
 		payment.setCancelledBy(

@@ -1,12 +1,15 @@
 package com.montran.banking.payment.business;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -16,6 +19,7 @@ import com.montran.banking.account.domain.dto.AccountCreateDTO;
 import com.montran.banking.account.domain.entity.Account;
 import com.montran.banking.account.persistence.AccountRepository;
 import com.montran.banking.accountstatus.persistence.AccountStatusRepository;
+import com.montran.banking.balance.persistence.BalanceRepository;
 import com.montran.banking.payment.domain.dto.PaymentCreateDTO;
 import com.montran.banking.payment.domain.dto.PaymentVerifyDTO;
 import com.montran.banking.payment.domain.entity.Payment;
@@ -47,6 +51,9 @@ class PaymentServiceImplTest {
 
 	@Autowired
 	private AccountStatusRepository accountStatusRepository;
+
+	@Autowired
+	private BalanceRepository balanceRepository;
 
 	private Account account1;
 	private Account account2;
@@ -164,6 +171,8 @@ class PaymentServiceImplTest {
 	@Test
 	public void testApproveStatusNotApproveShouldThrowException() {
 		// setup
+		account1.getBalance().setAvailable(5.0);
+		balanceRepository.save(account1.getBalance());
 		Payment payment = paymentService
 				.create(new PaymentCreateDTO(account1.getIban(), account2.getIban(), 1.0, "EUR"));
 		payment.setCreatedBy(userService.findByUsername("skuhn"));
@@ -179,6 +188,8 @@ class PaymentServiceImplTest {
 	@Test
 	public void testApproveUserToApproveAlsoCreateShouldThrowException() {
 		// setup
+		account1.getBalance().setAvailable(5.0);
+		balanceRepository.save(account1.getBalance());
 		Payment payment = paymentService
 				.create(new PaymentCreateDTO(account1.getIban(), account2.getIban(), 1.0, "EUR"));
 		payment.setCreatedBy(userService.findByUsername("igibson"));
@@ -194,6 +205,8 @@ class PaymentServiceImplTest {
 	@Test
 	public void testApproveUserToApproveAlsoVerifyShouldThrowException() {
 		// setup
+		account1.getBalance().setAvailable(5.0);
+		balanceRepository.save(account1.getBalance());
 		Payment payment = paymentService
 				.create(new PaymentCreateDTO(account1.getIban(), account2.getIban(), 1.0, "EUR"));
 		payment.setCreatedBy(userService.findByUsername("skuhn"));
@@ -206,11 +219,13 @@ class PaymentServiceImplTest {
 		paymentService.deleteById(payment.getId());
 	}
 
-	@Test
-	public void testApproveAccountCannotDebitShouldThrowException() {
+	@ParameterizedTest
+	@ValueSource(strings = { "BLOCKED", "BLOCKED_DEBIT", "CLOSED" })
+	public void testApproveAccountCannotDebitShouldThrowException(String accountStatusCannotDebit) {
 		// setup
 		account1.getBalance().setAvailable(5.0);
-//		account1.setStatus(accountStatusRepository.findByName("BLOCKED").get());
+		balanceRepository.save(account1.getBalance());
+		account1.setStatus(accountStatusRepository.findByName(accountStatusCannotDebit).get());
 		accountRepository.save(account1);
 		Payment payment = paymentService
 				.create(new PaymentCreateDTO(account1.getIban(), account2.getIban(), 1.0, "EUR"));
@@ -218,11 +233,158 @@ class PaymentServiceImplTest {
 		payment.setVerifiedBy(userService.findByUsername("sean.feeney"));
 		payment.setStatus(paymentStatusRepository.findByName("APPROVE"));
 		paymentRepository.save(payment);
-		// approve payment with debit account blocked
+		// approve payment with debit account unable to debit due to status
 		assertThrows(RuntimeException.class, () -> paymentService.approve(payment.getId()));
+		// check status changed to AUTHORIZE
+		assertEquals("AUTHORIZE", paymentRepository.findById(payment.getId()).get().getStatus().getName());
 		// cleanup
 		paymentService.deleteById(payment.getId());
 	}
 
-	// ACTIVATE CODE ASSIST FOR .
+	@ParameterizedTest
+	@ValueSource(strings = { "BLOCKED", "BLOCKED_CREDIT", "CLOSED" })
+	public void testApproveAccountCannotCreditShouldThrowException(String accountStatusCannotCredit) {
+		// setup
+		account1.getBalance().setAvailable(5.0);
+		balanceRepository.save(account1.getBalance());
+		account2.setStatus(accountStatusRepository.findByName(accountStatusCannotCredit).get());
+		accountRepository.save(account2);
+		Payment payment = paymentService
+				.create(new PaymentCreateDTO(account1.getIban(), account2.getIban(), 1.0, "EUR"));
+		payment.setCreatedBy(userService.findByUsername("skuhn"));
+		payment.setVerifiedBy(userService.findByUsername("sean.feeney"));
+		payment.setStatus(paymentStatusRepository.findByName("APPROVE"));
+		paymentRepository.save(payment);
+		// approve payment with credit account blocked
+		assertThrows(RuntimeException.class, () -> paymentService.approve(payment.getId()));
+		// check status changed to AUTHORIZE
+		assertEquals("AUTHORIZE", paymentRepository.findById(payment.getId()).get().getStatus().getName());
+		// cleanup
+		paymentService.deleteById(payment.getId());
+	}
+
+	@Test
+	public void testApproveAccountInsufficientFundsDebitShouldThrowException() {
+		// setup
+		Payment payment = paymentService
+				.create(new PaymentCreateDTO(account1.getIban(), account2.getIban(), 1.0, "EUR"));
+		payment.setCreatedBy(userService.findByUsername("skuhn"));
+		payment.setVerifiedBy(userService.findByUsername("sean.feeney"));
+		payment.setStatus(paymentStatusRepository.findByName("APPROVE"));
+		paymentRepository.save(payment);
+		// approve payment with insufficient funds on debit
+		assertThrows(RuntimeException.class, () -> paymentService.approve(payment.getId()));
+		// check status changed to AUTHORIZE
+		assertEquals("AUTHORIZE", paymentRepository.findById(payment.getId()).get().getStatus().getName());
+		// cleanup
+		paymentService.deleteById(payment.getId());
+	}
+
+	@Test
+	public void testApprove() {
+		// setup
+		account1.getBalance().setAvailable(5.0);
+		balanceRepository.save(account1.getBalance());
+		Payment payment = paymentService
+				.create(new PaymentCreateDTO(account1.getIban(), account2.getIban(), 1.0, "EUR"));
+		payment.setCreatedBy(userService.findByUsername("skuhn"));
+		payment.setVerifiedBy(userService.findByUsername("sean.feeney"));
+		payment.setStatus(paymentStatusRepository.findByName("APPROVE"));
+		paymentRepository.save(payment);
+		// balances before approve
+		Double balance1Before = account1.getBalance().getAvailable();
+		Double balance2Before = account2.getBalance().getAvailable();
+		// approve payment
+		assertDoesNotThrow(() -> paymentService.approve(payment.getId()));
+		// check status change to COMPLETED
+		assertEquals("COMPLETED", paymentRepository.findById(payment.getId()).get().getStatus().getName());
+		// balances after approve
+		account1 = accountRepository.findById(account1.getId()).get();
+		account2 = accountRepository.findById(account2.getId()).get();
+		Double balance1After = account1.getBalance().getAvailable();
+		Double balance2After = account2.getBalance().getAvailable();
+		// check balances were updated
+		assertEquals(1.0, balance1Before - balance1After);
+		assertEquals(1.0, balance2After - balance2Before);
+		// cleanup
+		paymentService.deleteById(payment.getId());
+	}
+
+	@Test
+	public void testAuthorizeStatusNotAuthorizeShouldThrowException() {
+		// setup
+		Payment payment = paymentService
+				.create(new PaymentCreateDTO(account1.getIban(), account2.getIban(), 1.0, "EUR"));
+		payment.setStatus(paymentStatusRepository.findByName("APPROVE"));
+		paymentRepository.save(payment);
+		// authorize payment with status APPROVE
+		assertThrows(RuntimeException.class, () -> paymentService.authorize(payment.getId()));
+		// cleanup
+		paymentService.deleteById(payment.getId());
+	}
+
+	@Test
+	public void testAuthorize() {
+		// setup
+		Payment payment = paymentService
+				.create(new PaymentCreateDTO(account1.getIban(), account2.getIban(), 1.0, "EUR"));
+		payment.setStatus(paymentStatusRepository.findByName("AUTHORIZE"));
+		paymentRepository.save(payment);
+		// balances before approve
+		Double balance1Before = account1.getBalance().getAvailable();
+		Double balance2Before = account2.getBalance().getAvailable();
+		// authorize payment
+		assertDoesNotThrow(() -> paymentService.authorize(payment.getId()));
+		// check status changed to COMPLETED
+		assertEquals("COMPLETED", paymentRepository.findById(payment.getId()).get().getStatus().getName());
+		// balances after authorize
+		account1 = accountRepository.findById(account1.getId()).get();
+		account2 = accountRepository.findById(account2.getId()).get();
+		Double balance1After = account1.getBalance().getAvailable();
+		Double balance2After = account2.getBalance().getAvailable();
+		// check balances were updated
+		assertEquals(1.0, balance1Before - balance1After);
+		assertEquals(1.0, balance2After - balance2Before);
+		// cleanup
+		paymentService.deleteById(payment.getId());
+	}
+
+	@Test
+	public void testCancelStatusCompletedShouldThrowException() {
+		// setup
+		Payment payment = paymentService
+				.create(new PaymentCreateDTO(account1.getIban(), account2.getIban(), 1.0, "EUR"));
+		payment.setStatus(paymentStatusRepository.findByName("COMPLETED"));
+		paymentRepository.save(payment);
+		// cancel payment with status COMPLETED
+		assertThrows(RuntimeException.class, () -> paymentService.cancel(payment.getId()));
+		// cleanup
+		paymentService.deleteById(payment.getId());
+	}
+
+	@Test
+	public void testCancelStatusCancelledShouldThrowException() {
+		// setup
+		Payment payment = paymentService
+				.create(new PaymentCreateDTO(account1.getIban(), account2.getIban(), 1.0, "EUR"));
+		payment.setStatus(paymentStatusRepository.findByName("CANCELLED"));
+		paymentRepository.save(payment);
+		// cancel payment with status CANCELLED
+		assertThrows(RuntimeException.class, () -> paymentService.cancel(payment.getId()));
+		// cleanup
+		paymentService.deleteById(payment.getId());
+	}
+
+	@Test
+	public void testCancel() {
+		// setup
+		Payment payment = paymentService
+				.create(new PaymentCreateDTO(account1.getIban(), account2.getIban(), 1.0, "EUR"));
+		payment.setStatus(paymentStatusRepository.findByName("APPROVE"));
+		paymentRepository.save(payment);
+		// cancel payment
+		assertDoesNotThrow(() -> paymentService.cancel(payment.getId()));
+		// cleanup
+		paymentService.deleteById(payment.getId());
+	}
 }
