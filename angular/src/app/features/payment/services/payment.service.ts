@@ -27,7 +27,6 @@ export class PaymentService {
   }
 
   verify(id: number, confirmAmount: PaymentVerify): Observable<any> {
-    console.log(confirmAmount);
     return this.httpClient.post(`${environment.apiUrl}/${this.paymentEndpoint}/verify/${id}`, confirmAmount);
   }
 

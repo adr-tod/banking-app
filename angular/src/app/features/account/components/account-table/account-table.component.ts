@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialog, MatDialogConfig, MatSnackBar } from '@angular/material';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { MatDialog, MatDialogConfig, MatSnackBar, MatPaginator, MatTableDataSource } from '@angular/material';
 import { AuthenticationService } from 'src/app/features/login/services/authentication.service';
 import { PaymentCreateDialogComponent } from 'src/app/features/payment/components/payment-create-dialog/payment-create-dialog.component';
 import { PaymentCreate } from 'src/app/features/payment/models/payment.model';
@@ -24,13 +24,15 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
     ]),
   ]
 })
-export class AccountTableComponent implements OnInit {
+export class AccountTableComponent implements OnInit, AfterViewInit {
 
   currentUser: User;
   displayedColumns: string[];
-  dataSource: Account[];
+  dataSource = new MatTableDataSource<Account>();
 
   expandedElement: any;
+
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   constructor(private authenticationService: AuthenticationService, private accountService: AccountService,
     private paymentService: PaymentService, private dialog: MatDialog, private snackbar: MatSnackBar) {
@@ -40,15 +42,19 @@ export class AccountTableComponent implements OnInit {
   ngOnInit(): void {
     if (this.currentUser.profile === Role.ADMIN) {
       this.accountService.findAll().subscribe(data => {
-        this.dataSource = data;
+        this.dataSource.data = data;
       });
       this.displayedColumns = ['name', 'iban', 'user', 'currency', 'balance', 'status', 'actions'];
     } else {
       this.accountService.findAllByUserId(this.currentUser.id).subscribe(data => {
-        this.dataSource = data;
+        this.dataSource.data = data;
       });
       this.displayedColumns = ['name', 'iban', 'currency', 'balance', 'status', 'actions'];
     }
+  }
+
+  ngAfterViewInit(): void {
+    this.dataSource.paginator = this.paginator;
   }
 
   get isAdmin() {

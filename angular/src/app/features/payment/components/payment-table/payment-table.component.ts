@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialog, MatDialogConfig, MatSnackBar } from '@angular/material';
+import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
+import { MatDialog, MatDialogConfig, MatSnackBar, MatTableDataSource, MatPaginator } from '@angular/material';
 import { AuthenticationService } from 'src/app/features/login/services/authentication.service';
 import { User } from 'src/app/features/user/models/user.model';
 import { Payment, PaymentCreate, PaymentVerify } from '../../models/payment.model';
@@ -12,23 +12,27 @@ import { PaymentVerifyDialogComponent } from '../payment-verify-dialog/payment-v
   templateUrl: './payment-table.component.html',
   styleUrls: ['./payment-table.component.css']
 })
-export class PaymentTableComponent implements OnInit {
+export class PaymentTableComponent implements OnInit, AfterViewInit {
 
   currentUser: User;
   displayedColumns: string[] = ['debitAccount', 'creditAccount', 'dateTime', 'amount', 'currency', 'status', 'actions'];
-  dataSource: Payment[];
+  dataSource = new MatTableDataSource<Payment>();
+
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   constructor(private authenticationService: AuthenticationService, private paymentService: PaymentService,
-    private dialog: MatDialog, private snackbar: MatSnackBar) {
+              private dialog: MatDialog, private snackbar: MatSnackBar) {
     this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
-    console.log(this.currentUser);
   }
 
   ngOnInit(): void {
     this.paymentService.findAll().subscribe(data => {
-      console.log(data);
-      this.dataSource = data;
+      this.dataSource.data = data;
     });
+  }
+
+  ngAfterViewInit(): void {
+    this.dataSource.paginator = this.paginator;
   }
 
   isPaymentStatusEqualTo(payment: Payment, status: string) {
