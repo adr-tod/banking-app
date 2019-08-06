@@ -1,12 +1,13 @@
 import { User } from '../../user/models/user.model';
+import { Account, Currency } from '../../account/models/account.model';
 
 export class Payment {
   id: number;
-  debitAccount: string;
-  creditAccount: string;
+  debitAccount: Account;
+  creditAccount: Account;
   dateTime: string;
   amount: number;
-  currency: string;
+  currency: Currency;
   status: PaymentStatus;
   createdBy: User;
   verifiedBy: User;

@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
-import { MatDialog, MatDialogConfig, MatSnackBar, MatTableDataSource, MatPaginator } from '@angular/material';
+import { MatDialog, MatDialogConfig, MatSnackBar, MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
 import { AuthenticationService } from 'src/app/features/login/services/authentication.service';
 import { User } from 'src/app/features/user/models/user.model';
 import { Payment, PaymentCreate, PaymentVerify } from '../../models/payment.model';
@@ -19,9 +19,10 @@ export class PaymentTableComponent implements OnInit, AfterViewInit {
   dataSource = new MatTableDataSource<Payment>();
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(private authenticationService: AuthenticationService, private paymentService: PaymentService,
-              private dialog: MatDialog, private snackbar: MatSnackBar) {
+    private dialog: MatDialog, private snackbar: MatSnackBar) {
     this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
   }
 
@@ -33,6 +34,16 @@ export class PaymentTableComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+    this.dataSource.sortingDataAccessor = (item, property) => {
+      switch (property) {
+        case 'debitAccount': return item.debitAccount.iban;
+        case 'creditAccount': return item.creditAccount.iban;
+        case 'currency': return item.currency.name;
+        case 'status': return item.status.name;
+        default: return item[property];
+      }
+    };
   }
 
   isPaymentStatusEqualTo(payment: Payment, status: string) {

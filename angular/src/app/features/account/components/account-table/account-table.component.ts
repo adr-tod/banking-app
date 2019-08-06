@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { MatDialog, MatDialogConfig, MatSnackBar, MatPaginator, MatTableDataSource } from '@angular/material';
+import { MatDialog, MatDialogConfig, MatSnackBar, MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
 import { AuthenticationService } from 'src/app/features/login/services/authentication.service';
 import { PaymentCreateDialogComponent } from 'src/app/features/payment/components/payment-create-dialog/payment-create-dialog.component';
 import { PaymentCreate } from 'src/app/features/payment/models/payment.model';
@@ -33,6 +33,7 @@ export class AccountTableComponent implements OnInit, AfterViewInit {
   expandedElement: any;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(private authenticationService: AuthenticationService, private accountService: AccountService,
     private paymentService: PaymentService, private dialog: MatDialog, private snackbar: MatSnackBar) {
@@ -44,7 +45,7 @@ export class AccountTableComponent implements OnInit, AfterViewInit {
       this.accountService.findAll().subscribe(data => {
         this.dataSource.data = data;
       });
-      this.displayedColumns = ['name', 'iban', 'user', 'currency', 'balance', 'status', 'actions'];
+      this.displayedColumns = ['name', 'iban', 'username', 'currency', 'balance', 'status', 'actions'];
     } else {
       this.accountService.findAllByUserId(this.currentUser.id).subscribe(data => {
         this.dataSource.data = data;
@@ -55,6 +56,16 @@ export class AccountTableComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+    this.dataSource.sortingDataAccessor = (item, property) => {
+      switch(property) {
+        case 'username': return item.user.username;
+        case 'currency': return item.currency.name;
+        case 'balance': return item.balance.available;
+        case 'status': return item.status.name;
+        default: return item[property];
+      }
+    };
   }
 
   get isAdmin() {

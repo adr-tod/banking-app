@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule, MatDialogModule, MatIconModule, MatInputModule, MatSnackBarModule, MatTableModule, MatPaginatorModule } from '@angular/material';
+import { MatButtonModule, MatDialogModule, MatIconModule, MatInputModule, MatSnackBarModule, MatTableModule, MatPaginatorModule, MatSortModule } from '@angular/material';
 import { PaymentCreateDialogComponent } from './components/payment-create-dialog/payment-create-dialog.component';
 import { PaymentTableComponent } from './components/payment-table/payment-table.component';
 import { PaymentVerifyDialogComponent } from './components/payment-verify-dialog/payment-verify-dialog.component';
@@ -18,6 +18,7 @@ import { PaymentPersonalTableComponent } from './components/payment-personal-tab
     PaymentRoutingModule,
     MatTableModule,
     MatPaginatorModule,
+    MatSortModule,
     MatButtonModule,
     MatDialogModule,
     MatInputModule,

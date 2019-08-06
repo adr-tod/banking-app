@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { MatDialog, MatDialogConfig, MatTableDataSource, MatPaginator } from '@angular/material';
+import { MatDialog, MatDialogConfig, MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
 import { User, UserAdd, UserUpdate } from '../../models/user.model';
 import { UserService } from '../../services/user.service';
 import { UserAddDialogComponent } from '../user-add-dialog/user-add-dialog.component';
@@ -16,6 +16,7 @@ export class UserTableComponent implements OnInit, AfterViewInit {
   dataSource = new MatTableDataSource<User>();
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(private userService: UserService, private modifyDialog: MatDialog, private addDialog: MatDialog) {
   }
@@ -28,6 +29,7 @@ export class UserTableComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
   createButtonClicked(): void {
