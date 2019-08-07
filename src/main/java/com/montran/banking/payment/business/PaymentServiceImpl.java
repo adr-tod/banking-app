@@ -329,5 +329,9 @@ public class PaymentServiceImpl implements PaymentService {
 	@Override
 	public void deleteById(Long id) {
 		paymentRepository.deleteById(id);
+		// audit
+		paymentAuditRepository
+				.save(new PaymentAudit("cancel", SecurityContextHolder.getContext().getAuthentication().getName(),
+						String.format("deleted the payment with id = %d", id)));
 	}
 }
