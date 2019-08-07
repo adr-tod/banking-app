@@ -30,6 +30,10 @@ export class AccountUpdateDialogComponent implements OnInit {
     });
   }
 
+  isFieldInvalid(field: string) {
+    return !this.form.get(field).valid && this.form.get(field).touched;
+  }
+
   update() {
     this.dialogRef.close(this.form.getRawValue());
   }

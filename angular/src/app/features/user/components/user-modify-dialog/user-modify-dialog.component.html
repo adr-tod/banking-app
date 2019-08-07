@@ -10,31 +10,46 @@
 
   <div>
     <mat-form-field>
-      <input matInput placeholder="Username" formControlName="username">
+      <input matInput placeholder="Username" formControlName="username" required>
+      <mat-error *ngIf="isFieldInvalid('username')">
+        Please inform the new username
+      </mat-error>
     </mat-form-field>
   </div>
 
   <div>
     <mat-form-field>
-      <input matInput placeholder="New fullname" formControlName="fullname">
+      <input matInput placeholder="New fullname" formControlName="fullname" required>
+      <mat-error *ngIf="isFieldInvalid('fullname')">
+        Please inform the new fullname
+      </mat-error>
     </mat-form-field>
   </div>
 
   <div>
     <mat-form-field>
-      <input matInput placeholder="New email" formControlName="email">
+      <input matInput placeholder="New email" formControlName="email" required>
+      <mat-error *ngIf="isFieldInvalid('email')">
+        Please inform the new email
+      </mat-error>
     </mat-form-field>
   </div>
 
   <div>
     <mat-form-field>
-      <input matInput placeholder="New address" formControlName="address">
+      <input matInput placeholder="New address" formControlName="address" required>
+      <mat-error *ngIf="isFieldInvalid('address')">
+        Please inform the new address
+      </mat-error>
     </mat-form-field>
   </div>
 
   <div>
     <mat-form-field>
-      <input matInput placeholder="Profile" formControlName="profile">
+      <input matInput placeholder="Profile" formControlName="profile" required>
+      <mat-error *ngIf="isFieldInvalid('profile')">
+        Please inform the new profile
+      </mat-error>
     </mat-form-field>
   </div>
 

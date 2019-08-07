@@ -12,7 +12,7 @@ export class PaymentCreateDialogComponent implements OnInit {
   form: FormGroup;
 
   constructor(private fb: FormBuilder, private dialogRef: MatDialogRef<PaymentCreateDialogComponent>,
-              @Inject(MAT_DIALOG_DATA) public debitIban: any) {
+    @Inject(MAT_DIALOG_DATA) public debitIban: any) {
   }
 
   ngOnInit() {
@@ -26,6 +26,10 @@ export class PaymentCreateDialogComponent implements OnInit {
     if (this.debitIban) {
       this.form.setControl('debitIban', new FormControl({ value: this.debitIban, disabled: true }));
     }
+  }
+
+  isFieldInvalid(field: string) {
+    return !this.form.get(field).valid && this.form.get(field).touched;
   }
 
   create() {

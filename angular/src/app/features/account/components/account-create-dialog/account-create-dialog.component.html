@@ -4,31 +4,46 @@
 
   <div>
     <mat-form-field>
-      <input matInput placeholder="Name" formControlName="name">
+      <input matInput placeholder="Name" formControlName="name" required>
+      <mat-error *ngIf="isFieldInvalid('name')">
+        Please inform the account name
+      </mat-error>
     </mat-form-field>
   </div>
 
   <div>
     <mat-form-field>
-      <input matInput placeholder="IBAN" formControlName="iban">
+      <input matInput placeholder="IBAN" formControlName="iban" required>
+      <mat-error *ngIf="isFieldInvalid('iban')">
+        Please inform the IBAN
+      </mat-error>
     </mat-form-field>
   </div>
 
   <div>
     <mat-form-field>
-      <input matInput placeholder="Currency" formControlName="currency">
+      <input matInput placeholder="Currency" formControlName="currency" required>
+      <mat-error *ngIf="isFieldInvalid('currency')">
+        Please inform the currency
+      </mat-error>
     </mat-form-field>
   </div>
 
   <div>
     <mat-form-field>
-      <input matInput placeholder="Address" formControlName="address">
+      <input matInput placeholder="Address" formControlName="address" required>
+      <mat-error *ngIf="isFieldInvalid('address')">
+        Please inform the address
+      </mat-error>
     </mat-form-field>
   </div>
 
   <div>
     <mat-form-field>
-      <input matInput placeholder="User ID" formControlName="userId">
+      <input matInput placeholder="User ID" formControlName="userId" required>
+      <mat-error *ngIf="isFieldInvalid('userId')">
+        Please inform the owner ID
+      </mat-error>
     </mat-form-field>
   </div>
 

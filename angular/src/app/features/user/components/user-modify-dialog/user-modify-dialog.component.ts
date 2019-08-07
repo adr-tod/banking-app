@@ -32,6 +32,10 @@ export class UserModifyDialogComponent implements OnInit {
     });
   }
 
+  isFieldInvalid(field: string) {
+    return !this.form.get(field).valid && this.form.get(field).touched;
+  }
+
   modify() {
     this.dialogRef.close(this.form.getRawValue());
   }

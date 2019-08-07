@@ -4,25 +4,37 @@
 
   <div>
     <mat-form-field>
-      <input matInput placeholder="Debit IBAN" formControlName="debitIban">
+      <input matInput placeholder="Debit IBAN" formControlName="debitIban" required>
+      <mat-error *ngIf="isFieldInvalid('debitIban')">
+        Please inform the debit IBAN
+      </mat-error>
     </mat-form-field>
   </div>
 
   <div>
     <mat-form-field>
-      <input matInput placeholder="Credit IBAN" formControlName="creditIban">
+      <input matInput placeholder="Credit IBAN" formControlName="creditIban" required>
+      <mat-error *ngIf="isFieldInvalid('creditIban')">
+          Please inform the credit IBAN
+        </mat-error>
     </mat-form-field>
   </div>
 
   <div>
     <mat-form-field>
-      <input matInput placeholder="Amount" formControlName="amount">
+      <input matInput placeholder="Amount" formControlName="amount" required>
+      <mat-error *ngIf="isFieldInvalid('amount')">
+          Please inform the amount
+        </mat-error>
     </mat-form-field>
   </div>
 
   <div>
     <mat-form-field>
-      <input matInput placeholder="Currency" formControlName="currency">
+      <input matInput placeholder="Currency" formControlName="currency" required>
+      <mat-error *ngIf="isFieldInvalid('currency')">
+          Please inform the currency
+        </mat-error>
     </mat-form-field>
   </div>
 

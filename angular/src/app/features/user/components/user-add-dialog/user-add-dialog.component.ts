@@ -24,6 +24,10 @@ export class UserAddDialogComponent implements OnInit {
     });
   }
 
+  isFieldInvalid(field: string) {
+    return !this.form.get(field).valid && this.form.get(field).touched;
+  }
+
   add() {
     this.dialogRef.close(this.form.value);
   }
