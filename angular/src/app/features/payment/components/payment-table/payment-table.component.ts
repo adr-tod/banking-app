@@ -21,6 +21,10 @@ export class PaymentTableComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
+  public doFilter = (value: string) => {
+    this.dataSource.filter = value.trim().toLocaleLowerCase();
+  }
+
   constructor(private authenticationService: AuthenticationService, private paymentService: PaymentService,
     private dialog: MatDialog, private snackbar: MatSnackBar) {
     this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
@@ -35,6 +39,7 @@ export class PaymentTableComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+    // sorting accesor for handling nested objects sorting
     this.dataSource.sortingDataAccessor = (item, property) => {
       switch (property) {
         case 'debitAccount': return item.debitAccount.iban;
@@ -43,6 +48,22 @@ export class PaymentTableComponent implements OnInit, AfterViewInit {
         case 'status': return item.status.name;
         default: return item[property];
       }
+    };
+    // filter predicate for handling nested objects filtering
+    this.dataSource.filterPredicate = (data, filter: string) => {
+      const accumulator = (currentTerm, key) => {
+        switch (key) {
+          case 'debitAccount': return currentTerm + data.debitAccount.iban;
+          case 'creditAccount': return currentTerm + data.creditAccount.iban;
+          case 'currency': return currentTerm + data.currency.name;
+          case 'status': return currentTerm + data.status.name;
+          default: return currentTerm + data[key];
+        }
+      };
+      const dataStr = Object.keys(data).reduce(accumulator, '').toLowerCase();
+      // Transform the filter by converting it to lowercase and removing whitespace
+      const transformedFilter = filter.trim().toLowerCase();
+      return dataStr.indexOf(transformedFilter) !== -1;
     };
   }
 

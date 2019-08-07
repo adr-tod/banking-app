@@ -35,6 +35,10 @@ export class AccountTableComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
+  public doFilter = (value: string) => {
+    this.dataSource.filter = value.trim().toLocaleLowerCase();
+  }
+
   constructor(private authenticationService: AuthenticationService, private accountService: AccountService,
     private paymentService: PaymentService, private dialog: MatDialog, private snackbar: MatSnackBar) {
     this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
@@ -57,14 +61,31 @@ export class AccountTableComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+    // sorting accessor for handling nested objects sorting
     this.dataSource.sortingDataAccessor = (item, property) => {
-      switch(property) {
+      switch (property) {
         case 'username': return item.user.username;
-        case 'currency': return item.currency.name;
         case 'balance': return item.balance.available;
+        case 'currency': return item.currency.name;
         case 'status': return item.status.name;
         default: return item[property];
       }
+    };
+    // filter predicate for handling nested objects filtering
+    this.dataSource.filterPredicate = (data, filter: string) => {
+      const accumulator = (currentTerm, key) => {
+        switch (key) {
+          case 'username': return currentTerm + data.user.username;
+          case 'balance': return currentTerm + data.balance.available;
+          case 'currency': return currentTerm + data.currency.name;
+          case 'status': return currentTerm + data.status.name;
+          default: return currentTerm + data[key];
+        }
+      };
+      const dataStr = Object.keys(data).reduce(accumulator, '').toLowerCase();
+      // Transform the filter by converting it to lowercase and removing whitespace
+      const transformedFilter = filter.trim().toLowerCase();
+      return dataStr.indexOf(transformedFilter) !== -1;
     };
   }
 

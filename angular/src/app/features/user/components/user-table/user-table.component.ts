@@ -18,6 +18,10 @@ export class UserTableComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
+  public doFilter = (value: string) => {
+    this.dataSource.filter = value.trim().toLocaleLowerCase();
+  }
+
   constructor(private userService: UserService, private modifyDialog: MatDialog, private addDialog: MatDialog) {
   }
 

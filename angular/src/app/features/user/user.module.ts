@@ -6,6 +6,7 @@ import { UserAddDialogComponent } from './components/user-add-dialog/user-add-di
 import { UserModifyDialogComponent } from './components/user-modify-dialog/user-modify-dialog.component';
 import { UserTableComponent } from './components/user-table/user-table.component';
 import { UserRoutingModule } from './user-routing.module';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 
 
@@ -25,7 +26,8 @@ import { UserRoutingModule } from './user-routing.module';
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
-    MatIconModule
+    MatIconModule,
+    FlexLayoutModule
   ],
   entryComponents: [
     UserAddDialogComponent,
