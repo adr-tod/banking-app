@@ -19,7 +19,7 @@ public class Currency extends BaseEntity {
 	private String name;
 	@OneToMany(mappedBy = "currency")
 	@JsonBackReference
-	private List<Account> accounts = new ArrayList<Account>();
+	private List<Account> accounts = new ArrayList<>();
 	@OneToMany(mappedBy = "currency")
 	@JsonBackReference
 	private List<Payment> payments = new ArrayList<Payment>();
