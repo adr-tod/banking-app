@@ -11,6 +11,10 @@ import javax.persistence.MappedSuperclass;
 @MappedSuperclass
 public abstract class BaseAudit implements Serializable {
 
+	public static final String OPERATION_CREATE = "CREATE";
+	public static final String OPERATION_UPDATE = "UPDATE";
+	public static final String OPERATION_DELETE = "DELETE";
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	protected Long id;

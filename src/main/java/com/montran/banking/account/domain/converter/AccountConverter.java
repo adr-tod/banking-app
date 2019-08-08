@@ -42,12 +42,12 @@ public class AccountConverter {
 		account.setUser(userRepository.findById(accountCreateDTO.getUserId()).orElseThrow(
 				() -> new RuntimeException(String.format("No user with id = '%d'", accountCreateDTO.getUserId()))));
 		account.setBalance(balanceRepository.save(new Balance(0.0)));
-		account.setStatus(accountStatusRepository.findByName("ACTIVE").orElse(null));
+		account.setStatus(accountStatusRepository.findByName("ACTIVE").get());
 		return account;
 	}
 
 	public Account convertUpdateDtoToEntity(AccountUpdateDTO accountUpdateDTO) {
-		Account account = accountRepository.findById(accountUpdateDTO.getId()).orElse(null);
+		Account account = accountRepository.findById(accountUpdateDTO.getId()).get();
 		account.setName(accountUpdateDTO.getName());
 		account.setAddress(accountUpdateDTO.getAddress());
 		account.getBalance().setAvailable(accountUpdateDTO.getBalance());

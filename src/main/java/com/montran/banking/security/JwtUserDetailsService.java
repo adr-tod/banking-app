@@ -18,7 +18,7 @@ public class JwtUserDetailsService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) {
-		com.montran.banking.user.domain.entity.User user = userRepository.findByUsername(username).orElse(null);
+		com.montran.banking.user.domain.entity.User user = userRepository.findByUsername(username).get();
 		return new User(user.getUsername(), user.getPassword(), new ArrayList<>());
 	}
 

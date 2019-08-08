@@ -49,9 +49,9 @@ public class UserServiceImpl implements UserService {
 		User user = userConverter.convertCreateDtoToEntity(userCreateDTO);
 		user = userRepository.save(user);
 		// audit
-		userAuditRepository
-				.save(new UserAudit("create", SecurityContextHolder.getContext().getAuthentication().getName(),
-						"created the user with id = " + user.getId()));
+		userAuditRepository.save(new UserAudit(UserAudit.OPERATION_CREATE,
+				SecurityContextHolder.getContext().getAuthentication().getName(),
+				"created the user with id = " + user.getId()));
 		return user;
 	}
 
@@ -60,9 +60,9 @@ public class UserServiceImpl implements UserService {
 		User user = userConverter.convertUpdateDtoToEntity(userUpdateDTO);
 		user = userRepository.save(user);
 		// audit
-		userAuditRepository
-				.save(new UserAudit("update", SecurityContextHolder.getContext().getAuthentication().getName(),
-						"updated the user with id = " + user.getId()));
+		userAuditRepository.save(new UserAudit(UserAudit.OPERATION_UPDATE,
+				SecurityContextHolder.getContext().getAuthentication().getName(),
+				"updated the user with id = " + user.getId()));
 		return user;
 	}
 
@@ -70,7 +70,7 @@ public class UserServiceImpl implements UserService {
 	public void deleteById(Long id) {
 		userRepository.deleteById(id);
 		// audit
-		userAuditRepository.save(new UserAudit("delete",
+		userAuditRepository.save(new UserAudit(UserAudit.OPERATION_DELETE,
 				SecurityContextHolder.getContext().getAuthentication().getName(), "deleted the user with id = " + id));
 	}
 
@@ -78,8 +78,8 @@ public class UserServiceImpl implements UserService {
 	public void deleteByUsername(String username) {
 		userRepository.deleteByUsername(username);
 		// audit
-		userAuditRepository
-				.save(new UserAudit("delete", SecurityContextHolder.getContext().getAuthentication().getName(),
-						"deleted the user with username = " + username));
+		userAuditRepository.save(new UserAudit(UserAudit.OPERATION_DELETE,
+				SecurityContextHolder.getContext().getAuthentication().getName(),
+				"deleted the user with username = " + username));
 	}
 }

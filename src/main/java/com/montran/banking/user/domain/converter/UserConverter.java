@@ -29,12 +29,12 @@ public class UserConverter {
 		user.setEmail(userCreateDTO.getEmail());
 		user.setUsername(userCreateDTO.getUsername());
 		user.setPassword(passwordEncoder.encode(userCreateDTO.getPassword()));
-		user.setProfile(userProfileRepository.findByName("customer").orElse(null));
+		user.setProfile(userProfileRepository.findByName("customer").get());
 		return user;
 	}
 
 	public User convertUpdateDtoToEntity(UserUpdateDTO userUpdateDTO) {
-		User user = userRepository.findById(userUpdateDTO.getId()).orElse(null);
+		User user = userRepository.findById(userUpdateDTO.getId()).get();
 		user.setFullname(userUpdateDTO.getFullname());
 		user.setAddress(userUpdateDTO.getAddress());
 		user.setEmail(userUpdateDTO.getEmail());

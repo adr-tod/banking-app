@@ -11,6 +11,11 @@ import com.montran.banking.base.BaseAudit;
 @Table(name = "payments_audit")
 public class PaymentAudit extends BaseAudit {
 
+	public static final String OPERATION_VERIFY = "verify";
+	public static final String OPERATION_APPROVE = "approve";
+	public static final String OPERATION_AUTHORIZE = "authorize";
+	public static final String OPERATION_CANCEL = "cancel";
+
 	public PaymentAudit() {
 		super();
 	}

@@ -58,9 +58,9 @@ public class AccountServiceImpl implements AccountService {
 		Account account = accountConverter.convertCreateDtoToEntity(accountCreateDTO);
 		account = accountRepository.save(account);
 		// audit
-		accountAuditRepository
-				.save(new AccountAudit("create", SecurityContextHolder.getContext().getAuthentication().getName(),
-						"created the account with id = " + account.getId()));
+		accountAuditRepository.save(new AccountAudit(AccountAudit.OPERATION_CREATE,
+				SecurityContextHolder.getContext().getAuthentication().getName(),
+				"created the account with id = " + account.getId()));
 		return account;
 	}
 
@@ -69,31 +69,31 @@ public class AccountServiceImpl implements AccountService {
 		Account account = accountConverter.convertUpdateDtoToEntity(accountUpdateDTO);
 		account = accountRepository.save(account);
 		// audit
-		accountAuditRepository
-				.save(new AccountAudit("update", SecurityContextHolder.getContext().getAuthentication().getName(),
-						"updated the account with id = " + account.getId()));
+		accountAuditRepository.save(new AccountAudit(AccountAudit.OPERATION_UPDATE,
+				SecurityContextHolder.getContext().getAuthentication().getName(),
+				"updated the account with id = " + account.getId()));
 		return account;
 	}
 
 	@Override
 	public void deleteById(Long id) {
-		Account account = accountRepository.findById(id).orElse(null);
+		Account account = accountRepository.findById(id).get();
 		balanceRepository.delete(account.getBalance());
 		accountRepository.delete(account);
 		// audit
-		accountAuditRepository
-				.save(new AccountAudit("delete", SecurityContextHolder.getContext().getAuthentication().getName(),
-						"deleted the account with id = " + id));
+		accountAuditRepository.save(new AccountAudit(AccountAudit.OPERATION_DELETE,
+				SecurityContextHolder.getContext().getAuthentication().getName(),
+				"deleted the account with id = " + id));
 	}
 
 	@Override
 	public void deleteByIban(String iban) {
-		Account account = accountRepository.findByIban(iban).orElse(null);
+		Account account = accountRepository.findByIban(iban).get();
 		balanceRepository.delete(account.getBalance());
 		accountRepository.delete(account);
 		// audit
-		accountAuditRepository
-				.save(new AccountAudit("delete", SecurityContextHolder.getContext().getAuthentication().getName(),
-						"deleted the account with id = " + account.getId()));
+		accountAuditRepository.save(new AccountAudit(AccountAudit.OPERATION_DELETE,
+				SecurityContextHolder.getContext().getAuthentication().getName(),
+				"deleted the account with id = " + account.getId()));
 	}
 }
