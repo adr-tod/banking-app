@@ -20,6 +20,9 @@ export class PaymentPersonalTableComponent implements OnInit {
 
   ngOnInit(): void {
     this.paymentService.findAllByAccountId(this.accountId).subscribe(data => {
+      data.forEach(payment => {
+        payment.dateTime = payment.dateTime.replace('T', ' ');
+      });
       this.dataSource = data;
     });
   }

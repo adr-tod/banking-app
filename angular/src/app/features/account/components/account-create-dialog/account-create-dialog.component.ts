@@ -10,6 +10,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 export class AccountCreateDialogComponent implements OnInit {
 
   form: FormGroup;
+  currencies: string[] = ['EUR', 'USD', 'GBP', 'JPY', 'MXN'];
 
   constructor(private fb: FormBuilder, private dialogRef: MatDialogRef<AccountCreateDialogComponent>) {
   }

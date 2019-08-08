@@ -32,6 +32,9 @@ export class PaymentTableComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.paymentService.findAll().subscribe(data => {
+      data.forEach(payment => {
+        payment.dateTime = payment.dateTime.replace('T', ' ');
+      });
       this.dataSource.data = data;
     });
   }

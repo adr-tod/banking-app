@@ -22,7 +22,12 @@
 
   <div>
     <mat-form-field>
-      <input matInput placeholder="Currency" formControlName="currency" required>
+      <mat-label>Currency</mat-label>
+      <mat-select formControlName="currency" required>
+        <mat-option *ngFor="let currency of currencies" [value]="currency">
+          {{currency}}
+        </mat-option>
+      </mat-select>
       <mat-error *ngIf="isFieldInvalid('currency')">
         Please inform the currency
       </mat-error>

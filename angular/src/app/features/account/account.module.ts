@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule, MatDialogModule, MatIconModule, MatInputModule, MatTableModule, MatPaginatorModule, MatSortModule, MatFormFieldModule } from '@angular/material';
+import { MatButtonModule, MatDialogModule, MatIconModule, MatInputModule, MatTableModule, MatPaginatorModule, MatSortModule, MatFormFieldModule, MatSelectModule, MatOptionModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AccountRoutingModule } from './account-routing.module';
 import { AccountCreateDialogComponent } from './components/account-create-dialog/account-create-dialog.component';
@@ -23,6 +23,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatButtonModule,
     ReactiveFormsModule,
     MatDialogModule,
+    MatSelectModule,
+    MatOptionModule,
     MatInputModule,
     MatIconModule,
     MatFormFieldModule,

@@ -12,6 +12,7 @@ export class AccountUpdateDialogComponent implements OnInit {
 
   form: FormGroup;
   account: Account;
+  accountStatuses: string[] = ['ACTIVE', 'BLOCKED', 'BLOCKED_DEBIT', 'BLOCKED_CREDIT', 'CLOSED'];
 
   constructor(private fb: FormBuilder, private dialogRef: MatDialogRef<AccountUpdateDialogComponent>, @Inject(MAT_DIALOG_DATA) account) {
     this.account = account;

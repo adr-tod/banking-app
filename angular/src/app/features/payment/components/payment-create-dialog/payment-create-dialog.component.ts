@@ -10,6 +10,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 export class PaymentCreateDialogComponent implements OnInit {
 
   form: FormGroup;
+  currencies: string[] = ['EUR', 'USD', 'GBP', 'JPY', 'MXN'];
 
   constructor(private fb: FormBuilder, private dialogRef: MatDialogRef<PaymentCreateDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public debitIban: any) {
