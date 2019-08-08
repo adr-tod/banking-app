@@ -40,10 +40,10 @@ public class PaymentConverter {
 		payment.setCurrency(
 				currencyRepostory.findByName(paymentCreateDTO.getCurrency()).orElseThrow(() -> new RuntimeException(
 						String.format("No currency with name = '%s'", paymentCreateDTO.getCurrency()))));
-		payment.setStatus(paymentStatusRepository.findByName("VERIFY").get());
+		payment.setStatus(paymentStatusRepository.findByName("VERIFY").orElse(null));
 		payment.setDateTime(LocalDateTime.now());
-		payment.setCreatedBy(
-				userRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).get());
+		payment.setCreatedBy(userRepository
+				.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).orElse(null));
 		return payment;
 	}
 }

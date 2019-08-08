@@ -18,7 +18,7 @@ public class AccountStatus extends BaseEntity {
 	private String name;
 	@OneToMany(mappedBy = "status")
 	@JsonBackReference
-	private List<Account> accounts = new ArrayList<Account>();
+	private List<Account> accounts = new ArrayList<>();
 
 	public AccountStatus() {
 		super();

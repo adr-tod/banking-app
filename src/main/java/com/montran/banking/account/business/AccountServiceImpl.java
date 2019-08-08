@@ -77,7 +77,7 @@ public class AccountServiceImpl implements AccountService {
 
 	@Override
 	public void deleteById(Long id) {
-		Account account = accountRepository.findById(id).get();
+		Account account = accountRepository.findById(id).orElse(null);
 		balanceRepository.delete(account.getBalance());
 		accountRepository.delete(account);
 		// audit
@@ -88,7 +88,7 @@ public class AccountServiceImpl implements AccountService {
 
 	@Override
 	public void deleteByIban(String iban) {
-		Account account = accountRepository.findByIban(iban).get();
+		Account account = accountRepository.findByIban(iban).orElse(null);
 		balanceRepository.delete(account.getBalance());
 		accountRepository.delete(account);
 		// audit

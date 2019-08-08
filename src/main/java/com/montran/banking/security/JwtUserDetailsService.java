@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 import com.montran.banking.user.persistence.UserRepository;
@@ -18,8 +17,8 @@ public class JwtUserDetailsService implements UserDetailsService {
 	private UserRepository userRepository;
 
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		com.montran.banking.user.domain.entity.User user = userRepository.findByUsername(username).get();
+	public UserDetails loadUserByUsername(String username) {
+		com.montran.banking.user.domain.entity.User user = userRepository.findByUsername(username).orElse(null);
 		return new User(user.getUsername(), user.getPassword(), new ArrayList<>());
 	}
 

@@ -17,7 +17,7 @@ public class UserConverter {
 	private UserRepository userRepository;
 
 	@Autowired
-	private UserProfileRepository profileRepository;
+	private UserProfileRepository userProfileRepository;
 
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
@@ -29,12 +29,12 @@ public class UserConverter {
 		user.setEmail(userCreateDTO.getEmail());
 		user.setUsername(userCreateDTO.getUsername());
 		user.setPassword(passwordEncoder.encode(userCreateDTO.getPassword()));
-		user.setProfile(profileRepository.findByName("customer").get());
+		user.setProfile(userProfileRepository.findByName("customer").orElse(null));
 		return user;
 	}
 
 	public User convertUpdateDtoToEntity(UserUpdateDTO userUpdateDTO) {
-		User user = userRepository.findById(userUpdateDTO.getId()).get();
+		User user = userRepository.findById(userUpdateDTO.getId()).orElse(null);
 		user.setFullname(userUpdateDTO.getFullname());
 		user.setAddress(userUpdateDTO.getAddress());
 		user.setEmail(userUpdateDTO.getEmail());

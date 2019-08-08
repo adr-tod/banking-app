@@ -31,22 +31,22 @@ public class User extends BaseEntity {
 	private UserProfile profile;
 	@OneToMany(mappedBy = "user")
 	@JsonBackReference
-	private List<Account> accounts = new ArrayList<Account>();
+	private List<Account> accounts = new ArrayList<>();
 	@OneToMany(mappedBy = "createdBy")
 	@JsonBackReference
-	private List<Payment> paymentsCreated = new ArrayList<Payment>();
+	private List<Payment> paymentsCreated = new ArrayList<>();
 	@OneToMany(mappedBy = "verifiedBy")
 	@JsonBackReference
-	private List<Payment> paymentsVerified = new ArrayList<Payment>();
+	private List<Payment> paymentsVerified = new ArrayList<>();
 	@OneToMany(mappedBy = "approvedBy")
 	@JsonBackReference
-	private List<Payment> paymentsApproved = new ArrayList<Payment>();
+	private List<Payment> paymentsApproved = new ArrayList<>();
 	@OneToMany(mappedBy = "authorizedBy")
 	@JsonBackReference
-	private List<Payment> paymentsAuthorized = new ArrayList<Payment>();
+	private List<Payment> paymentsAuthorized = new ArrayList<>();
 	@OneToMany(mappedBy = "cancelledBy")
 	@JsonBackReference
-	private List<Payment> paymentsCancelled = new ArrayList<Payment>();
+	private List<Payment> paymentsCancelled = new ArrayList<>();
 
 	public User() {
 		super();

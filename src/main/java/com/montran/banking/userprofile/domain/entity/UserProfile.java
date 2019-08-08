@@ -18,7 +18,7 @@ public class UserProfile extends BaseEntity {
 	private String name;
 	@OneToMany(mappedBy = "profile")
 	@JsonBackReference
-	private List<User> users = new ArrayList<User>();
+	private List<User> users = new ArrayList<>();
 
 	public UserProfile() {
 		super();

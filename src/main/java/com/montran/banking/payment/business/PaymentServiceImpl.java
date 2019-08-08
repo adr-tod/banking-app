@@ -85,14 +85,10 @@ public class PaymentServiceImpl implements PaymentService {
 
 	@Override
 	public Iterable<Payment> findAllByAccountId(Long id) {
-		List<Payment> all = new ArrayList<>();
-		paymentRepository.findAllByDebitAccountId(id).forEach(payment -> {
-			all.add(payment);
-		});
-		paymentRepository.findAllByCreditAccountId(id).forEach(payment -> {
-			all.add(payment);
-		});
-		return all;
+		List<Payment> payments = new ArrayList<>();
+		paymentRepository.findAllByDebitAccountId(id).forEach(payments::add);
+		paymentRepository.findAllByCreditAccountId(id).forEach(payments::add);
+		return payments;
 	}
 
 	@Override
@@ -108,7 +104,7 @@ public class PaymentServiceImpl implements PaymentService {
 
 	@Override
 	public void verify(Long id, PaymentVerifyDTO paymentVerifyDTO) {
-		Payment payment = paymentRepository.findById(id).get();
+		Payment payment = paymentRepository.findById(id).orElse(null);
 		// make sure payment status is VERIFY
 		if (!payment.getStatus().getName().equalsIgnoreCase("VERIFY")) {
 			// audit
@@ -135,9 +131,9 @@ public class PaymentServiceImpl implements PaymentService {
 			throw new RuntimeException("Confirm amount doesn't match the payment amount!");
 		}
 		// payment amount and verify amount do match
-		payment.setStatus(paymentStatusRepository.findByName("APPROVE").get());
-		payment.setVerifiedBy(
-				userRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).get());
+		payment.setStatus(paymentStatusRepository.findByName("APPROVE").orElse(null));
+		payment.setVerifiedBy(userRepository
+				.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).orElse(null));
 		paymentRepository.save(payment);
 		// audit
 		paymentAuditRepository
@@ -178,7 +174,7 @@ public class PaymentServiceImpl implements PaymentService {
 
 	@Override
 	public void approve(Long id) {
-		Payment payment = paymentRepository.findById(id).get();
+		Payment payment = paymentRepository.findById(id).orElse(null);
 		// make sure payment status is APPROVE
 		if (!payment.getStatus().getName().equalsIgnoreCase("APPROVE")) {
 			// audit
@@ -204,23 +200,23 @@ public class PaymentServiceImpl implements PaymentService {
 		// check debit account status
 		if (!checkAccountCanDebit(payment.getDebitAccount())) {
 			// route to authorize
-			payment.setStatus(paymentStatusRepository.findByName("AUTHORIZE").get());
+			payment.setStatus(paymentStatusRepository.findByName("AUTHORIZE").orElse(null));
 			payment.setApprovedBy(userRepository
-					.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).get());
+					.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).orElse(null));
 			paymentRepository.save(payment);
 			// audit
 			paymentAuditRepository
 					.save(new PaymentAudit("approve", SecurityContextHolder.getContext().getAuthentication().getName(),
 							String.format("approve failed because the payment (id = %d) debit account status was '%s'",
 									id, payment.getDebitAccount().getStatus().getName())));
-			throw new RuntimeException(String.format("The debit account status is '%s'!\nPayment routed to 'AUTHORIZE'",
+			throw new RuntimeException(String.format("The debit account status is '%s'!%nPayment routed to 'AUTHORIZE'",
 					payment.getDebitAccount().getStatus().getName()));
 		}
 		// check credit account status
 		if (!checkAccountCanCredit(payment.getCreditAccount())) {
-			payment.setStatus(paymentStatusRepository.findByName("AUTHORIZE").get());
+			payment.setStatus(paymentStatusRepository.findByName("AUTHORIZE").orElse(null));
 			payment.setApprovedBy(userRepository
-					.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).get());
+					.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).orElse(null));
 			paymentRepository.save(payment);
 			// audit
 			paymentAuditRepository
@@ -228,27 +224,27 @@ public class PaymentServiceImpl implements PaymentService {
 							String.format("approve failed because the payment (id = %d) debit account status was '%s'",
 									id, payment.getCreditAccount().getStatus().getName())));
 			throw new RuntimeException(
-					String.format("The credit account status is '%s'!\nPayment routed to 'AUTHORIZE'",
+					String.format("The credit account status is '%s'!%nPayment routed to 'AUTHORIZE'",
 							payment.getCreditAccount().getStatus().getName()));
 		}
 		// check account balance
 		if (!checkAccountSufficientFunds(payment.getDebitAccount(), payment)) {
-			payment.setStatus(paymentStatusRepository.findByName("AUTHORIZE").get());
+			payment.setStatus(paymentStatusRepository.findByName("AUTHORIZE").orElse(null));
 			payment.setApprovedBy(userRepository
-					.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).get());
+					.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).orElse(null));
 			paymentRepository.save(payment);
 			// audit
 			paymentAuditRepository
 					.save(new PaymentAudit("approve", SecurityContextHolder.getContext().getAuthentication().getName(),
 							String.format("approve failed because the payment (id = %d) funds were insufficient", id)));
-			throw new RuntimeException("Insufficient funds on the debit account!\nPayment routed to 'AUTHORIZE'");
+			throw new RuntimeException("Insufficient funds on the debit account!%nPayment routed to 'AUTHORIZE'");
 		}
 		// update balances
 		updateBalances(payment);
 
-		payment.setStatus(paymentStatusRepository.findByName("COMPLETED").get());
-		payment.setApprovedBy(
-				userRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).get());
+		payment.setStatus(paymentStatusRepository.findByName("COMPLETED").orElse(null));
+		payment.setApprovedBy(userRepository
+				.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).orElse(null));
 		paymentRepository.save(payment);
 		// audit
 		paymentAuditRepository
@@ -258,7 +254,7 @@ public class PaymentServiceImpl implements PaymentService {
 
 	@Override
 	public void authorize(Long id) {
-		Payment payment = paymentRepository.findById(id).get();
+		Payment payment = paymentRepository.findById(id).orElse(null);
 		// make sure payment status is AUTHORIZE
 		if (!payment.getStatus().getName().equalsIgnoreCase("AUTHORIZE")) {
 			// audit
@@ -270,9 +266,9 @@ public class PaymentServiceImpl implements PaymentService {
 		// update balances
 		updateBalances(payment);
 
-		payment.setStatus(paymentStatusRepository.findByName("COMPLETED").get());
-		payment.setAuthorizedBy(
-				userRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).get());
+		payment.setStatus(paymentStatusRepository.findByName("COMPLETED").orElse(null));
+		payment.setAuthorizedBy(userRepository
+				.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).orElse(null));
 		paymentRepository.save(payment);
 		// audit
 		paymentAuditRepository
@@ -282,7 +278,7 @@ public class PaymentServiceImpl implements PaymentService {
 
 	@Override
 	public void cancel(Long id) {
-		Payment payment = paymentRepository.findById(id).get();
+		Payment payment = paymentRepository.findById(id).orElse(null);
 		// make sure payment status is not COMPLETED / CANCELLED
 		if (payment.getStatus().getName().equalsIgnoreCase("COMPLETED")
 				|| payment.getStatus().getName().equalsIgnoreCase("CANCELLED")) {
@@ -294,9 +290,9 @@ public class PaymentServiceImpl implements PaymentService {
 							id)));
 			throw new RuntimeException("Payment is already in a final state!");
 		}
-		payment.setStatus(paymentStatusRepository.findByName("CANCELLED").get());
-		payment.setCancelledBy(
-				userRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).get());
+		payment.setStatus(paymentStatusRepository.findByName("CANCELLED").orElse(null));
+		payment.setCancelledBy(userRepository
+				.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).orElse(null));
 		paymentRepository.save(payment);
 		// audit
 		paymentAuditRepository
