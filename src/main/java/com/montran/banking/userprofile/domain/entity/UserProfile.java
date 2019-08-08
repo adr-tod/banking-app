@@ -1,4 +1,4 @@
-package com.montran.banking.profile.domain.entity;
+package com.montran.banking.userprofile.domain.entity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,14 +13,14 @@ import com.montran.banking.user.domain.entity.User;
 
 @Entity
 @Table(name = "profiles")
-public class Profile extends BaseEntity {
+public class UserProfile extends BaseEntity {
 
 	private String name;
 	@OneToMany(mappedBy = "profile")
 	@JsonBackReference
 	private List<User> users = new ArrayList<User>();
 
-	public Profile() {
+	public UserProfile() {
 		super();
 	}
 

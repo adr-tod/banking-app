@@ -122,7 +122,7 @@ class PaymentServiceImplTest {
 		Payment payment = paymentService
 				.create(new PaymentCreateDTO(account1.getIban(), account2.getIban(), 1.0, "EUR"));
 		payment.setCreatedBy(userService.findByUsername("skuhn"));
-		payment.setStatus(paymentStatusRepository.findByName("APPROVE"));
+		payment.setStatus(paymentStatusRepository.findByName("APPROVE").get());
 		paymentRepository.save(payment);
 		// verify payment with status 'APPROVE'
 		assertThrows(RuntimeException.class, () -> paymentService.verify(payment.getId(), new PaymentVerifyDTO(1.0)));
@@ -177,7 +177,7 @@ class PaymentServiceImplTest {
 				.create(new PaymentCreateDTO(account1.getIban(), account2.getIban(), 1.0, "EUR"));
 		payment.setCreatedBy(userService.findByUsername("skuhn"));
 		payment.setVerifiedBy(userService.findByUsername("sean.feeney"));
-		payment.setStatus(paymentStatusRepository.findByName("VERIFY"));
+		payment.setStatus(paymentStatusRepository.findByName("VERIFY").get());
 		paymentRepository.save(payment);
 		// approve payment with status 'VERIFY'
 		assertThrows(RuntimeException.class, () -> paymentService.approve(payment.getId()));
@@ -194,7 +194,7 @@ class PaymentServiceImplTest {
 				.create(new PaymentCreateDTO(account1.getIban(), account2.getIban(), 1.0, "EUR"));
 		payment.setCreatedBy(userService.findByUsername("igibson"));
 		payment.setVerifiedBy(userService.findByUsername("sean.feeney"));
-		payment.setStatus(paymentStatusRepository.findByName("APPROVE"));
+		payment.setStatus(paymentStatusRepository.findByName("APPROVE").get());
 		paymentRepository.save(payment);
 		// approve payment by the one who created it
 		assertThrows(RuntimeException.class, () -> paymentService.approve(payment.getId()));
@@ -211,7 +211,7 @@ class PaymentServiceImplTest {
 				.create(new PaymentCreateDTO(account1.getIban(), account2.getIban(), 1.0, "EUR"));
 		payment.setCreatedBy(userService.findByUsername("skuhn"));
 		payment.setVerifiedBy(userService.findByUsername("igibson"));
-		payment.setStatus(paymentStatusRepository.findByName("APPROVE"));
+		payment.setStatus(paymentStatusRepository.findByName("APPROVE").get());
 		paymentRepository.save(payment);
 		// approve payment by the one who verified it
 		assertThrows(RuntimeException.class, () -> paymentService.approve(payment.getId()));
@@ -231,7 +231,7 @@ class PaymentServiceImplTest {
 				.create(new PaymentCreateDTO(account1.getIban(), account2.getIban(), 1.0, "EUR"));
 		payment.setCreatedBy(userService.findByUsername("skuhn"));
 		payment.setVerifiedBy(userService.findByUsername("sean.feeney"));
-		payment.setStatus(paymentStatusRepository.findByName("APPROVE"));
+		payment.setStatus(paymentStatusRepository.findByName("APPROVE").get());
 		paymentRepository.save(payment);
 		// approve payment with debit account unable to debit due to status
 		assertThrows(RuntimeException.class, () -> paymentService.approve(payment.getId()));
@@ -253,7 +253,7 @@ class PaymentServiceImplTest {
 				.create(new PaymentCreateDTO(account1.getIban(), account2.getIban(), 1.0, "EUR"));
 		payment.setCreatedBy(userService.findByUsername("skuhn"));
 		payment.setVerifiedBy(userService.findByUsername("sean.feeney"));
-		payment.setStatus(paymentStatusRepository.findByName("APPROVE"));
+		payment.setStatus(paymentStatusRepository.findByName("APPROVE").get());
 		paymentRepository.save(payment);
 		// approve payment with credit account blocked
 		assertThrows(RuntimeException.class, () -> paymentService.approve(payment.getId()));
@@ -270,7 +270,7 @@ class PaymentServiceImplTest {
 				.create(new PaymentCreateDTO(account1.getIban(), account2.getIban(), 1.0, "EUR"));
 		payment.setCreatedBy(userService.findByUsername("skuhn"));
 		payment.setVerifiedBy(userService.findByUsername("sean.feeney"));
-		payment.setStatus(paymentStatusRepository.findByName("APPROVE"));
+		payment.setStatus(paymentStatusRepository.findByName("APPROVE").get());
 		paymentRepository.save(payment);
 		// approve payment with insufficient funds on debit
 		assertThrows(RuntimeException.class, () -> paymentService.approve(payment.getId()));
@@ -289,7 +289,7 @@ class PaymentServiceImplTest {
 				.create(new PaymentCreateDTO(account1.getIban(), account2.getIban(), 1.0, "EUR"));
 		payment.setCreatedBy(userService.findByUsername("skuhn"));
 		payment.setVerifiedBy(userService.findByUsername("sean.feeney"));
-		payment.setStatus(paymentStatusRepository.findByName("APPROVE"));
+		payment.setStatus(paymentStatusRepository.findByName("APPROVE").get());
 		paymentRepository.save(payment);
 		// balances before approve
 		Double balance1Before = account1.getBalance().getAvailable();
@@ -315,7 +315,7 @@ class PaymentServiceImplTest {
 		// setup
 		Payment payment = paymentService
 				.create(new PaymentCreateDTO(account1.getIban(), account2.getIban(), 1.0, "EUR"));
-		payment.setStatus(paymentStatusRepository.findByName("APPROVE"));
+		payment.setStatus(paymentStatusRepository.findByName("APPROVE").get());
 		paymentRepository.save(payment);
 		// authorize payment with status APPROVE
 		assertThrows(RuntimeException.class, () -> paymentService.authorize(payment.getId()));
@@ -328,7 +328,7 @@ class PaymentServiceImplTest {
 		// setup
 		Payment payment = paymentService
 				.create(new PaymentCreateDTO(account1.getIban(), account2.getIban(), 1.0, "EUR"));
-		payment.setStatus(paymentStatusRepository.findByName("AUTHORIZE"));
+		payment.setStatus(paymentStatusRepository.findByName("AUTHORIZE").get());
 		paymentRepository.save(payment);
 		// balances before approve
 		Double balance1Before = account1.getBalance().getAvailable();
@@ -354,7 +354,7 @@ class PaymentServiceImplTest {
 		// setup
 		Payment payment = paymentService
 				.create(new PaymentCreateDTO(account1.getIban(), account2.getIban(), 1.0, "EUR"));
-		payment.setStatus(paymentStatusRepository.findByName("COMPLETED"));
+		payment.setStatus(paymentStatusRepository.findByName("COMPLETED").get());
 		paymentRepository.save(payment);
 		// cancel payment with status COMPLETED
 		assertThrows(RuntimeException.class, () -> paymentService.cancel(payment.getId()));
@@ -367,7 +367,7 @@ class PaymentServiceImplTest {
 		// setup
 		Payment payment = paymentService
 				.create(new PaymentCreateDTO(account1.getIban(), account2.getIban(), 1.0, "EUR"));
-		payment.setStatus(paymentStatusRepository.findByName("CANCELLED"));
+		payment.setStatus(paymentStatusRepository.findByName("CANCELLED").get());
 		paymentRepository.save(payment);
 		// cancel payment with status CANCELLED
 		assertThrows(RuntimeException.class, () -> paymentService.cancel(payment.getId()));
@@ -380,7 +380,7 @@ class PaymentServiceImplTest {
 		// setup
 		Payment payment = paymentService
 				.create(new PaymentCreateDTO(account1.getIban(), account2.getIban(), 1.0, "EUR"));
-		payment.setStatus(paymentStatusRepository.findByName("APPROVE"));
+		payment.setStatus(paymentStatusRepository.findByName("APPROVE").get());
 		paymentRepository.save(payment);
 		// cancel payment
 		assertDoesNotThrow(() -> paymentService.cancel(payment.getId()));

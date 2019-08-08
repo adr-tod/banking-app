@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.montran.banking.account.domain.entity.Account;
 import com.montran.banking.base.BaseEntity;
 import com.montran.banking.payment.domain.entity.Payment;
-import com.montran.banking.profile.domain.entity.Profile;
+import com.montran.banking.userprofile.domain.entity.UserProfile;
 
 @Entity
 @Table(name = "users")
@@ -28,7 +28,7 @@ public class User extends BaseEntity {
 	@ManyToOne
 	@JoinColumn(name = "profile_id", nullable = false)
 	@JsonManagedReference
-	private Profile profile;
+	private UserProfile profile;
 	@OneToMany(mappedBy = "user")
 	@JsonBackReference
 	private List<Account> accounts = new ArrayList<Account>();
@@ -92,11 +92,11 @@ public class User extends BaseEntity {
 		this.email = email;
 	}
 
-	public Profile getProfile() {
+	public UserProfile getProfile() {
 		return profile;
 	}
 
-	public void setProfile(Profile profile) {
+	public void setProfile(UserProfile profile) {
 		this.profile = profile;
 	}
 

@@ -1,6 +1,5 @@
 package com.montran.banking.payment.business;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,12 +10,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.montran.banking.account.domain.entity.Account;
-import com.montran.banking.account.persistence.AccountRepository;
 import com.montran.banking.audit.payment.PaymentAudit;
 import com.montran.banking.audit.payment.PaymentAuditRepository;
 import com.montran.banking.balance.domain.entity.Balance;
 import com.montran.banking.balance.persistence.BalanceRepository;
-import com.montran.banking.currency.persistence.CurrencyRepository;
+import com.montran.banking.payment.domain.converter.PaymentConverter;
 import com.montran.banking.payment.domain.dto.PaymentCreateDTO;
 import com.montran.banking.payment.domain.dto.PaymentVerifyDTO;
 import com.montran.banking.payment.domain.entity.Payment;
@@ -37,16 +35,13 @@ public class PaymentServiceImpl implements PaymentService {
 	private UserRepository userRepository;
 
 	@Autowired
-	private AccountRepository accountRepository;
-
-	@Autowired
-	private CurrencyRepository currencyRepostory;
-
-	@Autowired
 	private PaymentAuditRepository paymentAuditRepository;
 
 	@Autowired
 	private BalanceRepository balanceRepository;
+
+	@Autowired
+	private PaymentConverter paymentConverter;
 
 	private final Map<String, Double> exchangeRate = new HashMap<String, Double>() {
 		{
@@ -102,21 +97,7 @@ public class PaymentServiceImpl implements PaymentService {
 
 	@Override
 	public Payment create(PaymentCreateDTO paymentCreateDTO) {
-		Payment payment = new Payment();
-		payment.setDebitAccount(
-				accountRepository.findByIban(paymentCreateDTO.getDebitIban()).orElseThrow(() -> new RuntimeException(
-						String.format("No account with IBAN = '%s'", paymentCreateDTO.getDebitIban()))));
-		payment.setCreditAccount(
-				accountRepository.findByIban(paymentCreateDTO.getCreditIban()).orElseThrow(() -> new RuntimeException(
-						String.format("No account with IBAN = '%s'", paymentCreateDTO.getCreditIban()))));
-		payment.setAmount(paymentCreateDTO.getAmount());
-		payment.setCurrency(
-				currencyRepostory.findByName(paymentCreateDTO.getCurrency()).orElseThrow(() -> new RuntimeException(
-						String.format("No currency with name = '%s'", paymentCreateDTO.getCurrency()))));
-		payment.setStatus(paymentStatusRepository.findByName("VERIFY"));
-		payment.setDateTime(LocalDateTime.now());
-		payment.setCreatedBy(
-				userRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).get());
+		Payment payment = paymentConverter.convertCreateDtoToEntity(paymentCreateDTO);
 		payment = paymentRepository.save(payment);
 		// audit
 		paymentAuditRepository
@@ -154,7 +135,7 @@ public class PaymentServiceImpl implements PaymentService {
 			throw new RuntimeException("Confirm amount doesn't match the payment amount!");
 		}
 		// payment amount and verify amount do match
-		payment.setStatus(paymentStatusRepository.findByName("APPROVE"));
+		payment.setStatus(paymentStatusRepository.findByName("APPROVE").get());
 		payment.setVerifiedBy(
 				userRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).get());
 		paymentRepository.save(payment);
@@ -182,6 +163,17 @@ public class PaymentServiceImpl implements PaymentService {
 		String accountCurrency = account.getCurrency().getName();
 		String paymentCurrency = payment.getCurrency().getName();
 		return accountAmount * getExchangeRate(accountCurrency, paymentCurrency) >= paymentAmount;
+	}
+
+	private void updateBalances(Payment payment) {
+		Balance debitAccountBalance = payment.getDebitAccount().getBalance();
+		Balance creditAccountBalance = payment.getCreditAccount().getBalance();
+		debitAccountBalance.substractFromAvailable(payment.getAmount()
+				* getExchangeRate(payment.getCurrency().getName(), payment.getDebitAccount().getCurrency().getName()));
+		creditAccountBalance.addToAvailable(payment.getAmount()
+				* getExchangeRate(payment.getCurrency().getName(), payment.getCreditAccount().getCurrency().getName()));
+		balanceRepository.save(debitAccountBalance);
+		balanceRepository.save(creditAccountBalance);
 	}
 
 	@Override
@@ -212,7 +204,7 @@ public class PaymentServiceImpl implements PaymentService {
 		// check debit account status
 		if (!checkAccountCanDebit(payment.getDebitAccount())) {
 			// route to authorize
-			payment.setStatus(paymentStatusRepository.findByName("AUTHORIZE"));
+			payment.setStatus(paymentStatusRepository.findByName("AUTHORIZE").get());
 			payment.setApprovedBy(userRepository
 					.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).get());
 			paymentRepository.save(payment);
@@ -226,7 +218,7 @@ public class PaymentServiceImpl implements PaymentService {
 		}
 		// check credit account status
 		if (!checkAccountCanCredit(payment.getCreditAccount())) {
-			payment.setStatus(paymentStatusRepository.findByName("AUTHORIZE"));
+			payment.setStatus(paymentStatusRepository.findByName("AUTHORIZE").get());
 			payment.setApprovedBy(userRepository
 					.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).get());
 			paymentRepository.save(payment);
@@ -241,7 +233,7 @@ public class PaymentServiceImpl implements PaymentService {
 		}
 		// check account balance
 		if (!checkAccountSufficientFunds(payment.getDebitAccount(), payment)) {
-			payment.setStatus(paymentStatusRepository.findByName("AUTHORIZE"));
+			payment.setStatus(paymentStatusRepository.findByName("AUTHORIZE").get());
 			payment.setApprovedBy(userRepository
 					.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).get());
 			paymentRepository.save(payment);
@@ -252,16 +244,9 @@ public class PaymentServiceImpl implements PaymentService {
 			throw new RuntimeException("Insufficient funds on the debit account!\nPayment routed to 'AUTHORIZE'");
 		}
 		// update balances
-		Balance debitAccountBalance = payment.getDebitAccount().getBalance();
-		Balance creditAccountBalance = payment.getCreditAccount().getBalance();
-		debitAccountBalance.substractFromAvailable(payment.getAmount()
-				* getExchangeRate(payment.getCurrency().getName(), payment.getDebitAccount().getCurrency().getName()));
-		creditAccountBalance.addToAvailable(payment.getAmount()
-				* getExchangeRate(payment.getCurrency().getName(), payment.getCreditAccount().getCurrency().getName()));
-		balanceRepository.save(debitAccountBalance);
-		balanceRepository.save(creditAccountBalance);
+		updateBalances(payment);
 
-		payment.setStatus(paymentStatusRepository.findByName("COMPLETED"));
+		payment.setStatus(paymentStatusRepository.findByName("COMPLETED").get());
 		payment.setApprovedBy(
 				userRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).get());
 		paymentRepository.save(payment);
@@ -283,16 +268,9 @@ public class PaymentServiceImpl implements PaymentService {
 			throw new RuntimeException("Payment status is not 'AUTHORIZE'!");
 		}
 		// update balances
-		Balance debitAccountBalance = payment.getDebitAccount().getBalance();
-		Balance creditAccountBalance = payment.getCreditAccount().getBalance();
-		debitAccountBalance.substractFromAvailable(payment.getAmount()
-				* getExchangeRate(payment.getCurrency().getName(), payment.getDebitAccount().getCurrency().getName()));
-		creditAccountBalance.addToAvailable(payment.getAmount()
-				* getExchangeRate(payment.getCurrency().getName(), payment.getCreditAccount().getCurrency().getName()));
-		balanceRepository.save(debitAccountBalance);
-		balanceRepository.save(creditAccountBalance);
+		updateBalances(payment);
 
-		payment.setStatus(paymentStatusRepository.findByName("COMPLETED"));
+		payment.setStatus(paymentStatusRepository.findByName("COMPLETED").get());
 		payment.setAuthorizedBy(
 				userRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).get());
 		paymentRepository.save(payment);
@@ -316,7 +294,7 @@ public class PaymentServiceImpl implements PaymentService {
 							id)));
 			throw new RuntimeException("Payment is already in a final state!");
 		}
-		payment.setStatus(paymentStatusRepository.findByName("CANCELLED"));
+		payment.setStatus(paymentStatusRepository.findByName("CANCELLED").get());
 		payment.setCancelledBy(
 				userRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).get());
 		paymentRepository.save(payment);

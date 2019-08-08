@@ -4,11 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import com.montran.banking.profile.persistence.ProfileRepository;
 import com.montran.banking.user.domain.dto.UserCreateDTO;
 import com.montran.banking.user.domain.dto.UserUpdateDTO;
 import com.montran.banking.user.domain.entity.User;
 import com.montran.banking.user.persistence.UserRepository;
+import com.montran.banking.userprofile.persistence.UserProfileRepository;
 
 @Component
 public class UserConverter {
@@ -17,7 +17,7 @@ public class UserConverter {
 	private UserRepository userRepository;
 
 	@Autowired
-	private ProfileRepository profileRepository;
+	private UserProfileRepository profileRepository;
 
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
@@ -29,7 +29,7 @@ public class UserConverter {
 		user.setEmail(userCreateDTO.getEmail());
 		user.setUsername(userCreateDTO.getUsername());
 		user.setPassword(passwordEncoder.encode(userCreateDTO.getPassword()));
-		user.setProfile(profileRepository.findByName("customer"));
+		user.setProfile(profileRepository.findByName("customer").get());
 		return user;
 	}
 
