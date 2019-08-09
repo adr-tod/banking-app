@@ -1,9 +1,11 @@
 package com.montran.banking.payment.business;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -89,7 +91,7 @@ public class PaymentServiceImpl implements PaymentService {
 		List<Payment> payments = new ArrayList<>();
 		paymentRepository.findAllByDebitAccountId(id).forEach(payments::add);
 		paymentRepository.findAllByCreditAccountId(id).forEach(payments::add);
-		return payments;
+		return payments.stream().sorted(Comparator.comparing(Payment::getDateTime)).collect(Collectors.toList());
 	}
 
 	@Override
