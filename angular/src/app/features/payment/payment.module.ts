@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule, MatDialogModule, MatFormFieldModule, MatIconModule, MatInputModule, MatOptionModule, MatPaginatorModule, MatSelectModule, MatSnackBarModule, MatSortModule, MatTableModule } from '@angular/material';
+import { MatButtonModule, MatDialogModule, MatFormFieldModule, MatIconModule, MatInputModule, MatOptionModule, MatPaginatorModule, MatSelectModule, MatSnackBarModule, MatSortModule, MatTableModule, MatAutocompleteModule } from '@angular/material';
 import { PaymentCreateDialogComponent } from './components/payment-create-dialog/payment-create-dialog.component';
 import { PaymentPersonalTableComponent } from './components/payment-personal-table/payment-personal-table.component';
 import { PaymentTableComponent } from './components/payment-table/payment-table.component';
@@ -27,6 +27,7 @@ import { PaymentRoutingModule } from './payment-routing.module';
     MatInputModule,
     MatFormFieldModule,
     MatIconModule,
+    MatAutocompleteModule,
     MatSnackBarModule,
     ReactiveFormsModule,
     FlexLayoutModule

@@ -106,6 +106,7 @@ export class AccountTableComponent implements OnInit, AfterViewInit {
 
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
+    dialogConfig.width = '305px';
     dialogConfig.data = debitIban;
 
     const dialogRef = this.dialog.open(PaymentCreateDialogComponent, dialogConfig);

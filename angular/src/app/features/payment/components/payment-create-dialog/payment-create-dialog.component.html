@@ -4,19 +4,29 @@
 
   <div>
     <mat-form-field>
-      <input matInput placeholder="Debit IBAN" formControlName="debitIban" required>
+      <input matInput placeholder="Debit IBAN" formControlName="debitIban" [matAutocomplete]="auto1" required>
       <mat-error *ngIf="isFieldInvalid('debitIban')">
         Please inform the debit IBAN
       </mat-error>
+      <mat-autocomplete autoActiveFirstOption #auto1="matAutocomplete">
+        <mat-option *ngFor="let option of filteredOptionsDebit | async" [value]="option">
+          {{option}}
+        </mat-option>
+      </mat-autocomplete>
     </mat-form-field>
   </div>
 
   <div>
     <mat-form-field>
-      <input matInput placeholder="Credit IBAN" formControlName="creditIban" required>
+      <input matInput placeholder="Credit IBAN" formControlName="creditIban" [matAutocomplete]="auto2" required>
       <mat-error *ngIf="isFieldInvalid('creditIban')">
         Please inform the credit IBAN
       </mat-error>
+      <mat-autocomplete autoActiveFirstOption #auto2="matAutocomplete">
+        <mat-option *ngFor="let option of filteredOptionsCredit | async" [value]="option">
+          {{option}}
+        </mat-option>
+      </mat-autocomplete>
     </mat-form-field>
   </div>
 

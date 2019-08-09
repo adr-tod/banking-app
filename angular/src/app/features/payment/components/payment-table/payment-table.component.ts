@@ -91,6 +91,7 @@ export class PaymentTableComponent implements OnInit, AfterViewInit {
 
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
+    dialogConfig.width = '305px';
 
     const dialogRef = this.dialog.open(PaymentCreateDialogComponent, dialogConfig);
 
