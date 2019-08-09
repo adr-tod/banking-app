@@ -3,6 +3,7 @@ package com.montran.banking.payment.business;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.AfterEach;
@@ -90,7 +91,7 @@ class PaymentServiceImplTest {
 		// create payment (account1 -> account2)
 		Payment payment = paymentService
 				.create(new PaymentCreateDTO(account1.getIban(), account2.getIban(), 1.0, "EUR"));
-		assertNotNull(payment);
+		assertNull(payment);
 		// cleanup
 		paymentService.deleteById(payment.getId());
 	}
